@@ -8,87 +8,95 @@ var crypto = require("crypto");
 require('../../../models/userModel');
 var User = mongoose.model('User'); // pido el modelo
 
+// Get users
+
 router.get('/', function(req, res) {
 
-    var sort = req.query.sort || 'name';
+    var sort = req.query.sort || 'email';
 
     var filters = {};
 
-    console.log("req.query.name", req.query.name);
-
-    if (req.query.name != undefined) {
-        filters.name = req.query.name;
-    }
     console.log("filters", filters);
     // como quiero obtener todos los usuarios, no introduzco filtro: {}
     User.list(filters, sort, function(err, rows) {
         if (err) {
-            return res.json({ result: false, err: err });
+            return res.status(500).send({result: 'internal error in database', err: err})
         }
         if (rows.length != 0) {
-            return res.json({ result: true, rows: rows });
+            return res.status(200).send({result: 'sucess', rows: rows})
         } else {
-            return res.json({ result: false, err: 'No existe este usuario' })
+            return res.status(404).send({result: 'no users yet'})
         }
 
     });
 });
 
-//llamarlo con name y pass
-router.post('/', function(req, res) {
+// get an user
+router.get('/:id', function(req, res) {
 
-    var authentic = req.body.authentic;
+    var sort = req.query.sort || 'email';
 
-    //quiero poner el hash a la pass primero, y luego ya guardar lo obtenido
-    var usuario = {};
-    var pass = req.body.pass;
-    let filters = {};
-    filters.name = req.body.name;
-    //comprobar si existe ese nombre en la base de datos primero!
+    var filters = {};
 
-    User.list(filters, 'name', function(err, rows) {
+    filters._id  = req.params.id;
+
+    // como quiero obtener todos los usuarios, no introduzco filtro: {}
+    User.list(filters, sort, function(err, rows) {
         if (err) {
-            res.json({ result: false, err: err });
+            return res.status(500).send({result: 'internal error in database', err: err})
+        }
+        if (rows.length != 0) {
+            return res.status(200).send({result: 'sucess', rows: rows})
+        } else {
+            return res.status(404).send({result: 'no user with this id'})
+        }
+
+    });
+});
+
+// New user
+
+router.post('/newUser', function(req, res) {
+
+    let user = {};
+    var pass = req.body.pass;
+    var email = req.body.email
+    let filters = {};
+    filters.email = email;
+    //comprobar si existe ese nombre en la base de datos primero!
+    User.list(filters, 'email', function(err, rows) {
+        if (err) {
+            res.status(500).send({result: 'internal error in database', err: err})
             return;
         }
-        if (rows.length !== 0) {
-            if (authentic === 'true') {
-                if (rows[0].name === req.body.name) { //coincide el nombre, ahora comprobar la contraseña, que ya me viene hasheada
-                    let sha256 = crypto.createHash("sha256");
-                    sha256.update(req.body.pass, "utf8"); //utf8 here
-                    let passConHash = sha256.digest("base64");
-                    if (passConHash === rows[0].pass) {
-                        return res.json({ result: true, rows: rows[0] })
-                    }
-                    return res.json({ result: false, err: "La contraseña o el nombre de usuario no coinciden" })
-                }
-                return res.json({ result: false, err: "La contraseña o el nombre de usuario no coinciden (2)" })
-            } else {
-                res.json({ result: false, err: "El usuario ya está registrado" });
+        if (rows.length !== 0) { // user already exists
+                res.status(499).send({result: 'user with this email already exists'})
                 return;
-            }
-        } else {
-            if (authentic === 'true') {
-                return res.json({ result: false, err: "El usuario no se encuentra en la base de datos" })
-            }
-            let sha256 = crypto.createHash("sha256");
-            sha256.update(pass, "utf8"); //utf8 here
-            let passConHash = sha256.digest("base64");
-            usuario.pass = passConHash;
-            usuario.email = req.body.email;
-            usuario.phone = req.body.phone;
-            usuario.name = req.body.name;
-            usuario.myAnn = [];
-            usuario.myFav = [];
-            let user = new User(usuario); // creamos el objeto en memoria, aún no está en la base de datos
+        } else { // user doesn't exist, lets create it
 
-            user.save(function(err, newRow) { // lo guardamos en la base de datos
+            let sha256 = crypto.createHash("sha256");
+
+            sha256.update(req.body.pass, "utf8"); //utf8 here
+
+            let passConHash = sha256.digest("base64");
+
+            user.pass = passConHash;
+
+            user.email = email;
+
+            user.fullName = req.body.name;
+            user.score = 0;
+            user.degree = req.body.degree;
+            user.tests = [];
+            user.admin = req.body.admin;
+            let user2 = new User(user); // creamos el objeto en memoria, aún no está en la base de datos
+
+            user2.save(function(err, newRow) { // lo guardamos en la base de datos
                 //newRow contiene lo que se ha guardado, la confirmación
                 if (err) {
-                    res.json({ result: false, err: err });
-                    return;
+                    return res.status(500).send({result: 'internal error in database', err: err})
                 }
-                res.json({ result: true, row: newRow });
+                res.status(200).send({result: 'user created', row: newRow})
                 return;
             });
         }
@@ -96,54 +104,63 @@ router.post('/', function(req, res) {
     });
 });
 
-// para modificar el usuario (en una primera versión, sólo podré modificar los valores de mis anuncios y mis favoritos): me tienen que pasar el usuario (id del usuario) y los nuevos valores a modificar
+// Login
 
-router.put('/:id', function(req, res) {
-    var options = {};
+router.post('/login', function(req, res) {
 
-    var opt = false;
+    // get user and check if exists in the database.
+    var email = req.body.email;
+    var pass = req.body.pass;
+    var filters = {};
 
-    if (req.body.options != undefined) {
-        opt = true;
-    }
-
+    filters.email = email;
     console.log('req.body', req.body);
-    User.findOne({ _id: req.params.id }, function(err, rows) {
-        if (err) {
-            return res.json({ result: false, err: err }); // error en la base de datos
-        }
-        if (rows == null) { //no existe este usuario
-            return res.json({ result: false, err: "El usuario no existe (el id pasado no corresponde con ningun usuario" })
-        } else { // sí que existe este usuario
-            console.log('rows', rows);
-            if (opt == false) {
-                User.update({ _id: req.params.id }, { $push: req.body }, options, function(err, data) {
-                    if (err) {
-                        return res.json({ result: false, err: err });
-                    }
-                    return res.json({ result: true, row: data });
-                });
-            }
-            if (opt == true) {
-                User.update({ _id: req.params.id }, { $pull: req.body }, options, function(err, data) {
-                    if (err) {
-                        return res.json({ result: false, err: err });
-                    }
-                    return res.json({ result: true, row: data });
-                })
-            }
 
+    User.list(filters, 'email', function(err, rows) {
+        if (err) {
+            return res.status(500).send({result: 'internal error in database', err: err})
         }
-    });
+        if (rows.length !== 0) { // user found
+            //check if password is correct
+            let sha256 = crypto.createHash("sha256");
+            sha256.update(pass, "utf8"); //utf8 here
+            let passConHash = sha256.digest("base64");
+            if (passConHash === rows[0].pass) {
+                return res.status(200).send({result: 'sucess login'})  
+            }
+            else{
+                return res.status(401).send({result: "user and pass doesn't match"})
+            }
+        } else { // user not found
+            return res.status(404).send({result: 'user not found'})
+            
+        }
+    })
 });
+
+// Delete an user
 
 router.delete('/:id', function(req, res) {
-    let nombre = req.params.nombre;
     User.remove({ _id: req.params.id }, function(err) {
-        if (err) return res.json({ result: false, err: 'No se ha podido eliminar el usuario (ha ocurrido un problema en la base de datos, o el usuario no existe' });
-        res.json({ result: true, resp: "Usuario eliminado correctamente" });
-        return;
+        if (err) return res.status(500).send({result: "internal error in database: maybe this user doesn't exist?"})
+        return res.status(200).send({result: "user deleted"})
     });
 });
+
+// Modify an user
+
+router.put('/:id', function(req, res){
+
+    var filters = {};
+
+    filters._id  = req.params.id;
+
+    // en update va lo que quiero modificar, es decir, req.body
+
+    User.findByIdAndUpdate(req.params.id, [update], req.body, function(err, data){
+        if (err) return res.status(500).send({result: "internal error in database: maybe this user doesn't exist?"})
+    })
+
+})
 
 module.exports = router;

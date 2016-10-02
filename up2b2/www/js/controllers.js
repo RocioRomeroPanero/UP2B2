@@ -22,6 +22,7 @@ angular.module('starter.controllers', [])
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
+    console.log('cerrar');
   };
 
   // Open the login modal
@@ -53,4 +54,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+.controller('pruebaCtrl', function($scope){
+
+})
+.controller('LoginController', function($scope, $ionicModal, $timeout) {
+  $scope.prueba = 'patata';
+  console.log('fsdfsd');
+  $scope.clkkk = function(){
+    console.log('pr');
+  }
 });

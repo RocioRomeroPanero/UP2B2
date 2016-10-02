@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); 
-require('../../../models/annModel');
+require('../../../models/questionModel');
 var Anuncio = mongoose.model('Anuncio'); // pido el modelo
 
 //var auth = require("../../../lib/auth");

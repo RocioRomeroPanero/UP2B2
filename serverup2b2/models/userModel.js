@@ -5,17 +5,19 @@ var conn = require('../lib/connectMongoose');
 var mongoose = require('mongoose');
 
 let userSchema = mongoose.Schema({
-	name: String,
+	fullName: String,
 	pass: String,
 	email: String,
-	phone: Number,
-	myAnn: [String],
-	myFav: [String]
+	tests: [String],
+	score: Number,
+	degree: String,
+	admin: Boolean
 });
 
 // al esquema le metemos un estático
-userSchema.statics.list = function(filter, sort,  cb){
-	let sortAplicar = sort || "name";
+userSchema.statics.list = function(filter, sort, cb){
+	let sortAplicar = sort || "email";
+
 	// preparamos la query sin ejecutarla
 	let query = User.find(filter);
 	// añadimos más parámetros a la query
