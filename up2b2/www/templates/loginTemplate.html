@@ -1,17 +1,16 @@
-<ion-view view-title="LOGIN">
+<ion-view view-title="Login">
     <ion-content>
         <div class="list list-inset">
             <label class="item item-input">
-                <input id='email' type="text" placeholder="Email">
+                <input ng-model="model.email" id='email' type="text" placeholder="Email">
             </label>
             <label class="item item-input">
-                <input id='password' type="text" placeholder="Password">
+                <input id='password' ng-model="model.pass" type="password" placeholder="Password">
             </label>
-            <button ng-click="clkkk()" class="button button-small">
-                Submit
+            <a ng-click="newPass()">I forgot my password!</a>
+            <button ng-click="login()" class="button button-positive">
+                Connect!
             </button>
-            <h1>{{prueba}}hh</h1>
-            <button ng-click="clkkk()">Click</button>
         </div>
     </ion-content>
 </ion-view>

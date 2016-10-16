@@ -1,0 +1,24 @@
+<ion-view view-title="Users">
+    <ion-content>
+        <div class="list">
+            <div ng-repeat="user in users">
+                <div class="item item-divider item-icon-right">
+                    {{user.fullName}}
+                    <i ng-click="deleteUser(user._id, user.fullName)" style="color:red" class="icon ion-close-circled"></i>
+                </div>
+                <div class="item">
+                    Email: {{user.email}}
+                </div>
+                <div class="item">
+                    Degree: {{user.degree}}
+                </div>
+                <div class="item">
+                    DNI: {{user.dni}}
+                </div>
+                <div class="item">
+                    Admin: {{user.admin}}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

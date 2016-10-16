@@ -1,0 +1,64 @@
+'use strict';
+
+angular.module('myProfile.module').controller('myProfileController', function($scope, APIClient, $ionicPopup, sessionService) {
+    $scope.model = {};
+    $scope.email = sessionService.get('email');
+    $scope.fullName = sessionService.get('fullName');
+    $scope.degree = sessionService.get('degree');
+    $scope.score = sessionService.get('score');
+    $scope.dni = sessionService.get('dni');
+    $scope.modifyEmail = function() {
+
+    }
+    $scope.modifyFullName = function() {
+
+    }
+    $scope.modifyDegree = function() {
+
+    }
+    $scope.modifyPass = function() {
+        $scope.data = {};
+        $ionicPopup.show({
+            title: 'Change password',
+            subTitle: 'Enter your current password and the new password',
+            template: '<input type="password" ng-model="data.pass">Current password</input><input type="password" ng-model="data.newPass">New password</input>',
+            scope: $scope,
+            buttons: [{
+                    text: 'Change password',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
+                            console.log('data', data);
+                            if (data.status == 401) {
+                                // contraseña actual no coincide
+                                $ionicPopup.show({
+                                    title: 'Current password does not match',
+                                    template: 'Password not changed!',
+                                    buttons: [{
+                                            text: 'OK',
+                                            type: 'button-calm'
+                                        }
+
+                                    ]
+                                })
+                            } else if(data.status == 200){
+                                $ionicPopup.show({
+                                    title: 'Password changed',
+                                    buttons: [{
+                                            text: 'OK',
+                                            type: 'button-balanced'
+                                        }
+
+                                    ]
+                                })
+                            }
+                        }, function(error) {
+                            console.log('error', error);
+                        });
+                    }
+                }
+
+            ]
+        })
+    }
+});

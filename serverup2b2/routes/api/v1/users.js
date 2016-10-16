@@ -60,7 +60,7 @@ router.post('/newUser', function(req, res) {
 
     let user = {};
     var pass = req.body.pass;
-    var email = req.body.email
+    var email = req.body.email;
     let filters = {};
     filters.email = email;
     //comprobar si existe ese nombre en la base de datos primero!
@@ -83,12 +83,15 @@ router.post('/newUser', function(req, res) {
             user.pass = passConHash;
 
             user.email = email;
-
-            user.fullName = req.body.name;
+            user.dni = req.body.dni;
+            user.fullName = req.body.fullName;
             user.score = 0;
             user.degree = req.body.degree;
             user.tests = [];
             user.admin = req.body.admin;
+
+            console.log('user', user);
+            console.log('req.body', req.body);
             let user2 = new User(user); // creamos el objeto en memoria, aún no está en la base de datos
 
             user2.save(function(err, newRow) { // lo guardamos en la base de datos
@@ -126,7 +129,7 @@ router.post('/login', function(req, res) {
             sha256.update(pass, "utf8"); //utf8 here
             let passConHash = sha256.digest("base64");
             if (passConHash === rows[0].pass) {
-                return res.status(200).send({result: 'sucess login'})  
+                return res.status(200).send({result: 'sucess login', data: rows})  
             }
             else{
                 return res.status(401).send({result: "user and pass doesn't match"})
@@ -149,18 +152,33 @@ router.delete('/:id', function(req, res) {
 
 // Modify an user
 
-router.put('/:id', function(req, res){
+router.put('/userData/:id', function(req, res){
 
     var filters = {};
 
     filters._id  = req.params.id;
 
-    // en update va lo que quiero modificar, es decir, req.body
+    if(req.body.pass != undefined){
+        let sha256 = crypto.createHash("sha256");
+        sha256.update(req.body.pass, "utf8"); //utf8 here
+        let passConHash = sha256.digest("base64");
+        req.body.pass = passConHash;
+    }
 
-    User.findByIdAndUpdate(req.params.id, [update], req.body, function(err, data){
+    User.findByIdAndUpdate(req.params.id, req.body, {}, function(err, data){
         if (err) return res.status(500).send({result: "internal error in database: maybe this user doesn't exist?"})
+        return res.status(200).send({result: "user modified", data: data});
     })
 
 })
+
+// Modify an users score
+
+/*router.put('/score/:id', function(req, res){
+
+})*/
+
+// Get ranking: habrá que recoger todos los usuarios y coger los scores + nombres
+
 
 module.exports = router;

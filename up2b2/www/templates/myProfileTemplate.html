@@ -1,0 +1,29 @@
+<ion-view view-title="My Profile">
+    <ion-content>
+        <div class="list">
+            <a class="item item-icon-left item-icon-right">
+                <i class="icon ion-person"></i> Full name: {{fullName}}
+                <i class="icon ion-ios-compose-outline" ng-click="modifyFullName()"></i>
+            </a>
+            <a class="item item-icon-left item-icon-right">
+                <i class="icon ion-person"></i> DNI: {{dni}}
+                <i class="icon ion-ios-compose-outline" ng-click="modifyFullName()"></i>
+            </a>
+            <a class="item item-icon-left item-icon-right">
+                <i class="icon ion-email"></i> Email: {{email}}
+                <i class="icon ion-ios-compose-outline" ng-click="modifyEmail()"></i>
+            </a>
+            <a class="item item-icon-left item-icon-right">
+                <i class="icon ion-email"></i> Password: ******
+                <i class="icon ion-ios-compose-outline" ng-click="modifyPass()"></i>
+            </a>
+            <a class="item item-icon-left">
+                <i class="icon ion-ios-pulse-strong"></i> Score: {{score}} points
+            </a>
+            <a class="item item-icon-left item-icon-right">
+                <i class="icon ion-university"></i> Degree: {{::degree}}
+                <i class="icon ion-ios-compose-outline" ng-click="modifyDegree()"></i>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

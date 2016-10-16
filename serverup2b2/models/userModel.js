@@ -11,7 +11,11 @@ let userSchema = mongoose.Schema({
 	tests: [String],
 	score: Number,
 	degree: String,
-	admin: Boolean
+	admin: Boolean,
+	dni: String
+
+	// añadir fecha de creación
+	
 });
 
 // al esquema le metemos un estático
