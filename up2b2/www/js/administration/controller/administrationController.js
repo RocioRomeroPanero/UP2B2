@@ -74,12 +74,7 @@ angular.module('administration.module').controller('administrationController', f
 
             ]
         })
-
-
     }
-
-
-
 
     //según lo que se haga click, mostrará un contenido u otro.
 

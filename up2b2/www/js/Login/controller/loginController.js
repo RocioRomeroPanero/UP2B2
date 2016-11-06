@@ -73,7 +73,7 @@ angular.module('login.module').controller('loginController', function($scope, AP
                     sessionService.store('score', data.data.data[0].score);
                     sessionService.store('id', data.data.data[0]._id);
                     sessionService.store('dni', data.data.data[0].dni);
-
+                    sessionService.store('token', data.data.data[0].token);
                     // $location.path('no lo se :D');
                 } else {
                     //not success

@@ -5,21 +5,24 @@ angular.module('users.module').controller('usersController', function($scope, Ut
     // habrá que llamar al servidor a getUsers
     var usersComplete = {};
 
-    APIClient.getUsers().then(
-        function(data) {
-            console.log(data);
-            $scope.users = data.data.rows;
-            for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].admin == true) {
-                    $scope.users[i].admin = 'Yes';
-                } else {
-                    $scope.users[i].admin = 'No';
+
+    var initiate = function() {
+        APIClient.getUsers().then(
+            function(data) {
+                $scope.users = data.data.rows;
+                for (var i = 0; i < $scope.users.length; i++) {
+                    if ($scope.users[i].admin == true) {
+                        $scope.users[i].admin = 'Yes';
+                    } else {
+                        $scope.users[i].admin = 'No';
+                    }
                 }
-
             }
-        }
-    )
+        )
+    }
 
+    initiate();
+    
     $scope.deleteUser = function(id, name) {
 
         $ionicPopup.show({
@@ -68,21 +71,7 @@ angular.module('users.module').controller('usersController', function($scope, Ut
 
                     return APIClient.modifyUser(id, $scope.data.newValue, type).then(
                         function(data) {
-                            APIClient.getUsers().then(
-                                function(data) {
-                                    console.log(data);
-                                    $scope.users = data.data.rows;
-                                    for (var i = 0; i < $scope.users.length; i++) {
-                                        if ($scope.users[i].admin == true) {
-                                            $scope.users[i].admin = 'Yes';
-                                        } else {
-                                            $scope.users[i].admin = 'No';
-                                        }
-
-                                    }
-                                }
-                            )
-
+                            initiate();
                         },
                         function(error) {
                             console.log('error', error);
@@ -127,7 +116,6 @@ angular.module('users.module').controller('usersController', function($scope, Ut
                         function(error) {
                             console.log('error', error);
                         }
-
                     )
                 }
             }, {

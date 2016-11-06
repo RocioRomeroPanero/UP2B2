@@ -4,39 +4,25 @@ var conn = require('../lib/connectMongoose');
 
 var mongoose = require('mongoose');
 
-
-//Creo el esquema
-
-var annSchema = mongoose.Schema({
-	codigoPostal: Number,
-	calle: String,
-	ciudad: String,
-	compra: Boolean,
-	precio: Number,
-	metros: Number,
-	numeroHabitaciones: Number,
-	amueblado: Boolean,
-	descripcion: String,
-	fechaSubida: String,
-	usuarioSubida: String,
-	fotos: [String]
+let QuestionSchema = mongoose.Schema({
+	// fecha creación: Date
+	// enunciado: String
+	// respuestas: []
+	// respuesta correcta: string
+	// audio: ¿?
+	// veces respondida
+	// veces acertada
 });
 
 // al esquema le metemos un estático
-annSchema.statics.list = function(start, limit, filters, sort,  cb){
+QuestionSchema.statics.list = function(filter, sort, cb){
+	//let sortAplicar = sort || "email";
 
 	// preparamos la query sin ejecutarla
-	let query = Anuncio.find(filters);
+	let query = Question.find(filter);
+
 	// añadimos más parámetros a la query
-	if(limit != 0){
-		query.limit(limit);
-	}
-
-	query.sort(sort);
-
-	if(start != 0){
-		query.skip(start);
-	}
+	query.sort(sortAplicar);
 
 	// se ejecuta la query:
 	query.exec(function(err, rows){
@@ -44,28 +30,10 @@ annSchema.statics.list = function(start, limit, filters, sort,  cb){
 			cb(err);
 			return;
 		}
-		cb(null, rows);
+		cb(null,rows);
 		return;
 	});
 
 };
 
-// Al modelo le metemos el esquema
-var Anuncio = mongoose.model('Anuncio', annSchema);
-
-// Métodos del modelo
-var anuncio = {
-	getAnuncios: function(cb){
-		// con Mongoose
-		Anuncio.find({}, function(err, datos){
-			if(err){
-				cb(err);
-				return;
-			}
-			cb(null, datos);
-			return;
-		});
-	}
-};
-
-module.exports = anuncio; 
+var Question = mongoose.model('Question', QuestionSchema);
