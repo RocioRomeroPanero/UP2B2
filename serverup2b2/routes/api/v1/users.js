@@ -89,6 +89,7 @@ router.post('/newUser', function(req, res) {
             user.degree = req.body.degree;
             user.tests = [];
             user.admin = req.body.admin;
+            user.creationTime =  Date.now();
 
             console.log('user', user);
             console.log('req.body', req.body);
@@ -157,7 +158,7 @@ router.put('/userData/:id', function(req, res){
     var filters = {};
 
     filters._id  = req.params.id;
-
+    console.log('req.body', req.body);
     if(req.body.pass != undefined){
         let sha256 = crypto.createHash("sha256");
         sha256.update(req.body.pass, "utf8"); //utf8 here

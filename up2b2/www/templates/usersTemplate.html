@@ -6,17 +6,21 @@
                     {{user.fullName}}
                     <i ng-click="deleteUser(user._id, user.fullName)" style="color:red" class="icon ion-close-circled"></i>
                 </div>
-                <div class="item">
+                <div class="item item-icon-right">
                     Email: {{user.email}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'email', user.fullName)"></i>
                 </div>
-                <div class="item">
+                <div class="item item-icon-right">
                     Degree: {{user.degree}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'degree', user.fullName)"></i>
                 </div>
-                <div class="item">
+                <div class="item item-icon-right">
                     DNI: {{user.dni}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'dni', user.fullName)"></i>
                 </div>
-                <div class="item">
+                <div class="item item-icon-right">
                     Admin: {{user.admin}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modifyAdmin(user._id, user.fullName)"></i>
                 </div>
             </div>
         </div>

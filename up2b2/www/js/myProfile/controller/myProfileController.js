@@ -7,15 +7,6 @@ angular.module('myProfile.module').controller('myProfileController', function($s
     $scope.degree = sessionService.get('degree');
     $scope.score = sessionService.get('score');
     $scope.dni = sessionService.get('dni');
-    $scope.modifyEmail = function() {
-
-    }
-    $scope.modifyFullName = function() {
-
-    }
-    $scope.modifyDegree = function() {
-
-    }
     $scope.modifyPass = function() {
         $scope.data = {};
         $ionicPopup.show({
@@ -24,7 +15,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
             template: '<input type="password" ng-model="data.pass">Current password</input><input type="password" ng-model="data.newPass">New password</input>',
             scope: $scope,
             buttons: [{
-                    text: 'Change password',
+                    text: 'Change',
                     type: 'button-positive',
                     onTap: function(e) {
                         return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
@@ -55,6 +46,13 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                         }, function(error) {
                             console.log('error', error);
                         });
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    type: 'button-positive',
+                    onTap: function(){
+                        return;
                     }
                 }
 

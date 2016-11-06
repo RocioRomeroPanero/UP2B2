@@ -4,5 +4,6 @@ angular.module("starter.values", []).value("APIPaths", {
     questions: "/questions",
     login: "/login",
     newUser: "/newUser",
-    password: "/password"
+    password: "/password",
+    modifyUser: "/userData/"
 });

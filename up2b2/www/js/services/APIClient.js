@@ -40,7 +40,6 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
         },
         newUser: function(userEmail, pass, name, degree, admin, dni) {
             var url = APIPaths.server + APIPaths.users + APIPaths.newUser;
-            //$http.post('/someUrl', data, config).then(successCallback, errorCallback);
             return $http.post(url, { email: userEmail, pass: pass, fullName: name, degree: degree, admin: admin, dni: dni })
                 .then(function(response) {
                     return response;
@@ -53,6 +52,35 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             return $http.delete(url, {}).then(function(response) {
                 return response;
             }, function(error) {
+                return error;
+            })
+        },
+        modifyUser: function(id, valueToChange, value){
+            var url = APIPaths.server + APIPaths.users + APIPaths.modifyUser + id;
+            console.log('value', value);
+            console.log('valueToChange', valueToChange);
+            var toChange;
+            if(value == 'email'){
+                toChange = {
+                    email: valueToChange
+                }
+            } else if(value == 'degree'){
+                toChange = {
+                    degree: valueToChange
+                }
+            } else if(value == 'DNI'){
+                toChange = {
+                    dni: valueToChange
+                }
+            } else{ // admin
+                toChange = {
+                    admin: valueToChange
+                }
+            }
+            console.log('tochange', toChange);
+            return $http.put(url, toChange).then(function(response){
+                return response;
+            }, function(error){
                 return error;
             })
         }

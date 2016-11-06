@@ -16,7 +16,8 @@ angular.module('administration.module').controller('administrationController', f
             + 'Degree: <input type="text" ng-model="data.degree"></input>' 
             + 'DNI: <input type="text" ng-model="data.dni"></input>' 
             + 'Password: <input type="password" ng-model="data.pass"></input>' 
-            + 'Admin: <ion-checkbox ng-model="data.admin">Admin </ion-checkbox>',
+            + '</br>' 
+            + '<ion-checkbox ng-model="data.admin">Admin </ion-checkbox>',
             scope: $scope,
             buttons: [{
                     text: 'OK!',
@@ -61,6 +62,13 @@ angular.module('administration.module').controller('administrationController', f
                                 }
                             }
                         )
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    type: 'button-positive',
+                    onTap: function(){
+                        return;
                     }
                 }
 
