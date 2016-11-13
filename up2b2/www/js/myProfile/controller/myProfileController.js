@@ -1,6 +1,10 @@
 'use strict';
 
 angular.module('myProfile.module').controller('myProfileController', function($scope, APIClient, $ionicPopup, sessionService) {
+    /*if (utils.isAuthenticated() == false) {
+        $state.go('app.login');
+    }
+*/
     $scope.model = {};
     $scope.email = sessionService.get('email');
     $scope.fullName = sessionService.get('fullName');
@@ -32,7 +36,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
 
                                     ]
                                 })
-                            } else if(data.status == 200){
+                            } else if (data.status == 200) {
                                 $ionicPopup.show({
                                     title: 'Password changed',
                                     buttons: [{
@@ -47,11 +51,10 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                             console.log('error', error);
                         });
                     }
-                },
-                {
+                }, {
                     text: 'Cancel',
                     type: 'button-positive',
-                    onTap: function(){
+                    onTap: function() {
                         return;
                     }
                 }

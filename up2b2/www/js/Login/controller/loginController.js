@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('login.module').controller('loginController', function($scope, APIClient, $ionicPopup, sessionService) {
-
+angular.module('login.module').controller('loginController', function($state, $scope, APIClient, $ionicPopup, sessionService) {
 
     $scope.model = {};
 
@@ -74,7 +73,11 @@ angular.module('login.module').controller('loginController', function($scope, AP
                     sessionService.store('id', data.data.data[0]._id);
                     sessionService.store('dni', data.data.data[0].dni);
                     sessionService.store('token', data.data.data[0].token);
-                    // $location.path('no lo se :D');
+                    if (data.data.data[0].admin == true) {
+                        $state.go('app.administration');
+                    } else {
+                        $state.go('app.myProfile');
+                    }
                 } else {
                     //not success
                     $ionicPopup.show({

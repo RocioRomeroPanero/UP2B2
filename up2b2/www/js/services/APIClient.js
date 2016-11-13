@@ -89,6 +89,23 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             }, function(error){
                 return error;
             })
+        },
+
+        addQuestion: function(questionToAdd){
+            var url = APIPaths.server + APIPaths.questions + APIPaths.newQuestion;
+            return $http.post(url, questionToAdd).then(function(response){
+                return response;
+            }, function(error){
+                return error;
+            })
+        },
+        getQuestion: function(questionId){
+            var url = APIPaths.server + APIPaths.questions + '/' + questionId;
+            return $http.get(url).then(function(response){
+                return response;
+            }, function(error){
+                return error;
+            })
         }
 
     }

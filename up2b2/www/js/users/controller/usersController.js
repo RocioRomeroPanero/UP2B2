@@ -1,10 +1,11 @@
 'use strict';
-angular.module('users.module').controller('usersController', function($scope, Utils, APIClient, $ionicPopup, sessionService) {
-    // habrá una lista con los usuarios, y al clickar en el usuario aparecerá la información y se podrá modificar
-
+angular.module('users.module').controller('usersController', function($scope, /*Utils,*/ APIClient, $ionicPopup, sessionService) {
+    
+    /*if (utils.isAuthenticated() == false) {
+        $state.go('app.login');
+    }*/
     // habrá que llamar al servidor a getUsers
     var usersComplete = {};
-
 
     var initiate = function() {
         APIClient.getUsers().then(
@@ -22,7 +23,7 @@ angular.module('users.module').controller('usersController', function($scope, Ut
     }
 
     initiate();
-    
+
     $scope.deleteUser = function(id, name) {
 
         $ionicPopup.show({
