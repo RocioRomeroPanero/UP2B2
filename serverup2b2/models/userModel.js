@@ -8,7 +8,6 @@ let userSchema = mongoose.Schema({
 	fullName: String,
 	pass: String,
 	email: String,
-	tests: [String],
 	score: Number,
 	degree: String,
 	admin: Boolean,

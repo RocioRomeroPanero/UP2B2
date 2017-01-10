@@ -1,0 +1,38 @@
+<ion-view view-title="Questions">
+    <ion-content>
+        <div class="list">
+            <div ng-repeat="question in questions">
+                <div class="item item-divider item-icon-right">
+                    {{question.question}}
+                    <i ng-click="deleteQuestion(question._id, question.question)" style="color:red" class="icon ion-close-circled"></i>
+                </div>
+                <div class="item item-icon-right">
+                    Answer 1: {{question.answer1}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer1', question.answer1)"></i>
+                </div>
+                <div class="item item-icon-right">
+                    Answer 2: {{question.answer2}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer2', question.answer2)"></i>
+                </div>
+                <div class="item item-icon-right">
+                    Answer 3: {{question.answer3}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer3', question.answer3)"></i>
+                </div>
+                <div class="item item-icon-right">
+                    Answer 4: {{question.answer4}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer4', question.answer4)"></i>
+                </div>
+                <div class="item item-icon-right">
+                    Correct answer: Answer {{question.correctAnswer}}
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'correctAnswer', question.correctAnswer)"></i>
+                </div>
+                <div class="item item-icon-right">
+                    {{question.numberCorrect}} of {{question.numberDone}} correct answered
+                </div>
+                <div class="item item-icon-right">
+                    Aquí irán los archivos adjuntos a la pregunta (modificar...)
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -60,54 +60,82 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
                 return error;
             })
         },
-        modifyUser: function(id, valueToChange, value){
+        modifyUser: function(id, valueToChange, value) {
             var url = APIPaths.server + APIPaths.users + APIPaths.modifyUser + id;
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             console.log('value', value);
             console.log('valueToChange', valueToChange);
             var toChange;
-            if(value == 'email'){
+            if (value == 'email') {
                 toChange = {
                     email: valueToChange
                 }
-            } else if(value == 'degree'){
+            } else if (value == 'degree') {
                 toChange = {
                     degree: valueToChange
                 }
-            } else if(value == 'DNI'){
+            } else if (value == 'DNI') {
                 toChange = {
                     dni: valueToChange
                 }
-            } else{ // admin
+            } else { // admin
                 toChange = {
                     admin: valueToChange
                 }
             }
             console.log('tochange', toChange);
-            return $http.put(url, toChange).then(function(response){
+            return $http.put(url, toChange).then(function(response) {
                 return response;
-            }, function(error){
+            }, function(error) {
                 return error;
             })
         },
 
-        addQuestion: function(questionToAdd){
+        addQuestion: function(questionToAdd) {
             var url = APIPaths.server + APIPaths.questions + APIPaths.newQuestion;
-            return $http.post(url, questionToAdd).then(function(response){
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.post(url, questionToAdd).then(function(response) {
                 return response;
-            }, function(error){
+            }, function(error) {
                 return error;
             })
         },
-        getQuestion: function(questionId){
+        getQuestion: function(questionId) {
             var url = APIPaths.server + APIPaths.questions + '/' + questionId;
-            return $http.get(url).then(function(response){
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.get(url).then(function(response) {
                 return response;
-            }, function(error){
+            }, function(error) {
                 return error;
             })
-        }
-
+        },
+        getQuestions: function() {
+            var url = APIPaths.server + APIPaths.questions;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.get(url).then(function(response) {
+                return response;
+            }, function(error) {
+                return error;
+            })
+        },
+        modifyQuestion: function(questionId, valueToChange) {
+            var url = APIPaths.server + APIPaths.questions + '/' + questionId;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.put(url, valueToChange).then(function(response) {
+                return response;
+            }, function(error) {
+                return error;
+            })
+        },
+        deleteQuestion: function(id) {
+            var url = APIPaths.server + APIPaths.questions + '/' + id;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.delete(url, {}).then(function(response) {
+                return response;
+            }, function(error) {
+                return error;
+            })
+        },
     }
 
 });

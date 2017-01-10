@@ -90,7 +90,6 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
             user.fullName = req.body.fullName;
             user.score = 0;
             user.degree = req.body.degree;
-            user.tests = [];
             user.admin = req.body.admin;
             user.creationTime = Date.now();
 
@@ -188,14 +187,5 @@ router.put('/userData/:id',middleware.ensureAuthenticated, function(req, res) {
     })
 
 })
-
-// Modify an users score
-
-/*router.put('/score/:id', function(req, res){
-
-})*/
-
-// Get ranking: habrá que recoger todos los usuarios y coger los scores + nombres
-
 
 module.exports = router;

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('users.module').controller('usersController', function($scope, /*Utils,*/ APIClient, $ionicPopup, sessionService) {
+angular.module('users.module').controller('usersController', function($scope, /*Utils,*/utils, APIClient, $ionicPopup, sessionService) {
     
     /*if (utils.isAuthenticated() == false) {
         $state.go('app.login');
@@ -37,7 +37,7 @@ angular.module('users.module').controller('usersController', function($scope, /*
                         function(data) {
                             console.log('data', data);
                             //user deleted
-                            Utils.removeByAttr($scope.users, '_id', id);
+                            utils.removeByAttr($scope.users, '_id', id);
 
                         },
                         function(error) {

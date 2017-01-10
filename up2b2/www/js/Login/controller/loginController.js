@@ -17,6 +17,13 @@ angular.module('login.module').controller('loginController', function($state, $s
                     onTap: function(e) {
                         return forgotPass($scope.data.email);
                     }
+                },
+                {
+                    text: 'Cancel',
+                    type: 'button-positive',
+                    onTap: function() {
+                        return;
+                    }
                 }
 
             ]

@@ -4,20 +4,60 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 require('../../../models/questionModel');
+var middleware = require('../../../public/javascripts/middleware');
 var Question = mongoose.model('Question'); // pido el modelo
 
 
 // get questions
 
-// get question
+router.get('',  middleware.ensureAuthenticated, function(req,res){
+    Question.list({}, 'question', null,function(err, rows){
+        if (err) {
+            return res.status(500).send({ result: 'internal error in database', err: err })
+        }
+        if (rows.length != 0) {
+            return res.status(200).send({ result: 'sucess', rows: rows })
+        } else {
+            return res.status(404).send({ result: 'not questions yet created' })
+        }
+    })
 
-router.get('/:id', function(req, res) {
+});
 
-	console.log(req.params);
-	var filters = {};
+// get test for user
+
+router.get('/test/:id?:test', function(req,res){
+    var filters = {};
+
+    // en ?:test irá true si es para test o false si es para training
+
+    var query = {usersCorrect: {$nin: [req.params.id]}};
+
+    if(req.params.test === true){
+        query.test = true;
+    }else{
+        query.training = true;
+    }
+
+    // get questions that don't have the id of the user in usersCorrect.
+    Question.list(query, 'question', {limit:10}, function(err, rows){
+        if (err) {
+            return console.log(err);
+        }
+        else{
+            return console.log('rows', rows);
+        }
+    })
+});
+
+// get question by id
+
+router.get('/:id',  middleware.ensureAuthenticated, function(req, res) {
+
+    var filters = {};
     filters._id = req.params.id;
 
-    Question.list(filters, 'question', function(err, rows) {
+    Question.list(filters, 'question', null, function(err, rows) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
@@ -29,29 +69,58 @@ router.get('/:id', function(req, res) {
     });
 });
 
+// delete question
 
+router.delete('/:id', middleware.ensureAuthenticated, function(req, res) {
+    Question.remove({ _id: req.params.id }, function(err) {
+        if (err) return res.status(500).send({ result: "internal error in database: maybe this question doesn't exist?" })
+        return res.status(200).send({ result: "question deleted" })
+    });
+});
+
+// put question
+
+router.put('/:id', middleware.ensureAuthenticated,  function(req, res){
+    var filters = {};
+
+    filters._id = req.params.id;
+
+    Question.findByIdAndUpdate(req.params.id, req.body, {}, function(err, data) {
+        if (err) return res.status(500).send({ result: "internal error in database: maybe this question doesn't exist?" })
+        return res.status(200).send({ result: "question modified", data: data });
+    })
+
+});
 
 // add question
 
-router.post('/newQuestion', function(req, res) {
+router.post('/newQuestion',  middleware.ensureAuthenticated, function(req, res) {
 
-    // question has: creationDate, question, answer1, answer2, answer3, answer4, 
-    // correctAnswer, numberDone, numberCorrect, audio.
-
-    var question = req.body;
+    var question = {};
     question.creationDate = Date.now();
     question.numberCorrect = 0;
     question.numberDone = 0;
+    question.answer1 = req.body.answer1;
+    question.answer2 = req.body.answer2;
+    question.answer3 = req.body.answer3;
+    question.answer4 = req.body.answer4;
+    question.correctAnswer = req.body.correctAnswer;
+    question.question = req.body.question;
+    question.numberDone = 0;
+    question.numberCorrect = 0;
+    question.userDone = [];
+    question.usersCorrect = [];
+    question.test = req.body.test;
+    question.training = req.body.training;
 
-    let question2 = new Question(question);
+    let questionToSave = new Question(question);
 
-    question2.save(function(err, newRow) { // lo guardamos en la base de datos
+    questionToSave.save(function(err, newRow) { // lo guardamos en la base de datos
         //newRow contiene lo que se ha guardado, la confirmación
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
-        res.status(200).send({ result: 'question created', row: newRow })
-        return;
+        return res.status(200).send({ result: 'question created', row: newRow });
     });
 });
 
