@@ -26,6 +26,10 @@
                     Correct answer: Answer {{question.correctAnswer}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'correctAnswer', question.correctAnswer)"></i>
                 </div>
+                <div class="item item-icon-right">
+                    Time to answer the question: {{question.timeToAnswer}} seconds
+                    <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'timeToAnswer', question.timeToAnswer)"></i>
+                </div>
                 <div class="item item-icon-right" ng-switch="question.test">
                     <div ng-switch-when="true">For real test
                         <span ng-if="question.training === true"> and for training</span>

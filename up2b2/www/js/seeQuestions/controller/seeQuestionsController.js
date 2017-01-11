@@ -80,7 +80,12 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         toChange = {
                             correctAnswer: $scope.data.newValue
                         }
-                    } else {
+                    } else if (type == "timeToAnswer"){
+                        toChange = {
+                            timeToAnswer : $scope.data.newValue
+                        }
+                    }
+                     else {
                         toChange = {
                             answer4: $scope.data.newValue
                         }

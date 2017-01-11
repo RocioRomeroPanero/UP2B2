@@ -26,6 +26,11 @@
                 <input type="number" ng-model="model.correctAnswer" min="1" max="4" placeholder="Select from 1 to 4">
             </label>
             <label class="item item-input item-stacked-label">
+                <span class="input-label">Seconds to answer the question</span>
+                <input type="number" ng-model="model.timeToAnswer">
+            </label>
+
+            <label class="item item-input item-stacked-label">
                 <span class="input-label">Audio</span>
                 <input type="file" ng-model="model.file" id="file" name="file">
             </label>

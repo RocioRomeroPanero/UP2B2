@@ -7,7 +7,8 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
 	var userId = sessionService.get("id");
 
     $scope.test = function(typeOfTest){
-        console.log(typeOfTest);
+
+        // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
 
         if(typeOfTest == "training"){
 
@@ -16,7 +17,6 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
         	}, function(err){
         		console.log('error', err);
         	});
-
         	$scope.choose = false;
         	$scope.trainingTest = true;
         }
@@ -29,7 +29,7 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
         	$scope.choose = false;
         	$scope.realTest = true;
         }
-        // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
+        
 
         
 

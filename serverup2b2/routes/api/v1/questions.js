@@ -96,6 +96,8 @@ router.put('/:id', middleware.ensureAuthenticated,  function(req, res){
 
 router.post('/newQuestion',  middleware.ensureAuthenticated, function(req, res) {
 
+    console.log('req.body', req.body);
+
     var question = {};
     question.creationDate = Date.now();
     question.numberCorrect = 0;
@@ -112,6 +114,7 @@ router.post('/newQuestion',  middleware.ensureAuthenticated, function(req, res) 
     question.usersCorrect = [];
     question.test = req.body.test;
     question.training = req.body.training;
+    question.timeToAnswer = req.body.timeToAnswer;
 
     let questionToSave = new Question(question);
 

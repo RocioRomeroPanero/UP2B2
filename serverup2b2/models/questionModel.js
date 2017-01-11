@@ -24,7 +24,8 @@ let QuestionSchema = mongoose.Schema({
 	usersDone: [String],
 	usersCorrect: [String], 
 	training: Boolean,
-	test: Boolean
+	test: Boolean,
+	timeToAnswer: Number
 });
 
 // al esquema le metemos un estático
