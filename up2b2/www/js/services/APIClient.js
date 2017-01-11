@@ -118,6 +118,15 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
                 return error;
             })
         },
+        getTest: function(userId, test){
+            var url = APIPaths.server + APIPaths.questions + APIPaths.test + "/" + userId + "?" + test;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.get(url).then(function(response) {
+                return response;
+            }, function(error) {
+                return error;
+            })
+        },
         modifyQuestion: function(questionId, valueToChange) {
             var url = APIPaths.server + APIPaths.questions + '/' + questionId;
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
@@ -136,6 +145,15 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
                 return error;
             })
         },
+        getRanking: function(){
+            var url = APIPaths.server + APIPaths.users + APIPaths.ranking;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.get(url).then(function(response) {
+                return response;
+            }, function(error){
+                return error;
+            });
+        }
     }
 
 });

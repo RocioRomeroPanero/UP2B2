@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
+var config = require('../../../config');
 var crypto = require("crypto");
 require('../../../models/userModel');
 var User = mongoose.model('User'); // pido el modelo
@@ -29,6 +30,7 @@ router.post('/', function(req, res) {
             var newPass = generator.generate();
             let sha256 = crypto.createHash("sha256");
             sha256.update(newPass, "utf8"); //utf8 here
+            console.log('NEWPASS',newPass);
             let newPassHashed = sha256.digest("base64");
             console.log('rows[0]', rows[0]);
 
@@ -43,8 +45,8 @@ router.post('/', function(req, res) {
                     var transporter = nodemailer.createTransport({
                         service: 'Gmail',
                         auth: {
-                            user: 'rocio.3.romero@gmail.com', // Your email id
-                            pass: 'Peeter3--' // Your password
+                            user: config.user, // Your email id
+                            pass: config.pass // Your password
                         }
                     });
 

@@ -12,7 +12,14 @@ let userSchema = mongoose.Schema({
 	degree: String,
 	admin: Boolean,
 	dni: String,
-	creationTime: Date	
+	creationTime: Date,
+	testDone: [{
+		id: String,
+		timeSpent: Number,
+		score: Number,
+		numberCorrect: Number,
+		numberWrong: Number
+	}]
 });
 
 // al esquema le metemos un estático

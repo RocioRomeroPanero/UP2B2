@@ -12,6 +12,7 @@ var uploads = path.join(uploads_base, "u");
 let QuestionSchema = mongoose.Schema({
 	creationDate: Date,
 	photo: String,
+	withPicture: Boolean,
 	question: String, // enunciado: String
 	answer1: String,
 	answer2: String,

@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = require('./config');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
@@ -14,6 +15,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+
 mailer.extend(app, {
   from: 'no-reply@example.com',
   host: 'smtp.gmail.com', // hostname
@@ -21,8 +23,8 @@ mailer.extend(app, {
   port: 465, // port for secure SMTP
   transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
   auth: {
-    user: 'rocio.3.romero@gmail.com',
-    pass: 'Peeter3--'
+    user: config.user,
+    pass: config.pass
   }
 });
 

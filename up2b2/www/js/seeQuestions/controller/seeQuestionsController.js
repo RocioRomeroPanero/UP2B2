@@ -76,12 +76,11 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         toChange = {
                             answer3: $scope.data.newValue
                         }
-                    } else if(type == "correctAnswer"){
+                    } else if (type == "correctAnswer") {
                         toChange = {
                             correctAnswer: $scope.data.newValue
                         }
-                    } 
-                    else {
+                    } else {
                         toChange = {
                             answer4: $scope.data.newValue
                         }
@@ -101,5 +100,44 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 type: 'button-positive'
             }]
         })
+    }
+
+    $scope.modifyTrainingTest = function(questionId) {
+        console.log(questionId, training, test);
+
+
+        $scope.data = {};
+        $ionicPopup.show({
+            title: "Modify type of question",
+            template: '<div><input type="checkbox" id="training" ng-model="data.newTrainingValue" value="training">For training'+
+            '<input type="checkbox" id="realTest" ng-model="data.newTestValue" value="realTest">For real test</div>',
+            scope: $scope,
+            buttons: [{
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function(e) {
+                    var toChange = {};
+                    toChange = {
+                        training: $scope.data.newTrainingValue || false,
+                        test: $scope.data.newTestValue || false
+                    }
+
+                    console.log(toChange);
+
+                    return APIClient.modifyQuestion(questionId, toChange).then(
+                        function(data) {
+                            initiate();
+                        },
+                        function(error) {
+                            console.log('error', error);
+                        }
+                    )
+                }
+            }, {
+                text: 'Cancel',
+                type: 'button-positive'
+            }]
+        })
+
     }
 });

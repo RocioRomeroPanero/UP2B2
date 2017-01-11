@@ -42,10 +42,10 @@ router.get('/test/:id?:test', function(req,res){
     // get questions that don't have the id of the user in usersCorrect.
     Question.list(query, 'question', {limit:10}, function(err, rows){
         if (err) {
-            return console.log(err);
+            return res.status(500).send({ result: 'internal error in database', err: err })
         }
         else{
-            return console.log('rows', rows);
+            return res.status(200).send({ result: 'sucess', rows: rows })
         }
     })
 });

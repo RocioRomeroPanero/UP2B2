@@ -13,7 +13,7 @@ var middleware = require('../../../public/javascripts/middleware');
 
 // Get users
 
-router.get('/', middleware.ensureAuthenticated,function(req, res) {
+router.get('/', middleware.ensureAuthenticated, function(req, res) {
 
     var sort = req.query.sort || 'email';
 
@@ -34,6 +34,18 @@ router.get('/', middleware.ensureAuthenticated,function(req, res) {
     });
 });
 
+// get users ordered by score
+
+router.get('/ranking', middleware.ensureAuthenticated, function(req, res) {
+    var sort = 'score';
+    User.list({}, sort, function(err, rows) {
+        if (err) {
+            return res.status(500).send({ result: 'internal error in database', err: err })
+        }
+            return res.status(200).send({ result: 'sucess', rows: rows })
+    })
+})
+
 // get an user
 router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 
@@ -43,7 +55,6 @@ router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 
     filters._id = req.params.id;
 
-    // como quiero obtener todos los usuarios, no introduzco filtro: {}
     User.list(filters, sort, function(err, rows) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
@@ -92,6 +103,7 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
             user.degree = req.body.degree;
             user.admin = req.body.admin;
             user.creationTime = Date.now();
+            user.testDone = [];
 
             console.log('user', user);
             console.log('req.body', req.body);
@@ -168,7 +180,7 @@ router.delete('/:id', middleware.ensureAuthenticated, function(req, res) {
 
 // Modify an user
 
-router.put('/userData/:id',middleware.ensureAuthenticated, function(req, res) {
+router.put('/userData/:id', middleware.ensureAuthenticated, function(req, res) {
 
     var filters = {};
 

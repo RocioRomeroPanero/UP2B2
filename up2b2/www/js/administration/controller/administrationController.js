@@ -15,6 +15,8 @@ angular.module('administration.module').controller('administrationController', f
                     text: 'OK!',
                     type: 'button-positive',
                     onTap: function(e) {
+                        //check if dni is a dni
+                        
                         return APIClient.newUser($scope.data.email,
                             $scope.data.pass,
                             $scope.data.fullName,

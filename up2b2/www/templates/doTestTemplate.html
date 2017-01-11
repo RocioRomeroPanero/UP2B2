@@ -1,0 +1,23 @@
+<ion-view view-title="Test">
+    <ion-content>
+        <div class="list" ng-show="choose">
+            <div class="item item-divider">
+                Please choose a type of test
+            </div>
+            <div class="item" ng-click='test("training")'>
+                For training
+            </div>
+            <div class="item" ng-click='test("realTest")'>
+                Real test
+            </div>
+        </div>
+        <div ng-show="trainingTest">
+            
+
+        </div>
+
+        <div ng-show="realTest">
+            
+        </div>
+    </ion-content>
+</ion-view>

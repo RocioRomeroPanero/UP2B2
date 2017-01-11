@@ -26,10 +26,18 @@
                     Correct answer: Answer {{question.correctAnswer}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'correctAnswer', question.correctAnswer)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right" ng-switch="question.test">
+                    <div ng-switch-when="true">For real test
+                        <span ng-if="question.training === true"> and for training</span>
+                    </div>
+                    <div ng-switch-when="false">For training</div>
+                    <div ng-switch-default>Not for real test or training</div>
+                    <i class="icon ion-ios-compose-outline" ng-click="modifyTrainingTest(question._id)"></i>
+                </div>
+                <div class="item">
                     {{question.numberCorrect}} of {{question.numberDone}} correct answered
                 </div>
-                <div class="item item-icon-right">
+                <div class="item">
                     Aquí irán los archivos adjuntos a la pregunta (modificar...)
                 </div>
             </div>
