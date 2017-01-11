@@ -5,19 +5,88 @@
                 Please choose a type of test
             </div>
             <div class="item" ng-click='test("training")'>
-                For training
+                For training: Test without time and the final score won't affect your account score
             </div>
             <div class="item" ng-click='test("realTest")'>
-                Real test
+                Real test: Test with time and the final score will affect your account score
             </div>
         </div>
         <div ng-show="trainingTest">
-            
-
+            <div class="list">
+                <div class="item item-divider">{{question.question}}
+                    <div class="item" ng-click="continueQuestion(1)">
+                        {{question.answer1}}
+                    </div>
+                    <div class="item" ng-click="continueQuestion(2)">
+                        {{question.answer2}}
+                    </div>
+                    <div class="item" ng-click="continueQuestion(3)">
+                        {{question.answer3}}
+                    </div>
+                    <div class="item" ng-click="continueQuestion(4)">
+                        {{question.answer4}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col50">
+                    <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
+                        Before question
+                    </button>
+                </div>
+                <div class="col col50">
+                    <button class="button button-block button-positive" ng-click="ContinueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
+                        Next question
+                    </button>
+                    <button class="button button-block button-balanced" ng-show="contador+1==numberQuestions">
+                        Finish test
+                    </button>
+                </div>
+            </div>
         </div>
-
         <div ng-show="realTest">
-            
+            <div class="row">
+                <b class="progress-wrapper col col-33 col-offset-33">
+                    {{humanizeDurationTimer(timer,'s')}}
+                </b>
+            </div>
+            <style type="text/css">
+            .progress-wrapper {
+                text-align: center;
+                border: 3px solid black;
+            }
+            </style>
+            <div class="list">
+                <div class="item item-divider">{{question.question}}
+                    <div class="item">
+                        {{question.answer1}}
+                    </div>
+                    <div class="item">
+                        {{question.answer2}}
+                    </div>
+                    <div class="item">
+                        {{question.answer3}}
+                    </div>
+                    <div class="item">
+                        {{question.answer4}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col50">
+                    <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
+                        Before question
+                    </button>
+                </div>
+                <div class="col col50">
+                    <button class="button button-block button-positive" ng-click="ContinueQuestion()" ng-show="!(contador+1==numberQuestions)">
+                        Next question
+                    </button>
+                    <button class="button button-block button-balanced" ng-show="contador+1==numberQuestions">
+                        Finish test
+                    </button>
+                </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>
