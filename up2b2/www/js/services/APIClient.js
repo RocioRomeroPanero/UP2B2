@@ -119,7 +119,7 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             })
         },
         getTest: function(userId, test){
-            var url = APIPaths.server + APIPaths.questions + APIPaths.test + "/" + userId + "?" + test;
+            var url = APIPaths.server + APIPaths.questions + APIPaths.test + "?id=" + userId + "&test=" + test;
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             return $http.get(url).then(function(response) {
                 return response;

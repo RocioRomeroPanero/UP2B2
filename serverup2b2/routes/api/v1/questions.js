@@ -10,8 +10,8 @@ var Question = mongoose.model('Question'); // pido el modelo
 
 // get questions
 
-router.get('',  middleware.ensureAuthenticated, function(req,res){
-    Question.list({}, 'question', null,function(err, rows){
+router.get('', middleware.ensureAuthenticated, function(req, res) {
+    Question.list({}, 'question', null, function(err, rows) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
@@ -26,25 +26,27 @@ router.get('',  middleware.ensureAuthenticated, function(req,res){
 
 // get test for user
 
-router.get('/test/:id?:test', function(req,res){
+router.get('/test', function(req, res) {
     var filters = {};
 
     // en ?:test irá true si es para test o false si es para training
 
-    var query = {usersCorrect: {$nin: [req.params.id]}};
-
-    if(req.params.test === true){
-        query.test = true;
-    }else{
-        query.training = true;
+    var query = {};
+    console.log('req.query.test', req.query.test);
+    if (req.query.test === 'true') {
+        console.log('paso por aqui === true');
+        query = { test: true, usersCorrect: { $nin: [{ id: req.query.id }] } };
+    } else {
+        console.log('paso por aqui === false');
+        query = { training: true, usersCorrect: { $nin: [{ id: req.query.id }] } };
     }
 
     // get questions that don't have the id of the user in usersCorrect.
-    Question.list(query, 'question', {limit:10}, function(err, rows){
+    Question.list(query, 'question', { limit: 10 }, function(err, rows) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
-        }
-        else{
+        } else {
+            console.log(rows);
             return res.status(200).send({ result: 'sucess', rows: rows })
         }
     })
@@ -52,7 +54,7 @@ router.get('/test/:id?:test', function(req,res){
 
 // get question by id
 
-router.get('/:id',  middleware.ensureAuthenticated, function(req, res) {
+router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 
     var filters = {};
     filters._id = req.params.id;
@@ -80,7 +82,7 @@ router.delete('/:id', middleware.ensureAuthenticated, function(req, res) {
 
 // put question
 
-router.put('/:id', middleware.ensureAuthenticated,  function(req, res){
+router.put('/:id', middleware.ensureAuthenticated, function(req, res) {
     var filters = {};
 
     filters._id = req.params.id;
@@ -94,7 +96,7 @@ router.put('/:id', middleware.ensureAuthenticated,  function(req, res){
 
 // add question
 
-router.post('/newQuestion',  middleware.ensureAuthenticated, function(req, res) {
+router.post('/newQuestion', middleware.ensureAuthenticated, function(req, res) {
 
     console.log('req.body', req.body);
 

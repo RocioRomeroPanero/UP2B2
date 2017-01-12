@@ -13,19 +13,19 @@
         </div>
         <div ng-show="trainingTest">
             <div class="list">
-                <div class="item item-divider">{{question.question}}
-                    <div class="item" ng-click="continueQuestion(1)">
+                <div class="item item-divider">Question {{contador+1}}: {{question.question}}
+                    <button class="button button-block button-positive" ng-click="continueQuestion(1)">
                         {{question.answer1}}
-                    </div>
-                    <div class="item" ng-click="continueQuestion(2)">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(2)">
                         {{question.answer2}}
-                    </div>
-                    <div class="item" ng-click="continueQuestion(3)">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(3)">
                         {{question.answer3}}
-                    </div>
-                    <div class="item" ng-click="continueQuestion(4)">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(4)">
                         {{question.answer4}}
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -35,10 +35,10 @@
                     </button>
                 </div>
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="ContinueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
+                    <button class="button button-block button-positive" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
                         Next question
                     </button>
-                    <button class="button button-block button-balanced" ng-show="contador+1==numberQuestions">
+                    <button class="button button-block button-balanced" ng-click="endTest()" ng-show="contador+1==numberQuestions">
                         Finish test
                     </button>
                 </div>
@@ -57,19 +57,19 @@
             }
             </style>
             <div class="list">
-                <div class="item item-divider">{{question.question}}
-                    <div class="item">
+                <div class="item item-divider">Question {{contador+1}}: {{question.question}}
+                    <button class="button button-block button-positive" ng-click="continueQuestion(1)">
                         {{question.answer1}}
-                    </div>
-                    <div class="item">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(2)">
                         {{question.answer2}}
-                    </div>
-                    <div class="item">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(3)">
                         {{question.answer3}}
-                    </div>
-                    <div class="item">
+                    </button>
+                    <button class="button button-block button-positive" ng-click="continueQuestion(4)">
                         {{question.answer4}}
-                    </div>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -79,10 +79,10 @@
                     </button>
                 </div>
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="ContinueQuestion()" ng-show="!(contador+1==numberQuestions)">
+                    <button class="button button-block button-positive" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
                         Next question
                     </button>
-                    <button class="button button-block button-balanced" ng-show="contador+1==numberQuestions">
+                    <button class="button button-block button-balanced" ng-click="endTest()" ng-show="contador+1==numberQuestions">
                         Finish test
                     </button>
                 </div>
