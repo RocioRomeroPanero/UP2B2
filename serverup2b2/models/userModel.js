@@ -14,11 +14,12 @@ let userSchema = mongoose.Schema({
 	dni: String,
 	creationTime: Date,
 	testDone: [{
-		id: String,
 		timeSpent: Number,
 		score: Number,
+		training: Boolean,
 		numberCorrect: Number,
-		numberWrong: Number
+		numberWrong: Number,
+		timeBonus: Boolean
 	}]
 });
 

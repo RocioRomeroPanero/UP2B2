@@ -23,11 +23,13 @@ let QuestionSchema = mongoose.Schema({
     numberCorrect: Number, // veces acertada	
     usersDone: [{
         id: String,
-        email: String
+        email: String,
+        training: Boolean
     }],
     usersCorrect: [{
         id: String,
-        email: String
+        email: String,
+        training: Boolean
     }],
     training: Boolean,
     test: Boolean,

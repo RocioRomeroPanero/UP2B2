@@ -11,20 +11,20 @@
                 Real test: Test with time and the final score will affect your account score
             </div>
         </div>
-        <div ng-show="trainingTest">
-            <div class="list">
-                <div class="item item-divider">Question {{contador+1}}: {{question.question}}
-                    <button class="button button-block button-positive" ng-click="continueQuestion(1)">
-                        {{question.answer1}}
+        <div ng-if="trainingTest">
+            <div class="list" ng-repeat="question in questions">
+                <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
+                    <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
+                        {{::question.answer1}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(2)">
-                        {{question.answer2}}
+                    <button class="button button-block " ng-class="{'button-positive': !active2, 'button-energized': active2}" ng-click="continueQuestion(2); active2=!active2; active3=false; active1=false; active4=false">
+                        {{::question.answer2}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(3)">
-                        {{question.answer3}}
+                    <button class="button button-block " ng-class="{'button-positive': !active3, 'button-energized': active3}" ng-click="continueQuestion(3); active3=!active3; active1=false; active2=false; active4=false">
+                        {{::question.answer3}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(4)">
-                        {{question.answer4}}
+                    <button class="button button-block " ng-class="{'button-positive': !active4, 'button-energized': active4}" ng-click="continueQuestion(4); active4=!active4; active1=false; active2=false; active3=false">
+                        {{::question.answer4}}
                     </button>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div ng-show="realTest">
+        <div ng-if="realTest">
             <div class="row">
                 <b class="progress-wrapper col col-33 col-offset-33">
                     {{humanizeDurationTimer(timer,'s')}}
@@ -56,19 +56,19 @@
                 border: 3px solid black;
             }
             </style>
-            <div class="list">
-                <div class="item item-divider">Question {{contador+1}}: {{question.question}}
-                    <button class="button button-block button-positive" ng-click="continueQuestion(1)">
-                        {{question.answer1}}
+            <div class="list" ng-repeat="question in questions">
+                <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
+                    <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
+                        {{::question.answer1}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(2)">
-                        {{question.answer2}}
+                    <button class="button button-block " ng-class="{'button-positive': !active2, 'button-energized': active2}" ng-click="continueQuestion(2); active2=!active2; active3=false; active1=false; active4=false">
+                        {{::question.answer2}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(3)">
-                        {{question.answer3}}
+                    <button class="button button-block " ng-class="{'button-positive': !active3, 'button-energized': active3}" ng-click="continueQuestion(3); active3=!active3; active1=false; active2=false; active4=false">
+                        {{::question.answer3}}
                     </button>
-                    <button class="button button-block button-positive" ng-click="continueQuestion(4)">
-                        {{question.answer4}}
+                    <button class="button button-block " ng-class="{'button-positive': !active4, 'button-energized': active4}" ng-click="continueQuestion(4); active4=!active4; active1=false; active2=false; active3=false">
+                        {{::question.answer4}}
                     </button>
                 </div>
             </div>
@@ -84,6 +84,33 @@
                     </button>
                     <button class="button button-block button-balanced" ng-click="endTest()" ng-show="contador+1==numberQuestions">
                         Finish test
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div ng-if="testEnded">
+            <div class="card">
+                <div class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                    <b>Test done! You got {{::correctas}} right answers from {{::numeroPreguntas}} questions in {{::tiempoUtilizado}} of {{::tiempoTotal}} available. Your score in this test is {{::resultadoFinal}}.
+                    </b> 
+                    <b ng-if="realTestEnd">This test wasn't a training test so it will affect your accounts score.</b>
+                    <b ng-if="trainingTestEnd">This test was a training test so it won't affect your accounts score.</b>
+                    <b>Here you can see your answers:</b>
+                </div>
+            </div>
+            <div ng-repeat="question in questionsEndTest">
+                <div class="item item-divider">Question {{::$index+1}}: {{::question.question}}
+                    <button class="button button-block" ng-class="{'button-positive': (question.selected != 1) && (question.correctAnswer != 1) || question.selected == 0, 'button-balanced': (question.selected == 1) && (question.correctAnswer == 1) || (question.selected != question.correctAnswer && question.selected != 1 && question.correctAnswer == 1) && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 1) && (question.selected == 1)}">
+                        {{::question.answer1}}
+                    </button>
+                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 2) && (question.correctAnswer != 2) || question.selected == 0, 'button-balanced': (question.selected == 2) && (question.correctAnswer == 2) || (question.selected != question.correctAnswer && question.selected != 2 && question.correctAnswer == 2) && (question.selected != 0)  , 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 2) && (question.selected == 2)}">
+                        {{::question.answer2}}
+                    </button>
+                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 3) && (question.correctAnswer != 3) || question.selected == 0, 'button-balanced': (question.selected == 3) && (question.correctAnswer == 3) || (question.selected != question.correctAnswer && question.selected != 3 && question.correctAnswer == 3)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 3) && (question.selected == 3)}">
+                        {{::question.answer3}}
+                    </button>
+                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 4) && (question.correctAnswer != 4) || question.selected == 0, 'button-balanced': (question.selected == 4) && (question.correctAnswer == 4) || (question.selected != question.correctAnswer && question.selected != 4 && question.correctAnswer == 4)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 4) && (question.selected == 4)}">
+                        {{::question.answer4}}
                     </button>
                 </div>
             </div>

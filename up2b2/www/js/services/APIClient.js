@@ -118,7 +118,7 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
                 return error;
             })
         },
-        getTest: function(userId, test){
+        getTest: function(userId, test) {
             var url = APIPaths.server + APIPaths.questions + APIPaths.test + "?id=" + userId + "&test=" + test;
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             return $http.get(url).then(function(response) {
@@ -126,6 +126,16 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             }, function(error) {
                 return error;
             })
+        },
+        resolveTest: function(toServer) {
+            var url = APIPaths.server + APIPaths.questions + APIPaths.test + APIPaths.resolve;
+            $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
+            return $http.post(url, toServer).then(function(response) {
+                return response;
+            }, function(error) {
+                return error;
+            })
+
         },
         modifyQuestion: function(questionId, valueToChange) {
             var url = APIPaths.server + APIPaths.questions + '/' + questionId;
@@ -145,12 +155,12 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
                 return error;
             })
         },
-        getRanking: function(){
+        getRanking: function() {
             var url = APIPaths.server + APIPaths.users + APIPaths.ranking;
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             return $http.get(url).then(function(response) {
                 return response;
-            }, function(error){
+            }, function(error) {
                 return error;
             });
         }

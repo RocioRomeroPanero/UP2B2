@@ -8,5 +8,6 @@ angular.module("starter.values", []).value("APIPaths", {
     modifyUser: "/userData/",
     newQuestion: "/newQuestion",
     ranking: "/ranking",
-    test: "/test"
+    test: "/test",
+    resolve : "/resolve"
 });

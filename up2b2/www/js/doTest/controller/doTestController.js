@@ -51,54 +51,69 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
             return duration.format(format);
         }
     };
+    
     /*
         END TIMER
     */
+
     $scope.choose = true;
+    $scope.realTest = false;
     var tiempoTotal = 0;
     var userId = sessionService.get("id");
-    var questions = [];
+    var userEmail = sessionService.get("email")
+    $scope.questions = [];
     var answers = [];
     var correctAnswers = [];
     $scope.numberQuestions = 0;
     $scope.contador = 0;
+    var typeTest = "";
+    $scope.testEnded = false;
     $scope.test = function(typeOfTest) {
 
         // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
 
         if (typeOfTest == "training") {
-
+            typeTest = "training";
             APIClient.getTest(userId, false).then(function(result) {
                 $scope.numberQuestions = result.data.rows.length;
 
-                questions = result.data.rows;
-                $scope.question = questions[0];
+                $scope.questions = result.data.rows;
                 console.log(result);
+                for (var i = 0; i < $scope.questions.length; i++) {
+                    // get correct answers from all questions
+                    correctAnswers[i] = $scope.questions[i].correctAnswer;
 
+                    if ($scope.questions[i].timeToAnswer !== undefined) {
+                        tiempoTotal += $scope.questions[i].timeToAnswer;
+                    }
+                    
+                }
                 $scope.choose = false;
                 $scope.trainingTest = true;
 
+                $scope.startTimer(tiempoTotal);
             }, function(err) {
                 console.log('error', err);
             });
         } else {
+            typeTest = "realTest";
             APIClient.getTest(userId, true).then(function(result) {
                 $scope.numberQuestions = result.data.rows.length;
 
-                questions = result.data.rows;
+                $scope.questions = result.data.rows;
                 // sumar los tiempos de todas las preguntas:
-
-                for (var i = 0; i < questions.length; i++) {
+                console.log($scope.questions);
+                for (var i = 0; i < $scope.questions.length; i++) {
                     // get correct answers from all questions
-                    correctAnswers[i] = questions[i].correctAnswer;
+                    correctAnswers[i] = $scope.questions[i].correctAnswer;
 
-                    if (questions[i].timeToAnswer !== undefined) {
-                        tiempoTotal += questions[i].timeToAnswer;
+                    if ($scope.questions[i].timeToAnswer !== undefined) {
+                        tiempoTotal += $scope.questions[i].timeToAnswer;
                     }
+                    $scope.tiempoTotal = tiempoTotal;
                 }
-                console.log('questions', questions);
-                console.log('corectAnswers',correctAnswers);
-                $scope.question = questions[0];
+                console.log('corectAnswers', correctAnswers);
+                //$scope.question = questions[0];
                 $scope.choose = false;
                 $scope.realTest = true;
                 $scope.startTimer(tiempoTotal);
@@ -115,29 +130,34 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
     }
 
     $scope.continueQuestion = function(answer) {
-        // al seleccionar la respuesta, tenemos que guardarla para luego calcular el resultado final
-        console.log('contador', $scope.contador);
+
         if (answer !== undefined) {
             answers[$scope.contador] = answer;
         } else if (answer == undefined && answers[$scope.contador] == undefined) {
             answers[$scope.contador] = 0;
         }
 
-        $scope.contador++;
-        $scope.question = questions[$scope.contador];
+        if ($scope.contador + 1 !== $scope.questions.length) {
+            // al seleccionar la respuesta, tenemos que guardarla para luego calcular el resultado final
+            console.log('contador', $scope.contador);
+            $scope.contador++;
+        }
         console.log('answers', answers);
     }
     $scope.backQuestion = function() {
-        console.log('contador', $scope.contador);
         $scope.contador--;
-        $scope.question = questions[$scope.contador];
     }
     $scope.endTest = function() {
 
+        if(answers[$scope.contador] == undefined){
+            answers[$scope.contador] = 0;
+        }
+
         $scope.pauseTimer();
-        var tiempoRestante = $scope.timer
+        var tiempoRestante = $scope.timer;
         var tercioTotal = tiempoTotal * (1 / 3);
         var puntuacion = 0;
+
         /* Si el tiempo es menor que el tiempo total de las preguntas, por ejemplo un 1/3%, tendrá un bonus de puntuación 
         Se podrá sumar:
             - Cada pregunta correcta será + 2 puntos
@@ -145,20 +165,110 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
             - Bonus por tiempo: + 5
         */
 
-        if (tiempoRestante > tercioTotal) {
-            puntuacion += 5;
+        /*
+            Al servidor tengo que enviarle: 
+                1) Puntuación del usuario
+                2) Para user model: testDone: {timeSpent, Score, numberCorrect, numberWrong, timeBonus}
+                3) Para question model:
+                    - Para usersDone: email e id del usuario
+                    - Para usersCorrect: email e id del usuario
+
+        */
+
+
+        var enviarServer = {
+            score: 0,
+            user: {
+                email: userEmail,
+                id: userId
+            },
+            testDone: {
+                timeSpent: tiempoTotal - tiempoRestante,
+                score: 0,
+                numberCorrect: 0,
+                numberWrong: 0,
+                timeBonus: false,
+                training: false
+            },
+            usersDone: [], // ids de las preguntas hechas
+
+        };
+
+
+        if (typeTest == "training") {
+            enviarServer.testDone.training = true;
+            $scope.realTestEnd = false;
+            $scope.trainingTestEnd = true;
         }
-        for(var i = 0; i<correctAnswers.length;i++){
-            if(correctAnswers[i] == answers[i]){
-                puntuacion += 2; 
-            }
-            else{
-                console.log('resp. fallida' + i);
-                puntuacion -= 2; 
-            }
+        else{
+            $scope.realTestEnd = true;
+            $scope.trainingTestEnd = false;
         }
 
+        if (tiempoRestante > tercioTotal) {
+            puntuacion += 5;
+            enviarServer.testDone.timeBonus = true;
+        }
+
+        var infoForEnd = $scope.questions;
+
+        for (var i = 0; i < correctAnswers.length; i++) {
+            // guardar la info de las preguntas hechas (usersDone)
+
+            var infoToPush = {};
+
+            infoForEnd[i].selected = answers[i];
+
+            if (correctAnswers[i] == answers[i]) {
+                infoToPush = {
+                    id: $scope.questions[i]._id,
+                    correct: true,
+                    training: enviarServer.testDone.training
+                }
+
+                puntuacion += 2;
+                console.log('resp correcta' + i)
+                enviarServer.usersDone.push(infoToPush);
+                enviarServer.testDone.numberCorrect += 1
+
+                // guardar la info de las respuestas correctas (usersCorrect)
+            } else {
+                console.log('resp. fallida' + i);
+                infoToPush = {
+                    id: $scope.questions[i]._id,
+                    correct: false,
+                    training: enviarServer.testDone.training
+                }
+                enviarServer.usersDone.push(infoToPush);
+                puntuacion -= 2;
+                enviarServer.testDone.numberWrong += 1
+            }
+            console.log('enviarServer', enviarServer);
+        }
+
+        enviarServer.score = puntuacion;
+        enviarServer.testDone.score = puntuacion;
+
         console.log('endTest');
+        APIClient.resolveTest(enviarServer).then(function(result) {
+            // ahora se mostrará en la pantalla los resultados y estadísticas del test hecho,
+            // junto con lo que se contestó bien y mal
+            console.log('infoForEnd', infoForEnd);
+            $scope.questionsEndTest = infoForEnd;
+            $scope.resultadoFinal = enviarServer.score;
+            $scope.correctas = enviarServer.testDone.numberCorrect;
+            $scope.numeroPreguntas = enviarServer.testDone.numberCorrect + enviarServer.testDone.numberWrong;
+            $scope.tiempoUtilizado =  $scope.humanizeDurationTimer(enviarServer.testDone.timeSpent, 's');
+            $scope.realTest = false;
+            $scope.trainingTest = false;
+            $scope.testEnded = true;
+            $scope.tiempoTotal = $scope.humanizeDurationTimer(tiempoTotal, 's');
+
+        }, function(err) {
+            // ups! un error
+            console.log(err);
+        });
+
     }
 
 });
