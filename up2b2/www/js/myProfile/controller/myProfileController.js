@@ -5,12 +5,27 @@ angular.module('myProfile.module').controller('myProfileController', function($s
         $state.go('app.login');
     }
 */
-    $scope.model = {};
-    $scope.email = sessionService.get('email');
-    $scope.fullName = sessionService.get('fullName');
-    $scope.degree = sessionService.get('degree');
-    $scope.score = sessionService.get('score');
-    $scope.dni = sessionService.get('dni');
+
+    var initialize = function() {
+
+        APIClient.getUser(sessionService.get('id')).then(function(result) {
+            console.log('result', result);
+            $scope.model = result.data.rows[0];
+
+            console.log($scope.model);
+            $scope.email = sessionService.get('email');
+            $scope.fullName = sessionService.get('fullName');
+            $scope.degree = sessionService.get('degree');
+            $scope.score = sessionService.get('score');
+            $scope.dni = sessionService.get('dni');
+        }, function(err) {
+
+        })
+    }
+    initialize();
+
+
+
     $scope.modifyPass = function() {
         $scope.data = {};
         $ionicPopup.show({

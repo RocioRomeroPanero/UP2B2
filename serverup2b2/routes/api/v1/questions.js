@@ -36,10 +36,12 @@ router.get('/test', middleware.ensureAuthenticated, function(req, res) {
     console.log('req.query.test', req.query.test);
     if (req.query.test === 'true') {
         console.log('paso por aqui === true');
-        query = { test: true, usersCorrect: { $nin: [{ id: req.query.id }] } };
+        //query = { $and:[{ test: true}, {usersCorrect: { $nin: [{ id: req.query.id }] } } ]};
+        query = { $and:[{ test: true}, {'usersCorrect.id': { $nin: req.query.id  } } ]};
     } else {
         console.log('paso por aqui === false');
-        query = { training: true, usersCorrect: { $nin: [{ id: req.query.id }] } };
+        //query = { $and:[{ training: true}, {usersCorrect: { $nin: [{ id: req.query.id }] } }]};
+        query = { $and:[{ training: true }, {'usersCorrect.id': { $nin: req.query.id  } } ]};
     }
 
     // get questions that don't have the id of the user in usersCorrect.
@@ -83,7 +85,7 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
-
+        req.body.testDone.date = Date.now();
         /*SOLO SI ES DE TIPO*/
         // nueva puntuación para actualizar al usuario 
         if (req.body.testDone.training == false) {

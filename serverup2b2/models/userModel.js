@@ -19,7 +19,8 @@ let userSchema = mongoose.Schema({
 		training: Boolean,
 		numberCorrect: Number,
 		numberWrong: Number,
-		timeBonus: Boolean
+		timeBonus: Boolean,
+		date: Date
 	}]
 });
 

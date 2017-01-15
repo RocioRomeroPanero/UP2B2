@@ -32,6 +32,8 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             return $http.get(url).then(function(response) {
                 return response;
+            }, function(err){
+                return err;
             });
         },
         getUser: function(user) {
@@ -39,6 +41,8 @@ angular.module('starter.services', []).factory('APIClient', function($http, APIP
             $http.defaults.headers.common.Authorization = "Bearer " + sessionService.get('token');
             return $http.get(url).then(function(response) {
                 return response;
+            }, function(err){
+                return err;
             })
         },
         newUser: function(userEmail, pass, name, degree, admin, dni) {
