@@ -19,8 +19,6 @@ let QuestionSchema = mongoose.Schema({
     answer3: String,
     answer4: String,
     correctAnswer: String, // respuesta correcta: string
-    numberDone: Number, // veces respondida
-    numberCorrect: Number, // veces acertada	
     usersDone: [{
         id: String,
         email: String,

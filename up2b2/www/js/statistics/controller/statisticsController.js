@@ -15,15 +15,12 @@ angular.module('statistics.module').controller('statisticsController', function(
 
         APIClient.getUsers().then(function(response) {
             console.log(response);
-
             $scope.users = response.data.rows;
             $scope.byUserView = true;
             $scope.byQuestionView = false;
         }, function(err) {
             console.log('err');
         })
-
-
     }
 
     $scope.humanizeDurationTimer = function(input, units) {

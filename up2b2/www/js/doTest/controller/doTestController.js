@@ -180,7 +180,8 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
             score: 0,
             user: {
                 email: userEmail,
-                id: userId
+                id: userId,
+                training: false
             },
             testDone: {
                 timeSpent: tiempoTotal - tiempoRestante,
@@ -190,18 +191,21 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
                 timeBonus: false,
                 training: false
             },
-            usersDone: [], // ids de las preguntas hechas
+            usersDone: [] // ids de las preguntas hechas
 
         };
 
 
         if (typeTest == "training") {
+
             enviarServer.testDone.training = true;
+            enviarServer.user.training = true;
             $scope.realTestEnd = false;
             $scope.trainingTestEnd = true;
         }
         else{
             $scope.realTestEnd = true;
+            enviarServer.user.training = false;
             $scope.trainingTestEnd = false;
         }
 
@@ -249,7 +253,7 @@ angular.module('doTest.module').controller('doTestController', function( /*utils
         enviarServer.score = puntuacion;
         enviarServer.testDone.score = puntuacion;
 
-        console.log('endTest');
+        console.log('endTest', enviarServer);
         APIClient.resolveTest(enviarServer).then(function(result) {
             // ahora se mostrará en la pantalla los resultados y estadísticas del test hecho,
             // junto con lo que se contestó bien y mal

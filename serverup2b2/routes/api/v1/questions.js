@@ -125,9 +125,7 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
                     console.log('meh');
                 })
 
-                updatingQuestions.push(updatingQuestion);
             }
-            console.log('updatingQuestions', updatingQuestions);
 
             return res.status(200).send({ result: "test done" });
         })
