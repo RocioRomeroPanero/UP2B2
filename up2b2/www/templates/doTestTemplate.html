@@ -12,7 +12,7 @@
             </div>
         </div>
         <div ng-if="trainingTest">
-            <div class="list" ng-repeat="question in questions">
+            <div class="list" ng-repeat="question in questions" ng-if="questions.length != 0">
                 <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}
@@ -28,7 +28,10 @@
                     </button>
                 </div>
             </div>
-            <div class="row">
+            <div ng-if="questions.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                <b> Looks like you already did all the tests available! </b>
+            </div>
+            <div class="row" ng-if="questions.length != 0">
                 <div class="col col50">
                     <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
                         Before question
@@ -45,7 +48,7 @@
             </div>
         </div>
         <div ng-if="realTest">
-            <div class="row">
+            <div class="row" ng-if="questions.length != 0">
                 <b class="progress-wrapper col col-33 col-offset-33">
                     {{humanizeDurationTimer(timer,'s')}}
                 </b>
@@ -56,7 +59,7 @@
                 border: 3px solid black;
             }
             </style>
-            <div class="list" ng-repeat="question in questions">
+            <div class="list" ng-if="questions.length != 0" ng-repeat="question in questions">
                 <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}
@@ -72,7 +75,10 @@
                     </button>
                 </div>
             </div>
-            <div class="row">
+            <div ng-if="questions.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                <b> Looks like you already did all the tests available! </b>
+            </div>
+            <div class="row" ng-if="questions.length != 0">
                 <div class="col col50">
                     <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
                         Before question
@@ -89,13 +95,29 @@
             </div>
         </div>
         <div ng-if="testEnded">
+            <div ng-if="questions.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                <b> Looks like you already did all the tests available! </b>
+            </div>
+        </div>
+        <div ng-if="testEnded && questions.length != 0">
             <div class="card">
                 <div class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
                     <b>Test done! You got {{::correctas}} right answers from {{::numeroPreguntas}} questions in {{::tiempoUtilizado}} of {{::tiempoTotal}} available. Your score in this test is {{::resultadoFinal}}.
-                    </b> 
+                    </b>
                     <b ng-if="realTestEnd">This test wasn't a training test so it will affect your accounts score.</b>
                     <b ng-if="trainingTestEnd">This test was a training test so it won't affect your accounts score.</b>
-                    <b>Here you can see your answers:</b>
+                    <div class="row">
+                        <div class="col col50">
+                            <button class="button button-block button-positive" ng-click="navigate('ranking')">
+                                Ranking
+                            </button>
+                        </div>
+                        <div class="col col50">
+                            <button class="button button-block button-positive"  ng-click="navigate('profile')">
+                                My profile
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div ng-repeat="question in questionsEndTest">

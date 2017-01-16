@@ -6,6 +6,7 @@ angular
     $stateProvider
       .state('app.doTest', {
         url: '/doTest',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/doTestTemplate.html',

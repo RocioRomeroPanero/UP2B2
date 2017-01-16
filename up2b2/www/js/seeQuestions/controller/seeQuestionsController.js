@@ -7,11 +7,17 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     var initiate = function() {
         APIClient.getQuestions().then(
             function(data) {
-                console.log(data);
-                $scope.questions = data.data.rows;
+                if (result.status !== 200) {
+                    utils.errorPopUp();
+                } else {
+                    console.log(data);
+                    $scope.questions = data.data.rows;
+                }
             },
             function(err) {
                 console.log(err);
+                utils.errorPopUp();
+
             }
         )
     }
@@ -29,13 +35,19 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 onTap: function(e) {
                     return APIClient.deleteQuestion(id).then(
                         function(data) {
+                            if (result.status !== 200) {
+                    utils.errorPopUp();
+                } else {
+
                             console.log('data', data);
                             //question deleted
                             utils.removeByAttr($scope.questions, '_id', id);
+                        }
 
                         },
                         function(error) {
                             console.log('error', error);
+                            utils.errorPopUp();
                         }
 
                     )
@@ -80,12 +92,11 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         toChange = {
                             correctAnswer: $scope.data.newValue
                         }
-                    } else if (type == "timeToAnswer"){
+                    } else if (type == "timeToAnswer") {
                         toChange = {
-                            timeToAnswer : $scope.data.newValue
+                            timeToAnswer: $scope.data.newValue
                         }
-                    }
-                     else {
+                    } else {
                         toChange = {
                             answer4: $scope.data.newValue
                         }
@@ -114,8 +125,8 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify type of question",
-            template: '<div><input type="checkbox" id="training" ng-model="data.newTrainingValue" value="training">For training'+
-            '<input type="checkbox" id="realTest" ng-model="data.newTestValue" value="realTest">For real test</div>',
+            template: '<div><input type="checkbox" id="training" ng-model="data.newTrainingValue" value="training">For training' +
+                '<input type="checkbox" id="realTest" ng-model="data.newTestValue" value="realTest">For real test</div>',
             scope: $scope,
             buttons: [{
                 text: 'OK',

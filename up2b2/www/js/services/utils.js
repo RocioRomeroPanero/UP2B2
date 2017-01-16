@@ -24,6 +24,27 @@ angular.module('starter.utils', []).factory('utils', function(sessionService) {
             }else{
                 return true;
             }
+        },
+        errorPopUp: function(){
+            $ionicPopup.show({
+            title: 'Error',
+            subTitle: 'Ups! Seems to be an error, please login again.',
+            scope: $scope,
+            buttons: [{
+                    text: 'OK!',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        sessionService.clear();
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        $state.go('app.login');
+                        return;
+                    }
+                }
+
+            ]
+        })
         }
 
     }

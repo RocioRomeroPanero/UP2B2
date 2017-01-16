@@ -5,6 +5,7 @@ angular
   .config(function config($stateProvider) {
     $stateProvider
       .state('app.login', {
+        cache: false,
         url: '/login',
         views: {
           'menuContent': {

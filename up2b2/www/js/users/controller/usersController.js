@@ -1,6 +1,6 @@
 'use strict';
-angular.module('users.module').controller('usersController', function($scope, /*Utils,*/utils, APIClient, $ionicPopup, sessionService) {
-    
+angular.module('users.module').controller('usersController', function($scope, utils, APIClient, $ionicPopup, sessionService) {
+
     /*if (utils.isAuthenticated() == false) {
         $state.go('app.login');
     }*/
@@ -10,16 +10,25 @@ angular.module('users.module').controller('usersController', function($scope, /*
     var initiate = function() {
         APIClient.getUsers().then(
             function(data) {
-                $scope.users = data.data.rows;
-                for (var i = 0; i < $scope.users.length; i++) {
-                    if ($scope.users[i].admin == true) {
-                        $scope.users[i].admin = 'Yes';
-                    } else {
-                        $scope.users[i].admin = 'No';
+                if (result.status !== 200) {
+                    utils.errorPopUp();
+                } else {
+
+                    $scope.users = data.data.rows;
+                    for (var i = 0; i < $scope.users.length; i++) {
+                        if ($scope.users[i].admin == true) {
+                            $scope.users[i].admin = 'Yes';
+                        } else {
+                            $scope.users[i].admin = 'No';
+                        }
                     }
                 }
+            },
+            function(error) {
+                utils.errorPopUp();
             }
         )
+
     }
 
     initiate();
@@ -35,12 +44,18 @@ angular.module('users.module').controller('usersController', function($scope, /*
                 onTap: function(e) {
                     return APIClient.deleteUser(id).then(
                         function(data) {
-                            console.log('data', data);
-                            //user deleted
-                            utils.removeByAttr($scope.users, '_id', id);
+                            if (result.status !== 200) {
+                                utils.errorPopUp();
+                            } else {
+
+                                console.log('data', data);
+                                //user deleted
+                                utils.removeByAttr($scope.users, '_id', id);
+                            }
 
                         },
                         function(error) {
+                            utils.errorPopUp();
                             console.log('error', error);
                         }
 
@@ -72,10 +87,16 @@ angular.module('users.module').controller('usersController', function($scope, /*
 
                     return APIClient.modifyUser(id, $scope.data.newValue, type).then(
                         function(data) {
-                            initiate();
+                            if (result.status !== 200) {
+                                utils.errorPopUp();
+                            } else {
+
+                                initiate();
+                            }
                         },
                         function(error) {
                             console.log('error', error);
+                            utils.errorPopUp();
                         }
 
                     )
@@ -101,21 +122,27 @@ angular.module('users.module').controller('usersController', function($scope, /*
                         function(data) {
                             APIClient.getUsers().then(
                                 function(data) {
-                                    console.log(data);
-                                    $scope.users = data.data.rows;
-                                    for (var i = 0; i < $scope.users.length; i++) {
-                                        if ($scope.users[i].admin == true) {
-                                            $scope.users[i].admin = 'Yes';
-                                        } else {
-                                            $scope.users[i].admin = 'No';
-                                        }
+                                    if (result.status !== 200) {
+                                        utils.errorPopUp();
+                                    } else {
 
+                                        console.log(data);
+                                        $scope.users = data.data.rows;
+                                        for (var i = 0; i < $scope.users.length; i++) {
+                                            if ($scope.users[i].admin == true) {
+                                                $scope.users[i].admin = 'Yes';
+                                            } else {
+                                                $scope.users[i].admin = 'No';
+                                            }
+
+                                        }
                                     }
                                 }
                             )
                         },
                         function(error) {
                             console.log('error', error);
+                            utils.errorPopUp();
                         }
                     )
                 }

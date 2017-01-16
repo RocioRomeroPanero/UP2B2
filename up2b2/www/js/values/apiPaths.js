@@ -9,5 +9,6 @@ angular.module("starter.values", []).value("APIPaths", {
     newQuestion: "/newQuestion",
     ranking: "/ranking",
     test: "/test",
-    resolve : "/resolve"
+    resolve : "/resolve",
+    upload: "/upload"
 });

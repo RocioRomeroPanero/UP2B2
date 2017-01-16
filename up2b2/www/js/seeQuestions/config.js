@@ -6,6 +6,7 @@ angular
     $stateProvider
       .state('app.seeQuestions', {
         url: '/seeQuestions',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/seeQuestionsTemplate.html',

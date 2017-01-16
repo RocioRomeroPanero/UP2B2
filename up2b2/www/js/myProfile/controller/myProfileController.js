@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myProfile.module').controller('myProfileController', function($scope, APIClient, $ionicPopup, sessionService) {
+angular.module('myProfile.module').controller('myProfileController', function($scope, APIClient, $ionicPopup, sessionService, utils) {
     /*if (utils.isAuthenticated() == false) {
         $state.go('app.login');
     }
@@ -10,14 +10,19 @@ angular.module('myProfile.module').controller('myProfileController', function($s
 
         APIClient.getUser(sessionService.get('id')).then(function(result) {
             console.log('result', result);
-            $scope.model = result.data.rows[0];
+            if (result.status !== 200) {
+                utils.errorPopUp();
+            } else {
 
-            console.log($scope.model);
-            $scope.email = sessionService.get('email');
-            $scope.fullName = sessionService.get('fullName');
-            $scope.degree = sessionService.get('degree');
-            $scope.score = sessionService.get('score');
-            $scope.dni = sessionService.get('dni');
+                $scope.model = result.data.rows[0];
+
+                console.log($scope.model);
+                $scope.email = sessionService.get('email');
+                $scope.fullName = sessionService.get('fullName');
+                $scope.degree = sessionService.get('degree');
+                $scope.score = sessionService.get('score');
+                $scope.dni = sessionService.get('dni');
+            }
         }, function(err) {
 
         })

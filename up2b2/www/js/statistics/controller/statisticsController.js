@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('statistics.module').controller('statisticsController', function($scope, APIClient) {
+angular.module('statistics.module').controller('statisticsController', function(utils, $scope, APIClient) {
 
     var initialize = function() {
         $scope.byUserView = false;
@@ -14,12 +14,18 @@ angular.module('statistics.module').controller('statisticsController', function(
         // Traerse todos los usuarios y para cada usuario mostrar los testDone
 
         APIClient.getUsers().then(function(response) {
+            if (result.status !== 200) {
+                    utils.errorPopUp();
+                } else {
+
             console.log(response);
             $scope.users = response.data.rows;
             $scope.byUserView = true;
             $scope.byQuestionView = false;
+        }
         }, function(err) {
             console.log('err');
+            utils.errorPopUp();
         })
     }
 
@@ -48,13 +54,19 @@ angular.module('statistics.module').controller('statisticsController', function(
         //traerse todas las preguntas
 
         APIClient.getQuestions().then(function(result){
+            if (result.status !== 200) {
+                    utils.errorPopUp();
+                } else {
+
         	console.log('result getQuestions', result)
         	$scope.questions = result.data.rows;
 
         $scope.byUserView = false;
         $scope.byQuestionView = true;
+    }
         }, function(err){
 			console.log('err getQuestions', err)
+            utils.errorPopUp();
         });
 
     }

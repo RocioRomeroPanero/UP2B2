@@ -29,19 +29,36 @@
                 <span class="input-label">Seconds to answer the question</span>
                 <input type="number" ng-model="model.timeToAnswer">
             </label>
-
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Audio</span>
                 <input type="file" ng-model="model.file" id="file" name="file">
             </label>
-            <input type="checkbox" id="training" ng-model="model.training" value="training"> <label for="cbox2">For training</label>
-            <input type="checkbox" id="realTest" ng-model="model.test" value="realTest"> <label for="cbox2">For real test</label>
+            <input type="checkbox" id="training" ng-model="model.training" value="training">
+            <label for="cbox2">For training</label>
+            <input type="checkbox" id="realTest" ng-model="model.test" value="realTest">
+            <label for="cbox2">For real test</label>
         </div>
         <button class="button button-block button-calm" ng-click="addQuestion()">
             Add
         </button>
-       <!--  <audio controls id='audio'>
-            <source src="{{model.pruebaAudio}}" type="mp3">
-        </audio> -->
+        <button ng-click="upload()">PRUEBa</button>
+        <!--  <form>
+                Single Image with validations
+            <input 
+               type="file" 
+               ngf-select 
+               ng-model="up.file" 
+               name="file" 
+               ngf-pattern="'image/*'"
+               accept="image/*" 
+               ngf-max-size="20MB" 
+               />
+            Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+            <i ng-show="up.upload_form.file.$error.required">*required</i><br>
+            <i ng-show="up.upload_form.file.$error.maxSize">File too large 
+            {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+            <button type="submit" ng-click="up.submit()">submit</button>
+            <p>{{up.progress}}
+        </form> -->
     </ion-content>
 </ion-view>

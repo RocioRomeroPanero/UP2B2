@@ -10,22 +10,24 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 var mailer = require('express-mailer');
+var multer = require('multer');
+
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 mailer.extend(app, {
-  from: 'no-reply@example.com',
-  host: 'smtp.gmail.com', // hostname
-  secureConnection: true, // use SSL
-  port: 465, // port for secure SMTP
-  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
-  auth: {
-    user: config.user,
-    pass: config.pass
-  }
+    from: 'no-reply@example.com',
+    host: 'smtp.gmail.com', // hostname
+    secureConnection: true, // use SSL
+    port: 465, // port for secure SMTP
+    transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+    auth: {
+        user: config.user,
+        pass: config.pass
+    }
 });
 
 var http = require('http');
@@ -38,13 +40,14 @@ server.on('listening', function() {
 });
 
 // Models
-require('./models/userModel'); 
+require('./models/userModel');
 require('./models/questionModel');
 
 // Routes for API/V1
 var apiUsers = require('./routes/api/v1/users');
 var apiQuestions = require('./routes/api/v1/questions');
 var apiPassword = require('./routes/api/v1/password');
+var apiUpload = require('./routes/api/v1/upload');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,9 +56,9 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -66,15 +69,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+var storage = multer.diskStorage({ //multers disk storage settings
+    destination: function(req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function(req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
+    }
+});
+
+var upload = multer({ //multer settings
+    storage: storage
+}).single('file');
+
 // Routes for API/V1
 app.use('/api/v1/users', apiUsers); //registro de la ruta
 app.use('/api/v1/questions', apiQuestions);
 app.use('/api/v1/password', apiPassword);
+app.use('upload', apiUpload);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -82,23 +100,23 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 module.exports = app;

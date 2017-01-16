@@ -5,6 +5,9 @@ angular.module('starter.session', []).factory('sessionService', function($http, 
         },
         store: function(name, details){
             return localStorage.setItem(name, details);
+        },
+        clear: function () {
+            localStorage.clear();
         }
     }
 

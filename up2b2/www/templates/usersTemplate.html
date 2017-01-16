@@ -23,6 +23,9 @@
                     <i class="icon ion-ios-compose-outline" ng-click="modifyAdmin(user._id, user.fullName)"></i>
                 </div>
             </div>
+            <div ng-if="users.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                <b> There isn't any user yet! </b>
+            </div>
         </div>
     </ion-content>
 </ion-view>

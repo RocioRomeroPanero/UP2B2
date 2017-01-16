@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('login.module').controller('loginController', function($state, $scope, APIClient, $ionicPopup, sessionService) {
+angular.module('login.module').controller('loginController', function(utils,$ionicSideMenuDelegate, $ionicHistory, $state, $scope, APIClient, $ionicPopup, sessionService) {
 
     $scope.model = {};
+
+    $scope.$root.showMenuIcon = false;
 
     $scope.newPass = function() {
         $scope.data = {};
@@ -17,8 +19,7 @@ angular.module('login.module').controller('loginController', function($state, $s
                     onTap: function(e) {
                         return forgotPass($scope.data.email);
                     }
-                },
-                {
+                }, {
                     text: 'Cancel',
                     type: 'button-positive',
                     onTap: function() {
@@ -31,7 +32,6 @@ angular.module('login.module').controller('loginController', function($state, $s
     }
 
     var forgotPass = function(email) {
-
         APIClient.forgotPassword(email).then(
             function(data) {
                 if (data.status == 200) {
@@ -80,10 +80,25 @@ angular.module('login.module').controller('loginController', function($state, $s
                     sessionService.store('id', data.data.data[0]._id);
                     sessionService.store('dni', data.data.data[0].dni);
                     sessionService.store('token', data.data.data[0].token);
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
                     if (data.data.data[0].admin == true) {
-                        $state.go('app.administration');
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        $scope.$root.showMenuIcon = true;
+                        $scope.administrator = true;
+                        $state.go('app.administration', {}, { reload: true });
+
+
                     } else {
-                        $state.go('app.myProfile');
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        $scope.administrator = false;
+                        $scope.$root.showMenuIcon = true;
+                        $state.go('app.myProfile', {}, { reload: true });
                     }
                 } else {
                     //not success
@@ -98,6 +113,9 @@ angular.module('login.module').controller('loginController', function($state, $s
                         ]
                     })
                 }
+            },
+            function(error) {
+                utils.errorPopUp();
             }
         )
     };

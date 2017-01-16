@@ -6,6 +6,7 @@ angular
     $stateProvider
       .state('app.ranking', {
         url: '/ranking',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/rankingTemplate.html',

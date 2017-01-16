@@ -1,9 +1,11 @@
 'use strict';
 
-angular.module('administration.module').controller('administrationController', function( /*utils, */ $scope, APIClient, $ionicPopup, sessionService) {
+angular.module('administration.module').controller('administrationController', function( utils, $scope, APIClient, $ionicPopup, sessionService) {
     /*if (utils.isAuthenticated() == false || utils.isAdmin() == false) {
         $state.go('app.login');
     }*/
+    $scope.$root.showMenuIcon = true;
+    
     $scope.addUser = function() {
         $scope.data = {};
         $ionicPopup.show({
