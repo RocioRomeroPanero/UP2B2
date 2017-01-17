@@ -17,13 +17,30 @@ router.post('', function(req, res) {
         var file = files.file;
         var username = fields.username;
         var tempPath = file.path;
-        var targetPath = path.resolve('./public/photos/' + file.name);
+
+        /*
+			rocio
+        */
+        var nombresSeparados = file.name.split('.');
+        var nombreSinExtension = "";
+        for(var i=0; i<nombresSeparados.length - 1 ;i++){
+        	nombreSinExtension += nombresSeparados[i];
+        }
+        console.log('nombreSinExtension ',nombreSinExtension);
+        nombreSinExtension += Date.now();
+        var nombreConExtension = nombreSinExtension + '.' + nombresSeparados[nombresSeparados.length - 1];
+        /*
+			/rocio
+        */
+        console.log('file.name',file.name)
+        console.log('file splitted', file.name.split('.'))
+        var targetPath = path.resolve('./public/files/' + nombreConExtension);
         fs.rename(tempPath, targetPath, function(err) {
             if (err) {
                 throw err
             }
             logger.debug(file.name + " upload complete for user: " + username);
-            return res.json({ path: 'photos/' + username + '/' + file.name })
+            return res.json({ path: 'files/'  + nombreConExtension, fileName: nombreConExtension })
         })
     });
 });

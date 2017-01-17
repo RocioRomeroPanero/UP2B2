@@ -204,6 +204,7 @@ router.post('/newQuestion', middleware.ensureAuthenticated, function(req, res) {
     question.test = req.body.test;
     question.training = req.body.training;
     question.timeToAnswer = req.body.timeToAnswer;
+    question.files = req.body.files;
 
     let questionToSave = new Question(question);
 

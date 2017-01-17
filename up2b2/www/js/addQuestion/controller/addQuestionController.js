@@ -5,22 +5,7 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     var prueba = {};
 
     $scope.$root.showMenuIcon = true;
-    $scope.addQuestion = function() {
-
-        if ($scope.model.training == undefined) {
-            $scope.model.training = false;
-        }
-        if ($scope.model.test == undefined) {
-            $scope.model.test = false;
-        }
-        console.log($scope.model);
-        return APIClient.addQuestion($scope.model).then(
-            function(data) {
-                console.log(data);
-            }
-        )
-    }
-
+    
 
     var uploader = $scope.uploader = new FileUploader({
         url: APIPaths.server + APIPaths.upload
@@ -45,6 +30,7 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
         }
     });
 
+    var nombresArchivos = [];
     // CALLBACKS
 
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
@@ -76,8 +62,22 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     };
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
+        nombresArchivos.push(response.fileName);
     };
     uploader.onCompleteAll = function() {
-        console.info('onCompleteAll');
+        console.info('onCompleteAll', nombresArchivos);
+        if ($scope.model.training == undefined) {
+            $scope.model.training = false;
+        }
+        if ($scope.model.test == undefined) {
+            $scope.model.test = false;
+        }
+        $scope.model.files = nombresArchivos;
+        console.log($scope.model);
+        return APIClient.addQuestion($scope.model).then(
+            function(data) {
+                console.log(data);
+            }
+        )
     };
 });
