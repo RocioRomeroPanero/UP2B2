@@ -13,6 +13,7 @@
     "ejs": "^2.5.2",
     "express": "~4.13.4",
     "express-mailer": "^0.3.1",
+    "formidable": "^1.1.1",
     "fs": "0.0.1-security",
     "jade": "~1.11.0",
     "jwt-simple": "^0.5.0",
@@ -24,6 +25,7 @@
     "nodemailer": "^2.6.4",
     "random-password-generator": "0.0.3",
     "serve-favicon": "~2.3.0",
-    "sha256": "^0.2.0"
+    "sha256": "^0.2.0",
+    "winston": "^2.3.0"
   }
 }

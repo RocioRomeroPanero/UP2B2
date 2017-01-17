@@ -87,7 +87,7 @@ var upload = multer({ //multer settings
 app.use('/api/v1/users', apiUsers); //registro de la ruta
 app.use('/api/v1/questions', apiQuestions);
 app.use('/api/v1/password', apiPassword);
-app.use('upload', apiUpload);
+app.use('/api/v1/upload', apiUpload);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
