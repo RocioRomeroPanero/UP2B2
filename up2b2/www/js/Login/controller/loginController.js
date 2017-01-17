@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('login.module').controller('loginController', function(utils,$ionicSideMenuDelegate, $ionicHistory, $state, $scope, APIClient, $ionicPopup, sessionService) {
+angular.module('login.module').controller('loginController', function(utils, $ionicSideMenuDelegate, $ionicHistory, $state, $scope, APIClient, $ionicPopup, sessionService) {
 
     $scope.model = {};
 
@@ -88,17 +88,18 @@ angular.module('login.module').controller('loginController', function(utils,$ion
                             disableBack: true
                         });
                         $scope.$root.showMenuIcon = true;
-                        $scope.administrator = true;
-                        $state.go('app.administration', {}, { reload: true });
 
+                        $scope.administrator = true;
+                        $state.go('app.administration');
 
                     } else {
                         $ionicHistory.nextViewOptions({
                             disableBack: true
                         });
+
                         $scope.administrator = false;
                         $scope.$root.showMenuIcon = true;
-                        $state.go('app.myProfile', {}, { reload: true });
+                        $state.go('app.myProfile');
                     }
                 } else {
                     //not success

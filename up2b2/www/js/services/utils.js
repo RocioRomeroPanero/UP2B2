@@ -12,39 +12,42 @@ angular.module('starter.utils', []).factory('utils', function(sessionService) {
             return arr;
         },
         isAuthenticated: function() {
-            if(sessionService.get('token') == undefined){
+            if (sessionService.get('token') == undefined) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         },
-        isAdmin: function(){
-            if(sessionService.get('admin') == false){
+        isAdmin: function() {
+            console.log('isAdmin?');
+            if (sessionService.get('admin') == 'false') {
+                console.log('false is admin');
                 return false;
-            }else{
+            } else {
+                console.log('true is admin');
                 return true;
             }
         },
-        errorPopUp: function(){
+        errorPopUp: function() {
             $ionicPopup.show({
-            title: 'Error',
-            subTitle: 'Ups! Seems to be an error, please login again.',
-            scope: $scope,
-            buttons: [{
-                    text: 'OK!',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        sessionService.clear();
-                        $ionicHistory.nextViewOptions({
-                            disableBack: true
-                        });
-                        $state.go('app.login');
-                        return;
+                title: 'Error',
+                subTitle: 'Ups! Seems to be an error, please login again.',
+                scope: $scope,
+                buttons: [{
+                        text: 'OK!',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            sessionService.clear();
+                            $ionicHistory.nextViewOptions({
+                                disableBack: true
+                            });
+                            $state.go('app.login');
+                            return;
+                        }
                     }
-                }
 
-            ]
-        })
+                ]
+            })
         }
 
     }

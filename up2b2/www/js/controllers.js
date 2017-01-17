@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, sessionService, $ionicPopup,$ionicHistory,$state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, sessionService, $ionicPopup, $ionicHistory, $state, utils) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -8,6 +8,17 @@ angular.module('starter.controllers', [])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
+
+    $scope.$on('$ionicView.enter', function(e) {
+        console.log('paso por aquiiiiii');
+        if (utils.isAdmin() == false) {
+            console.log('paso por aquiiiiii1');
+            $scope.administrator = false;
+        } else {
+            console.log('paso por aquiiiiii2');
+            $scope.administrator = true;
+        }
+    });
 
     $scope.disconnect = function() {
         // pop-up está seguro?
@@ -44,14 +55,3 @@ angular.module('starter.controllers', [])
 
 
 })
-
-
-/*.controller('LoginController', function($scope, $ionicModal, $timeout) {
-  $scope.prueba = 'patata';
-  console.log('fsdfsd');
-  $scope.clkkk = function(){
-    console.log('pr');
-    APIClient.getUsers();
-  }
-});
-*/

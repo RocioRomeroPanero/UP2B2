@@ -5,6 +5,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
         $state.go('app.login');
     }
 */
+    $scope.$root.showMenuIcon = true;
 
     var initialize = function() {
 
@@ -24,7 +25,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                 $scope.dni = sessionService.get('dni');
             }
         }, function(err) {
-
+            utils.errorPopUp();
         })
     }
     initialize();

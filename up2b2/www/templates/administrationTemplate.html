@@ -1,6 +1,6 @@
 <ion-view view-title="Administration">
     <ion-content>
-        <div class="list" ng-if="administration">
+        <div class="list" ng-if="administrator">
             <div class="item item-divider">
                 Users
             </div>
@@ -26,7 +26,7 @@
                 See and modify questions
             </a>
         </div>
-        <div ng-if="!administration" style="background-color: #ffff99; text-align: center">
+        <div ng-if="!administrator" style="background-color: #ffff99; text-align: center">
             <b> You can't access the administration section because you're not admin </b>
         </div>
     </ion-content>
