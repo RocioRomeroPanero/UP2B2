@@ -14,20 +14,20 @@ angular.module('myProfile.module').controller('myProfileController', function($s
             if (result.status !== 200) {
                 utils.errorPopUp();
             } else {
-
                 $scope.model = result.data.rows[0];
-
                 console.log($scope.model);
                 $scope.email = sessionService.get('email');
                 $scope.fullName = sessionService.get('fullName');
                 $scope.degree = sessionService.get('degree');
                 $scope.score = sessionService.get('score');
                 $scope.dni = sessionService.get('dni');
+                $scope.myProfileReady = true;
             }
         }, function(err) {
             utils.errorPopUp();
         })
     }
+
     initialize();
 
 

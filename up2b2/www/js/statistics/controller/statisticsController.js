@@ -5,16 +5,17 @@ angular.module('statistics.module').controller('statisticsController', function(
     var initialize = function() {
         $scope.byUserView = false;
         $scope.byQuestionView = false;
+        
+        $scope.$root.showMenuIcon = true;
     }
 
     initialize();
     $scope.byUser = function() {
-        console.log('byUser');
 
         // Traerse todos los usuarios y para cada usuario mostrar los testDone
 
         APIClient.getUsers().then(function(response) {
-            if (result.status !== 200) {
+            if (response.status !== 200) {
                     utils.errorPopUp();
                 } else {
 

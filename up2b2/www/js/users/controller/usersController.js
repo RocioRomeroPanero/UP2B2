@@ -7,10 +7,11 @@ angular.module('users.module').controller('usersController', function($scope, ut
     // habrá que llamar al servidor a getUsers
     var usersComplete = {};
 
+        $scope.$root.showMenuIcon = true;
     var initiate = function() {
         APIClient.getUsers().then(
             function(data) {
-                if (result.status !== 200) {
+                if (data.status !== 200) {
                     utils.errorPopUp();
                 } else {
 
@@ -44,7 +45,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 onTap: function(e) {
                     return APIClient.deleteUser(id).then(
                         function(data) {
-                            if (result.status !== 200) {
+                            if (data.status !== 200) {
                                 utils.errorPopUp();
                             } else {
 
@@ -87,7 +88,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
 
                     return APIClient.modifyUser(id, $scope.data.newValue, type).then(
                         function(data) {
-                            if (result.status !== 200) {
+                            if (data.status !== 200) {
                                 utils.errorPopUp();
                             } else {
 
@@ -122,7 +123,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                         function(data) {
                             APIClient.getUsers().then(
                                 function(data) {
-                                    if (result.status !== 200) {
+                                    if (data.status !== 200) {
                                         utils.errorPopUp();
                                     } else {
 

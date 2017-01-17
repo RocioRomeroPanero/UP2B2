@@ -41,24 +41,23 @@
         <button class="button button-block button-calm" ng-click="addQuestion()">
             Add
         </button>
-        <button ng-click="upload()">PRUEBa</button>
-        <!--  <form>
+        <form name="upload_form">
                 Single Image with validations
             <input 
                type="file" 
                ngf-select 
-               ng-model="up.file" 
+               ng-model="file" 
                name="file" 
                ngf-pattern="'image/*'"
                accept="image/*" 
                ngf-max-size="20MB" 
                />
-            Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>
-            <i ng-show="up.upload_form.file.$error.required">*required</i><br>
-            <i ng-show="up.upload_form.file.$error.maxSize">File too large 
+            Image thumbnail: <img style="width:100px;" ngf-thumbnail="file || '/thumb.jpg'"/>
+            <i ng-show="upload_form.file.$error.required">*required</i><br>
+            <i ng-show="upload_form.file.$error.maxSize">File too large 
             {{up.file.size / 1000000|number:1}}MB: max 20M</i>
-            <button type="submit" ng-click="up.submit()">submit</button>
+            <button type="submit" ng-click="submit()">submit</button>
             <p>{{up.progress}}
-        </form> -->
+        </form>
     </ion-content>
 </ion-view>

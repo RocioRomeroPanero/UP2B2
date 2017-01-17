@@ -4,10 +4,11 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     $scope.model = {};
     console.log('sdfsd');
 
+        $scope.$root.showMenuIcon = true;
     var initiate = function() {
         APIClient.getQuestions().then(
             function(data) {
-                if (result.status !== 200) {
+                if (data.status !== 200) {
                     utils.errorPopUp();
                 } else {
                     console.log(data);
@@ -35,14 +36,14 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 onTap: function(e) {
                     return APIClient.deleteQuestion(id).then(
                         function(data) {
-                            if (result.status !== 200) {
-                    utils.errorPopUp();
-                } else {
+                            if (data.status !== 200) {
+                                utils.errorPopUp();
+                            } else {
 
-                            console.log('data', data);
-                            //question deleted
-                            utils.removeByAttr($scope.questions, '_id', id);
-                        }
+                                console.log('data', data);
+                                //question deleted
+                                utils.removeByAttr($scope.questions, '_id', id);
+                            }
 
                         },
                         function(error) {
@@ -108,6 +109,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         },
                         function(error) {
                             console.log('error', error);
+                            utils.errorPopUp();
                         }
                     )
                 }
@@ -146,6 +148,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         },
                         function(error) {
                             console.log('error', error);
+                            utils.errorPopUp();
                         }
                     )
                 }

@@ -1,6 +1,6 @@
 <ion-view view-title="My Profile">
     <ion-content>
-        <div class="list">
+        <div class="list" ng-if="myProfileReady">
             <a class="item item-icon-left">
                 <i class="icon ion-person"></i> Full name: {{fullName}}
             </a>

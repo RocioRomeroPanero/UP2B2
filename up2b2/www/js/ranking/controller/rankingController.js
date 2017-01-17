@@ -9,9 +9,10 @@ angular.module('ranking.module').controller('rankingController', function($scope
     var initiate = function() {
         APIClient.getRanking().then(
             function(data) {
-                if (result.status !== 200) {
+                if (data.status !== 200) {
                     utils.errorPopUp();
                 } else {
+                    $scope.rankingReady = true;
                     $scope.users = data.data.rows.reverse();
                 }
             }

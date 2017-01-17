@@ -1,4 +1,4 @@
-angular.module('starter.utils', []).factory('utils', function(sessionService) {
+angular.module('starter.utils', []).factory('utils', function(sessionService, $ionicPopup, $ionicHistory, $state) {
     return {
         removeByAttr: function(arr, attr, value) {
             var i = arr.length;
@@ -19,12 +19,10 @@ angular.module('starter.utils', []).factory('utils', function(sessionService) {
             }
         },
         isAdmin: function() {
-            console.log('isAdmin?');
             if (sessionService.get('admin') == 'false') {
-                console.log('false is admin');
+
                 return false;
             } else {
-                console.log('true is admin');
                 return true;
             }
         },
@@ -32,7 +30,6 @@ angular.module('starter.utils', []).factory('utils', function(sessionService) {
             $ionicPopup.show({
                 title: 'Error',
                 subTitle: 'Ups! Seems to be an error, please login again.',
-                scope: $scope,
                 buttons: [{
                         text: 'OK!',
                         type: 'button-positive',

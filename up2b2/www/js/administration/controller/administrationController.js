@@ -1,17 +1,18 @@
 'use strict';
 
-angular.module('administration.module').controller('administrationController', function( utils, $scope, APIClient, $ionicPopup, sessionService) {
-    if (utils.isAuthenticated() == false || utils.isAdmin() == false) {
-        $state.go('app.login');
+angular.module('administration.module').controller('administrationController', function($state, utils, $scope, APIClient, $ionicPopup, sessionService) {
+
+
+    var initialize = function() {
+        if (utils.isAdmin() == false) {
+            $scope.administrator = false;
+        } else {
+            $scope.administrator = true;
+        }
+        $scope.$root.showMenuIcon = true;
     }
-    else if(utils.isAdmin() == false){
-        $scope.administrator = false;
-    }
-    else{
-        $scope.administrator = true;
-    }
-    $scope.$root.showMenuIcon = true;
-    
+    initialize()
+
     $scope.addUser = function() {
         $scope.data = {};
         $ionicPopup.show({
@@ -24,7 +25,7 @@ angular.module('administration.module').controller('administrationController', f
                     type: 'button-positive',
                     onTap: function(e) {
                         //check if dni is a dni
-                        
+
                         return APIClient.newUser($scope.data.email,
                             $scope.data.pass,
                             $scope.data.fullName,

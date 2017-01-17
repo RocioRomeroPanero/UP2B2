@@ -8,6 +8,7 @@
     "angular-timer": "^1.3.4",
     "angular-svg-round-progressbar": "^1.0.4",
     "angular-file-upload": "^2.4.1",
-    "ngCordova": "^0.1.27-alpha"
+    "ngCordova": "^0.1.27-alpha",
+    "ng-file-upload": "^12.2.13"
   }
 }

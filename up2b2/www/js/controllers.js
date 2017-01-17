@@ -10,14 +10,18 @@ angular.module('starter.controllers', [])
     //});
 
     $scope.$on('$ionicView.enter', function(e) {
-        console.log('paso por aquiiiiii');
-        if (utils.isAdmin() == false) {
-            console.log('paso por aquiiiiii1');
-            $scope.administrator = false;
+        console.log($state.current.url)
+        if (utils.isAuthenticated() == false && $state.current.url != '/login') {
+            console.log('no está autenticado y no es la pantalla de login')
+            $state.go('app.login');
         } else {
-            console.log('paso por aquiiiiii2');
-            $scope.administrator = true;
+            if (utils.isAdmin() == false) {
+                $scope.administrator = false;
+            } else {
+                $scope.administrator = true;
+            }
         }
+
     });
 
     $scope.disconnect = function() {
