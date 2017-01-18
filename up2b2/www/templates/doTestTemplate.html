@@ -1,5 +1,9 @@
 <ion-view view-title="Test">
     <ion-content>
+        <audio controls>
+            <source ng-src="{{model.audio}}" type="audio/mp3">
+        </audio>
+        <img ng-src="data:image/JPEG;base64,{{image}}">
         <div class="list" ng-show="choose">
             <div class="item item-divider">
                 Please choose a type of test
@@ -113,7 +117,7 @@
                             </button>
                         </div>
                         <div class="col col50">
-                            <button class="button button-block button-positive"  ng-click="navigate('profile')">
+                            <button class="button button-block button-positive" ng-click="navigate('profile')">
                                 My profile
                             </button>
                         </div>

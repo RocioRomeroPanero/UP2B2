@@ -19,20 +19,20 @@ router.post('', function(req, res) {
         var tempPath = file.path;
 
         /*
-			rocio
+            rocio
         */
         var nombresSeparados = file.name.split('.');
         var nombreSinExtension = "";
-        for(var i=0; i<nombresSeparados.length - 1 ;i++){
-        	nombreSinExtension += nombresSeparados[i];
+        for (var i = 0; i < nombresSeparados.length - 1; i++) {
+            nombreSinExtension += nombresSeparados[i];
         }
-        console.log('nombreSinExtension ',nombreSinExtension);
+        console.log('nombreSinExtension ', nombreSinExtension);
         nombreSinExtension += Date.now();
         var nombreConExtension = nombreSinExtension + '.' + nombresSeparados[nombresSeparados.length - 1];
         /*
-			/rocio
+            /rocio
         */
-        console.log('file.name',file.name)
+        console.log('file.name', file.name)
         console.log('file splitted', file.name.split('.'))
         var targetPath = path.resolve('./public/files/' + nombreConExtension);
         fs.rename(tempPath, targetPath, function(err) {
@@ -40,9 +40,23 @@ router.post('', function(req, res) {
                 throw err
             }
             logger.debug(file.name + " upload complete for user: " + username);
-            return res.json({ path: 'files/'  + nombreConExtension, fileName: nombreConExtension })
+            return res.json({ path: 'files/' + nombreConExtension, fileName: nombreConExtension })
         })
     });
 });
+
+router.post('/getFile', function(req, res) {
+    var fileToSend = __dirname + '/public/files/' + req.body.file;
+    console.log('fileToSend', fileToSend);
+    console.log('root', __dirname);
+    
+    res.sendFile(req.body.file, { root: 'public/files' }, function(err) {
+        if (err) {
+            console.log('error', err);
+        } else {
+            console.log('enviado archivo');
+        }
+    })
+})
 
 module.exports = router;

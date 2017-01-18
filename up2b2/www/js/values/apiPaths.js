@@ -10,5 +10,6 @@ angular.module("starter.values", []).value("APIPaths", {
     ranking: "/ranking",
     test: "/test",
     resolve : "/resolve",
-    upload: "/upload"
+    upload: "/upload",
+    getFile: "/getFile"
 });

@@ -1,8 +1,67 @@
 'use strict';
 
-angular.module('doTest.module').controller('doTestController', function(utils, $ionicHistory, $state, $timeout, $scope, APIClient, $ionicPopup, sessionService) {
-    /*
-        TIMER
+angular.module('doTest.module').controller('doTestController', function(APIPaths, $http, utils, $ionicHistory, $state, $timeout, $scope, APIClient, $ionicPopup, sessionService) {
+
+    $scope.model = {};
+    $scope.model.audio = "";
+
+
+    var data = {};
+
+    data['messageHeader'] = {};
+
+    /*var jsonData = JSON.stringify(data);
+    var jsonBlob = new Blob([jsonData], { type: "application/json" });
+*/
+ var _arrayBufferToBase64 = function ( buffer ) {
+    console.log('entro en la función?1', buffer)
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+
+  console.log('entro en la función?bytes', bytes);
+  var len = bytes.byteLength;
+  console.log('entro en la función?len', len)
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode( bytes[ i ] );
+  }
+  console.log('entro en la función?binary', binary)
+  console.log('window.btoa(binary)', window.btoa(binary))
+  return window.btoa( binary );
+}
+
+    var url = APIPaths.server + APIPaths.upload + APIPaths.getFile;
+
+ $http({
+    method: 'POST',
+    url: url,
+    responseType: 'arraybuffer',
+    data: {file: "test.jpg"}
+  }).then(function(response) {
+    console.log(response);
+    var str = _arrayBufferToBase64(response.data);
+    console.log(str);
+    $scope.image = str;
+    // str is base64 encoded.
+  }, function(response) {
+    console.error('error in getting static img.');
+  });
+
+
+
+/*
+    $http.post(url, { file: "test.jpg", responseType: 'arraybuffer' }).then(function(response) {
+        
+        var str = _arrayBufferToBase64(response.data);
+        $scope.image = str;
+        var audioArray = new Uint8Array(data);
+        //$scope.model.audio = response.data;
+    }, function(error) {
+        console.log('error', error);
+    });
+
+*/
+        
+    /*TIMER
     */
 
     $scope.$root.showMenuIcon = true;
@@ -81,9 +140,7 @@ angular.module('doTest.module').controller('doTestController', function(utils, $
                 if (result.status !== 200) {
                     utils.errorPopUp();
                 } else {
-
                     $scope.numberQuestions = result.data.rows.length;
-
                     $scope.questions = result.data.rows;
                     console.log(result);
                     for (var i = 0; i < $scope.questions.length; i++) {
