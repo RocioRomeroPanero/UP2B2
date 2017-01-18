@@ -12,17 +12,6 @@
             </div>
         </div>
         <div ng-if="trainingTest">
-            <div class="row" ng-if="questions.length != 0">
-                <b class="progress-wrapper col col-33 col-offset-33">
-                    {{humanizeDurationTimer(timer,'s')}}
-                </b>
-            </div>
-            <style type="text/css">
-            .progress-wrapper {
-                text-align: center;
-                border: 3px solid black;
-            }
-            </style>
             <div class="list" ng-if="questions.length != 0">
                 <div class="item item-divider" ng-repeat="question in questions" ng-show="contador == $index">
                     <div>
@@ -35,7 +24,7 @@
                     </div>
                     Question {{::$index+1}}: {{::question.question}}
                     <div>
-                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="data:image/JPEG;base64,{{question.image}}">
+                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="{{question.image}}">
                     </div>
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}
@@ -94,7 +83,7 @@
                     </div>
                     Question {{::$index+1}}: {{::question.question}}
                     <div>
-                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="data:image/JPEG;base64,{{question.image}}">
+                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="{{question.image}}">
                     </div>
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}

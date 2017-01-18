@@ -37,7 +37,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     var mytimeout = null; // the current timeoutID
     // actual timer method, counts down every second, stops on zero
     $scope.onTimeout = function() {
-        
+
         if ($scope.timer === 0 && typeTest=="realTest") {
             $scope.pauseTimer();
             $timeout.cancel(mytimeout);
@@ -132,7 +132,12 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                             // es la imagen
-                            $http({
+                            $scope.questions[0].image = 'http://localhost:3000/files/'+$scope.questions[0].files[m];
+                            $scope.choose = false;
+                                $scope.trainingTest = true;
+
+                                $scope.startTimer(tiempoTotal);
+                            /*$http({
                                 method: 'POST',
                                 url: url,
                                 responseType: 'arraybuffer',
@@ -150,7 +155,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                                 $scope.startTimer(tiempoTotal);
                             }, function(response) {
                                 console.error('error in getting static img.');
-                            });
+                            });*/
 
                         } else {
                             // es el audio
@@ -198,7 +203,11 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                             // es la imagen
-                            $http({
+                            $scope.questions[0].image = 'http://localhost:3000/files/'+$scope.questions[0].files[m];
+                            $scope.choose = false;
+                                $scope.realTest = true;
+                                $scope.startTimer(tiempoTotal);
+                            /*$http({
                                 method: 'POST',
                                 url: url,
                                 responseType: 'arraybuffer',
@@ -217,7 +226,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                                 $scope.startTimer(tiempoTotal);
                             }, function(response) {
                                 console.error('error in getting static img.');
-                            });
+                            });*/
 
                         } else {
                             // es el audio
@@ -269,7 +278,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                 if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                     // es la imagen
-                    $http({
+                    $scope.questions[$scope.contador].image = 'http://localhost:3000/files/'+$scope.questions[$scope.contador].files[m];
+                    /*$http({
                         method: 'POST',
                         url: url,
                         responseType: 'arraybuffer',
@@ -284,7 +294,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     }, function(response) {
                         console.error('error in getting static img.');
                     });
-
+*/
                 } else {
                     // es el audio
                     audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
