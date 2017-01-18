@@ -17,6 +17,7 @@
     "fs": "0.0.1-security",
     "jade": "~1.11.0",
     "jwt-simple": "^0.5.0",
+    "mediaserver": "^0.1.0",
     "moment": "^2.15.2",
     "mongoose": "^4.6.2",
     "mongoose-thumbnail": "0.0.1",

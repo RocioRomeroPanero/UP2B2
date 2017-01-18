@@ -25,36 +25,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     }
 
     var url = APIPaths.server + APIPaths.upload + APIPaths.getFile;
-    /*
-        $http({
-            method: 'POST',
-            url: url,
-            responseType: 'arraybuffer',
-            data: { file: "test.jpg" }
-        }).then(function(response) {
-            console.log(response);
-            var str = _arrayBufferToBase64(response.data);
-            console.log(str);
-            $scope.image = str;
-            // str is base64 encoded.
-        }, function(response) {
-            console.error('error in getting static img.');
-        });
-    */
-    /* $http({
-         method: 'POST',
-         url: url,
-         responseType: 'arraybuffer',
-         data: { file: "sample.mp3" }
-     }).then(function(response) {
-         console.log(response);
-         var str = _arrayBufferToBase64(response.data);
-         console.log(str);
-         $scope.image = str;
-         // str is base64 encoded.
-     }, function(response) {
-         console.error('error in getting static img.');
-     });*/
+
 
 
     /*
@@ -127,6 +98,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     $scope.contador = 0;
     var typeTest = "";
     $scope.testEnded = false;
+    var audio;
+
     $scope.test = function(typeOfTest) {
 
         // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
@@ -143,7 +116,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     for (var i = 0; i < $scope.questions.length; i++) {
                         // get correct answers from all questions
                         correctAnswers[i] = $scope.questions[i].correctAnswer;
-
+                        $scope.questions[i].played = false;
                         if ($scope.questions[i].timeToAnswer !== undefined) {
                             tiempoTotal += $scope.questions[i].timeToAnswer;
                         }
@@ -180,7 +153,9 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         } else {
                             // es el audio
-                            console.log('audio de momento no hago nada');
+                            audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                            audio.load();
+
                         }
 
 
@@ -207,7 +182,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     for (var i = 0; i < $scope.questions.length; i++) {
                         // get correct answers from all questions
                         correctAnswers[i] = $scope.questions[i].correctAnswer;
-
+                        $scope.questions[i].played = false;
                         if ($scope.questions[i].timeToAnswer !== undefined) {
                             tiempoTotal += $scope.questions[i].timeToAnswer;
                         }
@@ -235,23 +210,24 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                                 $scope.image = str;
                                 // str is base64 encoded.
                                 console.log('corectAnswers', correctAnswers);
-                    //$scope.question = questions[0];
-                    $scope.choose = false;
-                    $scope.realTest = true;
-                    $scope.startTimer(tiempoTotal);
+                                //$scope.question = questions[0];
+                                $scope.choose = false;
+                                $scope.realTest = true;
+                                $scope.startTimer(tiempoTotal);
                             }, function(response) {
                                 console.error('error in getting static img.');
                             });
 
                         } else {
                             // es el audio
-                            console.log('audio de momento no hago nada');
+                            audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                            audio.load();
                         }
 
 
                     }
 
-                    
+
                 }
             }, function(err) {
                 console.log('error', err);
@@ -271,7 +247,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
         // CARGAR LOS ARCHIVOS ASOCIADOS
 
         console.log('$scope.contador al pasar de pregunta1', $scope.contador)
-
+        audio.pause();
 
         if (answer !== undefined) {
             answers[$scope.contador] = answer;
@@ -310,7 +286,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                 } else {
                     // es el audio
-                    console.log('audio de momento no hago nada');
+                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
+                    audio.load();
                 }
 
 
@@ -323,8 +300,28 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     }
     $scope.backQuestion = function() {
         $scope.contador--;
+        audio.pause();
+        for (var m = 0; m < $scope.questions[$scope.contador].files.length; m++) {
+
+            var nombresSeparados = $scope.questions[$scope.contador].files[m].split('.');
+
+            // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+
+            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                // ya está cargada
+
+            } else {
+                // es el audio
+                audio = new Audio();
+                audio.load();
+            }
+
+
+        }
+
     }
     $scope.endTest = function() {
+        audio.pause();
         if ($scope.questions.length != 0) {
 
             if (answers[$scope.contador] == undefined) {
@@ -448,5 +445,15 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
         } else {
             $state.go('app.myProfile');
         }
+    }
+
+    $scope.playAudio = function() {
+        $scope.questions[$scope.contador].played = true;
+        $scope.playing = true;
+        audio.play();
+    }
+    $scope.stopAudio = function() {
+
+        audio.pause();
     }
 });
