@@ -5,25 +5,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     $scope.model = {};
     $scope.model.audio = "";
 
-
-    var data = {};
-
-    data['messageHeader'] = {};
-
-    /*var jsonData = JSON.stringify(data);
-    var jsonBlob = new Blob([jsonData], { type: "application/json" });
-*/
-    var _arrayBufferToBase64 = function(buffer) {
-        var binary = '';
-        var bytes = new Uint8Array(buffer);
-
-        var len = bytes.byteLength;
-        for (var i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    }
-
     var url = APIPaths.server + APIPaths.upload + APIPaths.getFile;
 
 
@@ -137,25 +118,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                                 $scope.trainingTest = true;
 
                                 $scope.startTimer(tiempoTotal);
-                            /*$http({
-                                method: 'POST',
-                                url: url,
-                                responseType: 'arraybuffer',
-                                data: { file: $scope.questions[0].files[m] }
-                            }).then(function(response) {
-                                console.log(response);
-                                var str = _arrayBufferToBase64(response.data);
-                                console.log(str);
-                                $scope.questions[$scope.contador].image = str;
-                                $scope.image = str;
-                                // str is base64 encoded.
-                                $scope.choose = false;
-                                $scope.trainingTest = true;
-
-                                $scope.startTimer(tiempoTotal);
-                            }, function(response) {
-                                console.error('error in getting static img.');
-                            });*/
+                            
 
                         } else {
                             // es el audio
@@ -207,27 +170,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                             $scope.choose = false;
                                 $scope.realTest = true;
                                 $scope.startTimer(tiempoTotal);
-                            /*$http({
-                                method: 'POST',
-                                url: url,
-                                responseType: 'arraybuffer',
-                                data: { file: $scope.questions[0].files[m] }
-                            }).then(function(response) {
-                                console.log(response);
-                                var str = _arrayBufferToBase64(response.data);
-                                console.log(str);
-                                $scope.questions[$scope.contador].image = str;
-                                $scope.image = str;
-                                // str is base64 encoded.
-                                console.log('corectAnswers', correctAnswers);
-                                //$scope.question = questions[0];
-                                $scope.choose = false;
-                                $scope.realTest = true;
-                                $scope.startTimer(tiempoTotal);
-                            }, function(response) {
-                                console.error('error in getting static img.');
-                            });*/
-
+                            
                         } else {
                             // es el audio
                             audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
@@ -279,22 +222,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                 if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                     // es la imagen
                     $scope.questions[$scope.contador].image = 'http://localhost:3000/files/'+$scope.questions[$scope.contador].files[m];
-                    /*$http({
-                        method: 'POST',
-                        url: url,
-                        responseType: 'arraybuffer',
-                        data: { file: $scope.questions[$scope.contador].files[m] }
-                    }).then(function(response) {
-                        console.log(response);
-                        var str = _arrayBufferToBase64(response.data);
-                        console.log(str);
-                        $scope.questions[$scope.contador].image = str;
-                        $scope.image = str;
-                        // str is base64 encoded.
-                    }, function(response) {
-                        console.error('error in getting static img.');
-                    });
-*/
+    
+
                 } else {
                     // es el audio
                     audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
@@ -332,6 +261,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
     }
     $scope.endTest = function() {
+
         audio.pause();
         if ($scope.questions.length != 0) {
 

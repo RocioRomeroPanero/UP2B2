@@ -4,7 +4,9 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     $scope.model = {};
     console.log('sdfsd');
 
-        $scope.$root.showMenuIcon = true;
+    var audio2 = new Audio();
+
+    $scope.$root.showMenuIcon = true;
     var initiate = function() {
         APIClient.getQuestions().then(
             function(data) {
@@ -12,7 +14,33 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                     utils.errorPopUp();
                 } else {
                     console.log(data);
+
                     $scope.questions = data.data.rows;
+                    for (var i = 0; i < $scope.questions.length; i++) {
+                        for (var m = 0; m < $scope.questions[i].files.length; m++) {
+
+                            var nombresSeparados = $scope.questions[i].files[m].split('.');
+
+                            // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+
+                            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                // es la imagen
+                                $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
+
+                            } else {
+                                // es el audio
+                                //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                //audio.load();
+
+                                $scope.questions[i].audio = $scope.questions[i].files[m];
+
+                            }
+
+
+                        }
+                    }
+
+
                 }
             },
             function(err) {
@@ -121,9 +149,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     }
 
     $scope.modifyTrainingTest = function(questionId) {
-        console.log(questionId, training, test);
-
-
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify type of question",
@@ -158,5 +183,35 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
             }]
         })
 
+    }
+    $scope.playAudio = function(index) {
+        console.log('index', index)
+            // asocio el audio al botón que se ha seleccionado
+
+        audio2.pause();
+        for (var m = 0; m < $scope.questions[index].files.length; m++) {
+
+            var nombresSeparados = $scope.questions[index].files[m].split('.');
+
+            // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+
+            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                // es la imagen
+                //$scope.questions[index].image = 'http://localhost:3000/files/' + $scope.questions[index].files[m];
+
+            } else {
+                // es el audio
+                audio2 = new Audio('http://localhost:3000/files/' + $scope.questions[index].files[m]);
+                console.log('paso por aqui');
+                audio2.play();
+
+            }
+
+
+        }
+
+    }
+    $scope.stopAudio = function() {
+        audio2.pause();
     }
 });

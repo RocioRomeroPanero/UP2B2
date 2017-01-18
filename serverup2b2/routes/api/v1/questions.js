@@ -58,24 +58,7 @@ router.get('/test', middleware.ensureAuthenticated, function(req, res) {
 router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) {
 
     console.log('req.body', req.body);
-    // LO QUE RECIBO DEL CLIENTE EN REQ.BODY.
-    /*var enviarServer = {
-        score: 0,
-        user: {
-            email: userEmail,
-            id: userId
-        },
-        testDone: {
-            timeSpent: tiempoTotal - tiempoRestante,
-            score: 0,
-            numberCorrect: 0,
-            numberWrong: 0,
-            timeBonus: false
-        },
-        usersDone: [] // ids de las preguntas hechas
-    };
-    */
-
+   
     // Actualizar al usuario: req.body.user.id:
     // añadir la puntuación, y el testDone. Coger la puntuación que tiene ahora, y sumarle la recibida por el cliente
 
@@ -89,7 +72,15 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
         /*SOLO SI ES DE TIPO*/
         // nueva puntuación para actualizar al usuario 
         if (req.body.testDone.training == false) {
+            if(rows[0].score != 100){
+
+            }
             var newScore = rows[0].score + req.body.score;
+            if(newScore > 100){
+                newScore = 100;
+            } else if(newScore < -100){
+                newScore = -100;
+            }
             var updatingUser = {
                 score: newScore,
                 $push: { testDone: req.body.testDone }
@@ -122,7 +113,7 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
                     }
                 }
                 Question.findByIdAndUpdate(req.body.usersDone[i].id, updatingQuestion, {}, function(err, data) {
-                    console.log('meh');
+                    
                 })
 
             }
@@ -191,20 +182,19 @@ router.post('/newQuestion', middleware.ensureAuthenticated, function(req, res) {
     question.creationDate = Date.now();
     question.numberCorrect = 0;
     question.numberDone = 0;
-    question.answer1 = req.body.answer1;
-    question.answer2 = req.body.answer2;
-    question.answer3 = req.body.answer3;
-    question.answer4 = req.body.answer4;
-    question.correctAnswer = req.body.correctAnswer;
-    question.question = req.body.question;
-    question.numberDone = 0;
+    question.answer1 = req.body.answer1 || "";
+    question.answer2 = req.body.answer2 || "";
+    question.answer3 = req.body.answer3 || "";
+    question.answer4 = req.body.answer4 || "";
+    question.correctAnswer = req.body.correctAnswer || 0;
+    question.question = req.body.question || "";
     question.numberCorrect = 0;
     question.userDone = [];
     question.usersCorrect = [];
     question.test = req.body.test;
     question.training = req.body.training;
     question.timeToAnswer = req.body.timeToAnswer;
-    question.files = req.body.files;
+    question.files = req.body.files || [];
 
     let questionToSave = new Question(question);
 

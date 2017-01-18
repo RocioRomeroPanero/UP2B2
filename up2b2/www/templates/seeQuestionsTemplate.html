@@ -39,10 +39,21 @@
                     <i class="icon ion-ios-compose-outline" ng-click="modifyTrainingTest(question._id)"></i>
                 </div>
                 <div class="item">
-                    {{question.numberCorrect}} of {{question.numberDone}} correct answered
-                </div>
-                <div class="item">
-                    Aquí irán los archivos adjuntos a la pregunta (modificar...)
+                    <div>
+                        Image: <img ng-if="question.image" ng-src="{{question.image}}"> <span ng-if="!question.image">Image not associated</span>
+                    </div>
+                    <div>
+                        Audio:
+                        <div ng-if="question.audio" ng-if="question.audio">{{question.audio}}
+                            <button class="button button-block " ng-click="playAudio($index)">
+                                Play audio
+                            </button>
+                            <button class="button button-block " ng-click="stopAudio()">
+                                Stop audio
+                            </button>
+                        </div>
+                        <span ng-if="!question.audio">Audio not associated</span>
+                    </div>
                 </div>
             </div>
             <div ng-if="questions.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
