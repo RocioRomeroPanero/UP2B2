@@ -37,7 +37,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     var mytimeout = null; // the current timeoutID
     // actual timer method, counts down every second, stops on zero
     $scope.onTimeout = function() {
-        if ($scope.timer === 0) {
+        
+        if ($scope.timer === 0 && typeTest=="realTest") {
             $scope.pauseTimer();
             $timeout.cancel(mytimeout);
             // se acaba el test

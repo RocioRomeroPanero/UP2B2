@@ -1,17 +1,28 @@
 <ion-view view-title="Test">
     <ion-content>
         <div class="list" ng-show="choose">
-            <div class="item item-divider">
+            <div class="item item-divider item-text-wrap">
                 Please choose a type of test
             </div>
-            <div class="item" ng-click='test("training")'>
-                For training: Test without time and the final score won't affect your account score
+            <div class="item item-text-wrap" ng-click='test("training")'>
+                For training: Test without time and the final score won't affect your account score. Also, you can reproduce the audios all the times needed.
             </div>
-            <div class="item" ng-click='test("realTest")'>
-                Real test: Test with time and the final score will affect your account score
+            <div class="item item-text-wrap" ng-click='test("realTest")'>
+                Real test: Test with time and the final score will affect your account score. Also, you can only reproduce the audios one time.
             </div>
         </div>
         <div ng-if="trainingTest">
+            <div class="row" ng-if="questions.length != 0">
+                <b class="progress-wrapper col col-33 col-offset-33">
+                    {{humanizeDurationTimer(timer,'s')}}
+                </b>
+            </div>
+            <style type="text/css">
+            .progress-wrapper {
+                text-align: center;
+                border: 3px solid black;
+            }
+            </style>
             <div class="list" ng-if="questions.length != 0">
                 <div class="item item-divider" ng-repeat="question in questions" ng-show="contador == $index">
                     <div>
@@ -146,16 +157,16 @@
             </div>
             <div ng-repeat="question in questionsEndTest">
                 <div class="item item-divider">Question {{::$index+1}}: {{::question.question}}
-                    <button class="button button-block" ng-class="{'button-positive': (question.selected != 1) && (question.correctAnswer != 1) || question.selected == 0, 'button-balanced': (question.selected == 1) && (question.correctAnswer == 1) || (question.selected != question.correctAnswer && question.selected != 1 && question.correctAnswer == 1) && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 1) && (question.selected == 1)}">
+                    <button class="button button-block" ng-class="{'button-positive': ((question.selected != 1) && (question.correctAnswer != 1)) || (question.selected == 0), 'button-balanced': (question.selected == 1) && (question.correctAnswer == 1) || (question.selected != question.correctAnswer && question.selected != 1 && question.correctAnswer == 1) && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 1) && (question.selected == 1)}">
                         {{::question.answer1}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 2) && (question.correctAnswer != 2) || question.selected == 0, 'button-balanced': (question.selected == 2) && (question.correctAnswer == 2) || (question.selected != question.correctAnswer && question.selected != 2 && question.correctAnswer == 2) && (question.selected != 0)  , 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 2) && (question.selected == 2)}">
+                    <button class="button button-block " ng-class="{'button-positive': ((question.selected != 2) && (question.correctAnswer != 2)) || (question.selected == 0), 'button-balanced': (question.selected == 2) && (question.correctAnswer == 2) || (question.selected != question.correctAnswer && question.selected != 2 && question.correctAnswer == 2) && (question.selected != 0)  , 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 2) && (question.selected == 2)}">
                         {{::question.answer2}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 3) && (question.correctAnswer != 3) || question.selected == 0, 'button-balanced': (question.selected == 3) && (question.correctAnswer == 3) || (question.selected != question.correctAnswer && question.selected != 3 && question.correctAnswer == 3)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 3) && (question.selected == 3)}">
+                    <button class="button button-block " ng-class="{'button-positive': ((question.selected != 3) && (question.correctAnswer != 3)) || (question.selected == 0), 'button-balanced': (question.selected == 3) && (question.correctAnswer == 3) || (question.selected != question.correctAnswer && question.selected != 3 && question.correctAnswer == 3)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 3) && (question.selected == 3)}">
                         {{::question.answer3}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': (question.selected != 4) && (question.correctAnswer != 4) || question.selected == 0, 'button-balanced': (question.selected == 4) && (question.correctAnswer == 4) || (question.selected != question.correctAnswer && question.selected != 4 && question.correctAnswer == 4)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 4) && (question.selected == 4)}">
+                    <button class="button button-block " ng-class="{'button-positive': ((question.selected != 4) && (question.correctAnswer != 4)) || (question.selected == 0), 'button-balanced': (question.selected == 4) && (question.correctAnswer == 4) || (question.selected != question.correctAnswer && question.selected != 4 && question.correctAnswer == 4)  && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 4) && (question.selected == 4)}">
                         {{::question.answer4}}
                     </button>
                 </div>
