@@ -3,7 +3,6 @@
         <audio controls>
             <source ng-src="{{model.audio}}" type="audio/mp3">
         </audio>
-        <img ng-src="data:image/JPEG;base64,{{image}}">
         <div class="list" ng-show="choose">
             <div class="item item-divider">
                 Please choose a type of test
@@ -16,8 +15,11 @@
             </div>
         </div>
         <div ng-if="trainingTest">
-            <div class="list" ng-repeat="question in questions" ng-if="questions.length != 0">
-                <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
+            <div class="list" ng-if="questions.length != 0">
+                <div class="item item-divider" ng-repeat="question in questions" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
+                    <div>
+                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="data:image/JPEG;base64,{{question.image}}">
+                    </div>
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}
                     </button>
@@ -63,8 +65,11 @@
                 border: 3px solid black;
             }
             </style>
-            <div class="list" ng-if="questions.length != 0" ng-repeat="question in questions">
-                <div class="item item-divider" ng-show="contador == $index">Question {{::$index+1}}: {{::question.question}}
+            <div class="list" ng-if="questions.length != 0">
+                <div ng-repeat="question in questions" class="item item-divider" ng-if="contador == $index">Question {{::$index+1}}: {{::question.question}}
+                    <div>
+                        <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="data:image/JPEG;base64,{{question.image}}">
+                    </div>
                     <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
                         {{::question.answer1}}
                     </button>
