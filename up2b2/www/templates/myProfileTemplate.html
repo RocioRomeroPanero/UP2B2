@@ -1,30 +1,30 @@
 <ion-view view-title="My Profile">
     <ion-content>
         <div class="list" ng-if="myProfileReady">
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-person"></i> Full name: {{fullName}}
             </a>
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-person"></i> DNI: {{dni}}
             </a>
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-email"></i> Email: {{email}}
             </a>
-            <a class="item item-icon-left item-icon-right">
+            <a class="item item-icon-left item-icon-right item-text-wrap">
                 <i class="icon ion-locked"></i> Password: ******
                 <i class="icon ion-ios-compose-outline" ng-click="modifyPass()"></i>
             </a>
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-ios-pulse-strong"></i> Score: {{score}} points
             </a>
-            <a class="item item-icon-left">
+            <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-university"></i> Degree: {{::degree}}
             </a>
-            <div class="item item-divider item-icon-left">
+            <div class="item item-divider item-icon-left item-text-wrap">
                 All tests done
                 <i class="icon ion-ios-filing"></i>
             </div>
-            <div ng-repeat="testDone in model.testDone" ng-if="model.testDone.length > 0" class="item">
+            <div ng-repeat="testDone in model.testDone" ng-if="model.testDone.length > 0" class="item item-text-wrap">
                 <b ng-if="testDone.training == true">Training test |</b>
                 <b ng-if="testDone.training == false">Real test |</b> Number questions correct: {{::testDone.numberCorrect}} | Number questions wrong: {{::testDone.numberWrong}} | Time spent: {{::testDone.timeSpent}} seconds | Time bonus: <span ng-if="testDone.timeBonus == true">yes |</span><span ng-if="testDone.timeBonus == false">no.</span> Total score: {{::testDone.score}} | {{::testDone.date}}
             </div>

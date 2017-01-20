@@ -2,35 +2,35 @@
     <ion-content>
         <div class="list">
             <div ng-repeat="question in questions">
-                <div class="item item-divider item-icon-right">
+                <div class="item item-divider item-icon-right item-text-wrap">
                     {{question.question}}
                     <i ng-click="deleteQuestion(question._id, question.question)" style="color:red" class="icon ion-close-circled"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Answer 1: {{question.answer1}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer1', question.answer1)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Answer 2: {{question.answer2}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer2', question.answer2)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Answer 3: {{question.answer3}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer3', question.answer3)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Answer 4: {{question.answer4}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'answer4', question.answer4)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Correct answer: Answer {{question.correctAnswer}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'correctAnswer', question.correctAnswer)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Time to answer the question: {{question.timeToAnswer}} seconds
                     <i class="icon ion-ios-compose-outline" ng-click="modify(question._id, 'timeToAnswer', question.timeToAnswer)"></i>
                 </div>
-                <div class="item item-icon-right" ng-switch="question.test">
+                <div class="item item-icon-right item-text-wrap" ng-switch="question.test">
                     <div ng-switch-when="true">For real test
                         <span ng-if="question.training === true"> and for training</span>
                     </div>
@@ -38,21 +38,24 @@
                     <div ng-switch-default>Not for real test or training</div>
                     <i class="icon ion-ios-compose-outline" ng-click="modifyTrainingTest(question._id)"></i>
                 </div>
-                <div class="item">
+                <div class="item item-text-wrap" >
                     <div>
-                        Image: <img ng-if="question.image" ng-src="{{question.image}}"> <span ng-if="!question.image">Image not associated</span>
+                        Image: <span ng-if="!question.image">Image not associated</span>
+                        <div class="row"><img ng-if="question.image" ng-src="{{question.image}}"> </div>
                     </div>
-                    <div>
-                        Audio:
-                        <div ng-if="question.audio" ng-if="question.audio">{{question.audio}}
-                            <button class="button button-block " ng-click="playAudio($index)">
+                </div>
+                <div class="item item-text-wrap">
+                    Audio: <span ng-if="!question.audio"> Audio not associated</span>
+                    <div ng-if="question.audio">
+                        <div ng-if="question.audio">{{question.audio}}</div>
+                        <div  class="row" >
+                            <button class="col col50 button button-block button-balanced" ng-click="playAudio($index)">
                                 Play audio
                             </button>
-                            <button class="button button-block " ng-click="stopAudio()">
+                            <button class="col col50 button button-block  button-calm" ng-click="stopAudio()">
                                 Stop audio
                             </button>
                         </div>
-                        <span ng-if="!question.audio">Audio not associated</span>
                     </div>
                 </div>
             </div>

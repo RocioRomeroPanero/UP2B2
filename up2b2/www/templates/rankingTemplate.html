@@ -1,11 +1,11 @@
 <ion-view view-title="Ranking">
     <ion-content>
         <div class="row">
-            <div class="col col-90"><b>User</b></div>
-            <div class="col"><b>Score</b></div>
+            <div class="col col-90 item-text-wrap"><b>User</b></div>
+            <div class="col item-text-wrap"><b>Score</b></div>
         </div>
         <div class="list" ng-if="rankingReady">
-            <div class="item row" ng-repeat='user in users'>
+            <div class="item row item-text-wrap" ng-repeat='user in users'>
                 <div class="col col-90">{{::user.email}}</div>
                 <div class="col">{{::user.score}}</div>
             </div>

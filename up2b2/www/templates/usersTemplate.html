@@ -2,23 +2,23 @@
     <ion-content>
         <div class="list">
             <div ng-repeat="user in users">
-                <div class="item item-divider item-icon-right">
+                <div class="item item-divider item-icon-right item-text-wrap">
                     {{user.fullName}}
                     <i ng-click="deleteUser(user._id, user.fullName)" style="color:red" class="icon ion-close-circled"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Email: {{user.email}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'email', user.fullName)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Degree: {{user.degree}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'degree', user.fullName)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     DNI: {{user.dni}}
                     <i class="icon ion-ios-compose-outline" ng-click="modify(user._id, 'dni', user.fullName)"></i>
                 </div>
-                <div class="item item-icon-right">
+                <div class="item item-icon-right item-text-wrap">
                     Admin: {{user.admin}}
                     <i class="icon ion-ios-compose-outline" ng-click="modifyAdmin(user._id, user.fullName)"></i>
                 </div>
