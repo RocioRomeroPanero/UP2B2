@@ -1,8 +1,8 @@
 <ion-view view-title="Administration">
     <ion-content>
         <div class="list" ng-if="administrator">
-            <div class="item item-divider item-text-wrap">
-                Users
+            <div class="item item-divider item-text-wrap item-icon-left">
+                <i class="icon ion-ios-people"></i> Users
             </div>
             <a class="item item-text-wrap" ng-click="addUser()">
                 Add user
@@ -10,14 +10,15 @@
             <a class="item item-text-wrap" href="#/app/users">
                 Modify or delete user
             </a>
-            <div class="item item-divider item-text-wrap">
-                Statistics
+            <div class="item item-divider item-text-wrap item-icon-left">
+                <i class="icon ion-ios-pie"></i> Statistics
             </div>
             <a class="item item-text-wrap" href="#/app/statistics">
                 See statistics
             </a>
-            <div class="item item-divider item-text-wrap">
+            <div class="item item-divider item-icon-left item-text-wrap">
                 Questions
+                <i class="icon ion-ios-list"></i>
             </div>
             <a class="item item-text-wrap" href="#/app/addQuestion">
                 Add question

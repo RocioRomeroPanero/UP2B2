@@ -6,7 +6,6 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
 
     $scope.$root.showMenuIcon = true;
 
-
     var uploader = $scope.uploader = new FileUploader({
         url: APIPaths.server + APIPaths.upload
     });

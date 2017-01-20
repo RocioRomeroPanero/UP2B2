@@ -5,7 +5,7 @@
                 <i class="icon ion-person"></i> Full name: {{fullName}}
             </a>
             <a class="item item-icon-left item-text-wrap">
-                <i class="icon ion-person"></i> DNI: {{dni}}
+                <i class="icon ion-card"></i> DNI: {{dni}}
             </a>
             <a class="item item-icon-left item-text-wrap">
                 <i class="icon ion-email"></i> Email: {{email}}
@@ -26,7 +26,7 @@
             </div>
             <div ng-repeat="testDone in model.testDone" ng-if="model.testDone.length > 0" class="item item-text-wrap">
                 <b ng-if="testDone.training == true">Training test |</b>
-                <b ng-if="testDone.training == false">Real test |</b> Number questions correct: {{::testDone.numberCorrect}} | Number questions wrong: {{::testDone.numberWrong}} | Time spent: {{::testDone.timeSpent}} seconds | Time bonus: <span ng-if="testDone.timeBonus == true">yes |</span><span ng-if="testDone.timeBonus == false">no.</span> Total score: {{::testDone.score}} | {{::testDone.date}}
+                <b ng-if="testDone.training == false">Real test | <span ng-bind="testDone.date | date:'dd/MM/yyyy'"></span></b> | Number questions correct: {{::testDone.numberCorrect}} | Number questions wrong: {{::testDone.numberWrong}} | Time spent: {{::testDone.timeSpent}} seconds | Got time bonus: <span ng-if="testDone.timeBonus == true">yes |</span><span ng-if="testDone.timeBonus == false">no.</span> Total score: {{::testDone.score}} 
             </div>
             <div ng-if="model.testDone.length == 0" class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
                 <b> You don't have any test done yet. Go to Test in the menu and start! </b>

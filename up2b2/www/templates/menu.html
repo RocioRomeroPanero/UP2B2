@@ -16,20 +16,20 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item menu-close href="#/app/myProfile">
-                    My profile
+                <ion-item menu-close class="item-icon-left" href="#/app/myProfile">
+                    <i class="icon ion-pricetag"></i> My profile
                 </ion-item>
-                <ion-item menu-close href="#/app/administration" ng-if="administrator">
-                    Administration
+                <ion-item menu-close class="item-icon-left" href="#/app/administration" ng-if="administrator">
+                    <i class="icon ion-clipboard"></i> Administration
                 </ion-item>
-                <ion-item menu-close href="#/app/ranking">
-                    Ranking
+                <ion-item menu-close class="item-icon-left" href="#/app/ranking">
+                    <i class="icon ion-podium"></i> Ranking
                 </ion-item>
-                <ion-item menu-close href="#/app/doTest">
-                    Test
+                <ion-item menu-close class="item-icon-left" href="#/app/doTest">
+                    <i class="icon ion-ios-list"></i> Test
                 </ion-item>
-                <ion-item menu-close ng-click="disconnect()">
-                    Disconnect
+                <ion-item menu-close class="item-icon-left" ng-click="disconnect()">
+                    <i class="icon ion-android-walk"></i> Disconnect
                 </ion-item>
             </ion-list>
         </ion-content>

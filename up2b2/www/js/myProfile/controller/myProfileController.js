@@ -36,41 +36,54 @@ angular.module('myProfile.module').controller('myProfileController', function($s
         $scope.data = {};
         $ionicPopup.show({
             title: 'Change password',
-            subTitle: 'Enter your current password and the new password',
-            template: '<input type="password" ng-model="data.pass">Current password</input><input type="password" ng-model="data.newPass">New password</input>',
+            template: 'Current password:<input type="password" ng-model="data.pass">New password:</input><input type="password" ng-model="data.newPass"></input>',
             scope: $scope,
             buttons: [{
                     text: 'Change',
                     type: 'button-positive',
                     onTap: function(e) {
-                        return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
-                            console.log('data', data);
-                            if (data.status == 401) {
-                                // contraseña actual no coincide
-                                $ionicPopup.show({
-                                    title: 'Current password does not match',
-                                    template: 'Password not changed!',
-                                    buttons: [{
-                                            text: 'OK',
-                                            type: 'button-calm'
-                                        }
+                        if ($scope.data.newPass == undefined || $scope.data.pass.length == undefined) {
+                            $ionicPopup.show({
+                                title: 'Please fill the form',
+                                buttons: [{
+                                        text: 'OK',
+                                        type: 'button-positive'
+                                    }
 
-                                    ]
-                                })
-                            } else if (data.status == 200) {
-                                $ionicPopup.show({
-                                    title: 'Password changed',
-                                    buttons: [{
-                                            text: 'OK',
-                                            type: 'button-balanced'
-                                        }
+                                ]
+                            })
 
-                                    ]
-                                })
-                            }
-                        }, function(error) {
-                            console.log('error', error);
-                        });
+                        } else {
+                            return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
+                                console.log('data', data);
+                                if (data.status == 401) {
+                                    // contraseña actual no coincide
+                                    $ionicPopup.show({
+                                        title: 'Current password does not match',
+                                        template: 'Password not changed!',
+                                        buttons: [{
+                                                text: 'OK',
+                                                type: 'button-positive'
+                                            }
+
+                                        ]
+                                    })
+                                } else if (data.status == 200) {
+                                    $ionicPopup.show({
+                                        title: 'Password changed',
+                                        buttons: [{
+                                                text: 'OK',
+                                                type: 'button-positive'
+                                            }
+
+                                        ]
+                                    })
+                                }
+                            }, function(error) {
+                                console.log('error', error);
+                            });
+                        }
+
                     }
                 }, {
                     text: 'Cancel',
