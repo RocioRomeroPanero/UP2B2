@@ -49,6 +49,7 @@ var apiQuestions = require('./routes/api/v1/questions');
 var apiPassword = require('./routes/api/v1/password');
 var apiUpload = require('./routes/api/v1/upload');
 
+app.set('files', path.join(__dirname, 'public/files'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

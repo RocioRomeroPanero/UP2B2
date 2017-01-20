@@ -7,21 +7,25 @@ angular.module('users.module').controller('usersController', function($scope, ut
     // habrá que llamar al servidor a getUsers
     var usersComplete = {};
 
-        $scope.$root.showMenuIcon = true;
+    $scope.$root.showMenuIcon = true;
     var initiate = function() {
         APIClient.getUsers().then(
             function(data) {
-                if (data.status !== 200) {
+                if (data.status !== 200 && data.status !== 404) {
                     utils.errorPopUp();
                 } else {
-
-                    $scope.users = data.data.rows;
-                    for (var i = 0; i < $scope.users.length; i++) {
-                        if ($scope.users[i].admin == true) {
-                            $scope.users[i].admin = 'Yes';
-                        } else {
-                            $scope.users[i].admin = 'No';
+                    if (data.data.rows !== undefined) {
+                        $scope.users = data.data.rows;
+                        for (var i = 0; i < $scope.users.length; i++) {
+                            if ($scope.users[i].admin == true) {
+                                $scope.users[i].admin = 'Yes';
+                            } else {
+                                $scope.users[i].admin = 'No';
+                            }
                         }
+                    }
+                    else{
+                        $scope.users = [];
                     }
                 }
             },

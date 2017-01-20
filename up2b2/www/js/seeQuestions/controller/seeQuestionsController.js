@@ -10,37 +10,36 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     var initiate = function() {
         APIClient.getQuestions().then(
             function(data) {
-                if (data.status !== 200) {
+                if (data.status !== 200 && data.status !== 404) {
                     utils.errorPopUp();
                 } else {
-                    console.log(data);
+                    if (data.data.rows !== undefined) {
+                        $scope.questions = data.data.rows;
+                        for (var i = 0; i < $scope.questions.length; i++) {
+                            for (var m = 0; m < $scope.questions[i].files.length; m++) {
 
-                    $scope.questions = data.data.rows;
-                    for (var i = 0; i < $scope.questions.length; i++) {
-                        for (var m = 0; m < $scope.questions[i].files.length; m++) {
+                                var nombresSeparados = $scope.questions[i].files[m].split('.');
 
-                            var nombresSeparados = $scope.questions[i].files[m].split('.');
+                                // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                            // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                    // es la imagen
+                                    $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
 
-                            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
-                                // es la imagen
-                                $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
+                                } else {
+                                    // es el audio
+                                    //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                    //audio.load();
 
-                            } else {
-                                // es el audio
-                                //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
-                                //audio.load();
+                                    $scope.questions[i].audio = $scope.questions[i].files[m];
 
-                                $scope.questions[i].audio = $scope.questions[i].files[m];
-
+                                }
                             }
-
-
                         }
                     }
-
-
+                    else{
+                        $scope.questions = [];
+                    }
                 }
             },
             function(err) {

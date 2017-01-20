@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('addQuestion.module').controller('addQuestionController', function(FileUploader, $parse, $cordovaFileTransfer, $scope, APIClient, $ionicPopup, sessionService, APIPaths) {
+angular.module('addQuestion.module').controller('addQuestionController', function($ionicHistory, $state,FileUploader, $parse, $cordovaFileTransfer, $scope, APIClient, $ionicPopup, sessionService, APIPaths) {
     $scope.model = {};
     var prueba = {};
 
     $scope.$root.showMenuIcon = true;
-    
+
 
     var uploader = $scope.uploader = new FileUploader({
         url: APIPaths.server + APIPaths.upload
@@ -76,7 +76,22 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
         console.log($scope.model);
         return APIClient.addQuestion($scope.model).then(
             function(data) {
-                console.log(data);
+                $ionicPopup.show({
+                    title: 'Question added correctly',
+                    buttons: [{
+                            text: 'OK',
+                            type: 'button-calm',
+                            onTap: function(e) {
+                                // volver a cargar la vista
+                                $ionicHistory.nextViewOptions({
+                                    disableBack: true
+                                });
+                                return $state.go('app.administration');
+                            }
+                        }
+
+                    ]
+                })
             }
         )
     };

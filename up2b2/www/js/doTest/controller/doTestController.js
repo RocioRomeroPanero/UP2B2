@@ -122,6 +122,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         } else {
                             // es el audio
+                            $scope.questions[0].audio = $scope.questions[0].files[m];
                             audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
                             audio.load();
 
@@ -173,6 +174,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                             
                         } else {
                             // es el audio
+                             $scope.questions[0].audio = $scope.questions[0].files[m];
                             audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
                             audio.load();
                         }
@@ -226,6 +228,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                 } else {
                     // es el audio
+                    $scope.questions[$scope.contador].audio = $scope.questions[$scope.contador].files[m];
                     audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
                     audio.load();
                 }
@@ -252,7 +255,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
             } else {
                 // es el audio
-                audio = new Audio();
+                audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
                 audio.load();
             }
 

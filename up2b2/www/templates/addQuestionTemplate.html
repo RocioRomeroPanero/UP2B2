@@ -68,18 +68,13 @@
             </label>
             <div class="row">
                 <div class="col col-33">
-                    <button type="button" class="button button-block button-calm" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
-                        Upload all
+                    <button type="button" class="button button-block button-calm" ng-if="uploader.getNotUploadedItems().length" ng-click="uploader.uploadAll()">
+                        Upload question with files
                     </button>
                 </div>
                 <div class="col col-33">
-                    <button type="button" class="button button-block button-energized" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
-                        Cancel all
-                    </button>
-                </div>
-                <div class="col col-33">
-                    <button type="button" class="button button-block button-assertive" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                        Remove all
+                    <button type="button" class="button button-block button-calm" ng-if="!uploader.getNotUploadedItems().length" ng-click="uploader.onCompleteAll()">
+                        Upload question without files
                     </button>
                 </div>
             </div>

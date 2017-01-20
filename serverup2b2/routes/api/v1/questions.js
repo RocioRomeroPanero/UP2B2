@@ -7,7 +7,7 @@ require('../../../models/questionModel');
 var middleware = require('../../../public/javascripts/middleware');
 var Question = mongoose.model('Question'); // pido el modelo
 var User = mongoose.model('User'); // pido el modelo
-
+var fs = require('fs');
 
 // get questions
 
@@ -37,11 +37,11 @@ router.get('/test', middleware.ensureAuthenticated, function(req, res) {
     if (req.query.test === 'true') {
         console.log('paso por aqui === true');
         //query = { $and:[{ test: true}, {usersCorrect: { $nin: [{ id: req.query.id }] } } ]};
-        query = { $and:[{ test: true}, {'usersCorrect.id': { $nin: req.query.id  } } ]};
+        query = { $and: [{ test: true }, { 'usersCorrect.id': { $nin: req.query.id } }] };
     } else {
         console.log('paso por aqui === false');
         //query = { $and:[{ training: true}, {usersCorrect: { $nin: [{ id: req.query.id }] } }]};
-        query = { $and:[{ training: true }, {'usersCorrect.id': { $nin: req.query.id  } } ]};
+        query = { $and: [{ training: true }, { 'usersCorrect.id': { $nin: req.query.id } }] };
     }
 
     // get questions that don't have the id of the user in usersCorrect.
@@ -58,7 +58,7 @@ router.get('/test', middleware.ensureAuthenticated, function(req, res) {
 router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) {
 
     console.log('req.body', req.body);
-   
+
     // Actualizar al usuario: req.body.user.id:
     // añadir la puntuación, y el testDone. Coger la puntuación que tiene ahora, y sumarle la recibida por el cliente
 
@@ -72,13 +72,13 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
         /*SOLO SI ES DE TIPO*/
         // nueva puntuación para actualizar al usuario 
         if (req.body.testDone.training == false) {
-            if(rows[0].score != 100){
+            if (rows[0].score != 100) {
 
             }
             var newScore = rows[0].score + req.body.score;
-            if(newScore > 100){
+            if (newScore > 100) {
                 newScore = 100;
-            } else if(newScore < -100){
+            } else if (newScore < -100) {
                 newScore = -100;
             }
             var updatingUser = {
@@ -113,7 +113,7 @@ router.post('/test/resolve', middleware.ensureAuthenticated, function(req, res) 
                     }
                 }
                 Question.findByIdAndUpdate(req.body.usersDone[i].id, updatingQuestion, {}, function(err, data) {
-                    
+
                 })
 
             }
@@ -152,10 +152,37 @@ router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 // delete question
 
 router.delete('/:id', middleware.ensureAuthenticated, function(req, res) {
-    Question.remove({ _id: req.params.id }, function(err) {
+
+    // coger los archivos que tiene adjunta la pregunta y eliminarlos
+    var filters = {};
+    filters._id = req.params.id;
+    Question.list(filters, 'question', null, function(err, rows) {
+        if (err) {
+            return res.status(500).send({ result: 'internal error in database', err: err })
+        }
+
+        // eliminar los archivos adjuntos y luego eliminar la pregunta de la base de datos
+        
+        //fs.unlinkSync('../../../public/files/'+);
+        for (var i = 0; i < rows[0].files.length; i++) {
+            console.log('elimino el ' + i);
+            console.log('nombre del archivo ', rows[0].files[i]);
+            fs.unlinkSync(req.app.get('files') + '\\' + rows[0].files[i]);
+        }
+        console.log('elimino la pregunta lo último');
+        Question.remove({ _id: req.params.id }, function(err) {
+            if (err) return res.status(500).send({ result: "internal error in database: maybe this question doesn't exist?" })
+            return res.status(200).send({ result: "question deleted" })
+        });
+    })
+
+
+    /*Question.remove({ _id: req.params.id }, function(err) {
         if (err) return res.status(500).send({ result: "internal error in database: maybe this question doesn't exist?" })
         return res.status(200).send({ result: "question deleted" })
-    });
+    });*/
+
+
 });
 
 // put question
