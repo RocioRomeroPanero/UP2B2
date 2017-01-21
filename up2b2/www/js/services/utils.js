@@ -29,7 +29,7 @@ angular.module('starter.utils', []).factory('utils', function($ionicLoading, ses
         errorPopUp: function() {
             $ionicPopup.show({
                 title: 'Error',
-                subTitle: 'Ups! Seems to be an error, please login again.',
+                subTitle: 'Ups! Seems to be an error, please log in again.',
                 buttons: [{
                         text: 'OK!',
                         type: 'button-positive',
@@ -54,8 +54,5 @@ angular.module('starter.utils', []).factory('utils', function($ionicLoading, ses
         stopLoading: function() {
             $ionicLoading.hide()
         }
-
-
     }
-
 });

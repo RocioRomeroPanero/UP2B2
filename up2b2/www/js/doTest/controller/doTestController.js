@@ -88,7 +88,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
             typeTest = "training";
             utils.showLoading();
             APIClient.getTest(userId, false).then(function(result) {
-                if (result.status !== 200) {
+                if (result.status !== 200 && result.status !== 404) {
                     utils.errorPopUp();
                 } else {
                     $scope.numberQuestions = result.data.rows.length;
@@ -142,7 +142,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
             typeTest = "realTest";
             utils.showLoading()
             APIClient.getTest(userId, true).then(function(result) {
-                if (result.status !== 200) {
+                if (result.status !== 200 && result.status !== 404) {
                     utils.errorPopUp();
                 } else {
 

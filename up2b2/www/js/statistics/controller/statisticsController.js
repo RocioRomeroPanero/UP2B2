@@ -14,7 +14,7 @@ angular.module('statistics.module').controller('statisticsController', function(
         // Traerse todos los usuarios y para cada usuario mostrar los testDone
         utils.showLoading();
         APIClient.getUsers().then(function(response) {
-            if (response.status !== 200) {
+            if (response.status !== 200 && response.status !== 404) {
                 utils.errorPopUp();
             } else {
                 console.log(response);
@@ -54,7 +54,7 @@ angular.module('statistics.module').controller('statisticsController', function(
         //traerse todas las preguntas
         utils.showLoading();
         APIClient.getQuestions().then(function(result) {
-            if (result.status !== 200) {
+            if (result.status !== 200 && response.status !== 404) {
                 utils.errorPopUp();
             } else {
                 console.log('result getQuestions', result)
