@@ -7,8 +7,10 @@ angular.module('ranking.module').controller('rankingController', function($scope
     $scope.$root.showMenuIcon = true;
 
     var initiate = function() {
+        utils.showLoading();
         APIClient.getRanking().then(
             function(data) {
+                utils.stopLoading();
                 if (data.status !== 200) {
                     utils.errorPopUp();
                 } else {

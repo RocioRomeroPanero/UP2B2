@@ -1,4 +1,4 @@
-angular.module('starter.utils', []).factory('utils', function(sessionService, $ionicPopup, $ionicHistory, $state) {
+angular.module('starter.utils', []).factory('utils', function($ionicLoading, sessionService, $ionicPopup, $ionicHistory, $state) {
     return {
         removeByAttr: function(arr, attr, value) {
             var i = arr.length;
@@ -45,7 +45,16 @@ angular.module('starter.utils', []).factory('utils', function(sessionService, $i
 
                 ]
             })
+        },
+        showLoading: function() {
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+        },
+        stopLoading: function() {
+            $ionicLoading.hide()
         }
+
 
     }
 

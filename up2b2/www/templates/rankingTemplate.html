@@ -7,9 +7,9 @@
         <div class="list" ng-if="rankingReady">
             <div class="item row item-text-wrap" ng-repeat='user in users'>
                 <div class="col col-90">
-                    <i class="icon ion-ios-star" ng-if="$index == 0"></i>
-                    <i class="icon ion-ios-star-half" ng-if="$index == 1"></i>
-                    <i class="icon ion-ios-star-outline" ng-if="$index == 2"></i> {{::user.email}}</div>
+                    <i class="icon ion-ios-star" ng-if="$index == 0"> |</i>
+                    <i class="icon ion-ios-star-half" ng-if="$index == 1"> |</i>
+                    <i class="icon ion-ios-star-outline" ng-if="$index == 2"> |</i> {{::user.email}}</div>
                 <div class="col">{{::user.score}}</div>
             </div>
         </div>

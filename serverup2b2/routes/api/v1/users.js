@@ -4,12 +4,16 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
+var config = require('../../../config');
 var crypto = require("crypto");
 require('../../../models/userModel');
 var User = mongoose.model('User'); // pido el modelo
 
+var generator = require('random-password-generator');
 var services = require('../../../public/javascripts/services');
 var middleware = require('../../../public/javascripts/middleware');
+
+var nodemailer = require('nodemailer');
 
 // Get users
 
@@ -42,7 +46,7 @@ router.get('/ranking', middleware.ensureAuthenticated, function(req, res) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
-            return res.status(200).send({ result: 'sucess', rows: rows })
+        return res.status(200).send({ result: 'sucess', rows: rows })
     })
 })
 
@@ -73,7 +77,6 @@ router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
 
     let user = {};
-    var pass = req.body.pass;
     var email = req.body.email;
     let filters = {};
     filters.email = email;
@@ -87,10 +90,10 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
             res.status(499).send({ result: 'user with this email already exists' })
             return;
         } else { // user doesn't exist, lets create it
-
+            var newPass = generator.generate();
             let sha256 = crypto.createHash("sha256");
 
-            sha256.update(req.body.pass, "utf8"); //utf8 here
+            sha256.update(newPass, "utf8"); //utf8 here
 
             let passConHash = sha256.digest("base64");
 
@@ -114,7 +117,39 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
                 if (err) {
                     return res.status(500).send({ result: 'internal error in database', err: err })
                 }
-                res.status(200).send({ result: 'user created', row: newRow })
+                var htmlEmail = '<b>Hello ' + req.body.fullName + ',</b> <p> Welcome to Up2B2! Your account settings are: </p>';
+                htmlEmail += '<p>Email: ' + req.body.email + '</p>';
+                htmlEmail += '<p>Password: ' + newPass + '</p>';
+                htmlEmail += '<p>Please change this password in "my profile" section</p>';
+
+                var transporter = nodemailer.createTransport({
+                    service: 'Gmail',
+                    auth: {
+                        user: config.user, // Your email id
+                        pass: config.pass // Your password
+                    }
+                });
+
+                var mailOptions = {
+                    from: 'rocio.3.romero@gmail.com', // sender address
+                    to: req.body.email, // list of receivers
+                    subject: 'Email Example', // Subject line
+                    html: htmlEmail
+                };
+
+                transporter.sendMail(mailOptions, function(error, info) {
+                    if (error) {
+                        console.log(error);
+                        if (err) return res.status(500).send({ result: "internal error sending the email!" });
+                    } else {
+                        console.log('Message sent: ' + info.response);
+                        return res.status(200).send({ result: 'user created', row: newRow })
+                    };
+                });
+
+
+                /*
+                 */
                 return;
             });
         }

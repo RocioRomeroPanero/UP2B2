@@ -18,19 +18,21 @@ angular.module('administration.module').controller('administrationController', f
         $ionicPopup.show({
             title: 'New user',
             subTitle: 'Please complete this form ',
-            template: '<form>Email: <input required type="email" ng-model="data.email"></input> ' + 
-            'Full name: <input required type="text" ng-model="data.fullName"></input>' + 
-            'Degree: <input required type="text" ng-model="data.degree"></input>' + 
-            'DNI: <input  required type="text" ng-model="data.dni"></input>' + 
-            'Password: <input required type="password" ng-model="data.pass"></input></form>' + 
-            '</br>' + '<ion-checkbox ng-model="data.admin">Admin </ion-checkbox>',
+            template: '<form>Email: <input required type="email" ng-model="data.email"></input> ' +
+                'Full name: <input required type="text" ng-model="data.fullName"></input>' +
+                'Degree: <input required type="text" ng-model="data.degree"></input>' +
+                'DNI: <input  required type="text" ng-model="data.dni"></input>' +
+                '</form>' +
+                '</br>' + '<ion-checkbox ng-model="data.admin">Admin </ion-checkbox>',
             scope: $scope,
             buttons: [{
                     text: 'OK!',
                     type: 'button-positive',
                     onTap: function(e) {
-                        if ($scope.data.pass == undefined || $scope.data.email == undefined || $scope.data.pass == undefined ||
-                            $scope.data.fullName == undefined || $scope.data.degree == undefined || $scope.data.admin == undefined || $scope.data.dni == undefined) {
+                        utils.showLoading();
+                        if ($scope.data.email == undefined || $scope.data.fullName == undefined ||
+                            $scope.data.degree == undefined || $scope.data.dni == undefined) {
+                            utils.stopLoading()
                             $ionicPopup.show({
                                 title: 'Please fill all the options inside the form',
                                 buttons: [{
@@ -46,6 +48,7 @@ angular.module('administration.module').controller('administrationController', f
                         } else {
                             var tryEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($scope.data.email);
                             if (tryEmail == false) {
+                                utils.stopLoading();
                                 $ionicPopup.show({
                                     title: 'Email not valid',
                                     buttons: [{
@@ -55,14 +58,7 @@ angular.module('administration.module').controller('administrationController', f
 
                                     ]
                                 })
-                            } 
-                            else {
-
-                                //comprobar validez de los datos:
-                                // email es un email
-
-                                // DNI tiene numeros y letras
-
+                            } else {
                                 return APIClient.newUser($scope.data.email,
                                     $scope.data.pass,
                                     $scope.data.fullName,
@@ -71,10 +67,11 @@ angular.module('administration.module').controller('administrationController', f
                                     $scope.data.dni).then(
                                     function(data) {
                                         console.log(data);
-
+                                        utils.stopLoading();
                                         console.log('scope', $scope.data);
                                         if (data.status === 200) {
                                             //success
+
                                             $ionicPopup.show({
                                                 title: 'User created',
                                                 buttons: [{

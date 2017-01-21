@@ -8,6 +8,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
     $scope.$root.showMenuIcon = true;
     var initiate = function() {
+        utils.showLoading();
         APIClient.getQuestions().then(
             function(data) {
                 if (data.status !== 200 && data.status !== 404) {
@@ -36,10 +37,11 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                                 }
                             }
                         }
-                    }
-                    else{
+                    } else {
                         $scope.questions = [];
                     }
+
+                    utils.stopLoading();
                 }
             },
             function(err) {
@@ -61,6 +63,8 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     return APIClient.deleteQuestion(id).then(
                         function(data) {
                             if (data.status !== 200) {
@@ -71,6 +75,8 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                                 //question deleted
                                 utils.removeByAttr($scope.questions, '_id', id);
                             }
+
+                            utils.stopLoading();
 
                         },
                         function(error) {
@@ -98,6 +104,8 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     var toChange = {};
                     console.log($scope.data.newValue);
                     if (type == 'question') {
@@ -158,6 +166,8 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     var toChange = {};
                     toChange = {
                         training: $scope.data.newTrainingValue || false,

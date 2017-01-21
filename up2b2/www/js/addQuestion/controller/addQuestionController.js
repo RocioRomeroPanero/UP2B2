@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('addQuestion.module').controller('addQuestionController', function($ionicHistory, $state,FileUploader, $parse, $cordovaFileTransfer, $scope, APIClient, $ionicPopup, sessionService, APIPaths) {
+angular.module('addQuestion.module').controller('addQuestionController', function($ionicHistory, utils, $state, FileUploader, $parse, $cordovaFileTransfer, $scope, APIClient, $ionicPopup, sessionService, APIPaths) {
     $scope.model = {};
     var prueba = {};
 
@@ -37,6 +37,7 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     };
     uploader.onAfterAddingFile = function(fileItem) {
         console.info('onAfterAddingFile', fileItem);
+
     };
     uploader.onAfterAddingAll = function(addedFileItems) {
         console.info('onAfterAddingAll', addedFileItems);
@@ -64,7 +65,6 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
         nombresArchivos.push(response.fileName);
     };
     uploader.onCompleteAll = function() {
-        console.info('onCompleteAll', nombresArchivos);
         if ($scope.model.training == undefined) {
             $scope.model.training = false;
         }
@@ -72,9 +72,10 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
             $scope.model.test = false;
         }
         $scope.model.files = nombresArchivos;
-        console.log($scope.model);
+        utils.showLoading();
         return APIClient.addQuestion($scope.model).then(
             function(data) {
+                utils.stopLoading();
                 $ionicPopup.show({
                     title: 'Question added correctly',
                     buttons: [{

@@ -8,7 +8,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
     $scope.$root.showMenuIcon = true;
 
     var initialize = function() {
-
+        utils.showLoading();
         APIClient.getUser(sessionService.get('id')).then(function(result) {
             console.log('result', result);
             if (result.status !== 200) {
@@ -22,6 +22,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                 $scope.score = sessionService.get('score');
                 $scope.dni = sessionService.get('dni');
                 $scope.myProfileReady = true;
+                utils.stopLoading();
             }
         }, function(err) {
             utils.errorPopUp();
@@ -54,8 +55,10 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                             })
 
                         } else {
+                            utils.showLoading();
                             return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
                                 console.log('data', data);
+                                utils.stopLoading();
                                 if (data.status == 401) {
                                     // contraseña actual no coincide
                                     $ionicPopup.show({

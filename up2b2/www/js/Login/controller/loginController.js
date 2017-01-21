@@ -32,10 +32,12 @@ angular.module('login.module').controller('loginController', function(utils, $io
     }
 
     var forgotPass = function(email) {
+        utils.showLoading();
         APIClient.forgotPassword(email).then(
             function(data) {
                 if (data.status == 200) {
                     //pop-up email sent!
+                    utils.stopLoading();
                     $ionicPopup.show({
                         title: 'Email sent!',
                         template: 'Email sent, please check your email for the new password!',
@@ -48,6 +50,7 @@ angular.module('login.module').controller('loginController', function(utils, $io
                     })
                 } else if (data.status == 499) { // user not registered
                     //pop-up user not registered!
+                    utils.stopLoading();
                     $ionicPopup.show({
                         title: 'Email not found!',
                         template: 'It seems like this email does not exist in the app!',

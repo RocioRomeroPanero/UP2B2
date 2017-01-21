@@ -9,6 +9,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
 
     $scope.$root.showMenuIcon = true;
     var initiate = function() {
+        utils.showLoading();
         APIClient.getUsers().then(
             function(data) {
                 if (data.status !== 200 && data.status !== 404) {
@@ -23,11 +24,12 @@ angular.module('users.module').controller('usersController', function($scope, ut
                                 $scope.users[i].admin = 'No';
                             }
                         }
-                    }
-                    else{
+                    } else {
                         $scope.users = [];
                     }
                 }
+
+                utils.stopLoading();
             },
             function(error) {
                 utils.errorPopUp();
@@ -47,6 +49,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     return APIClient.deleteUser(id).then(
                         function(data) {
                             if (data.status !== 200) {
@@ -57,6 +61,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
                                 //user deleted
                                 utils.removeByAttr($scope.users, '_id', id);
                             }
+
+                            utils.stopLoading();
 
                         },
                         function(error) {
@@ -85,6 +91,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     console.log($scope.data.newValue);
 
                     // CONTROLAR LOS VALORES ADMITIDOS (DNI TIENE QUE SER NUMEROS, EMAIL TIENE QUE
@@ -98,6 +106,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
 
                                 initiate();
                             }
+
+                            utils.stopLoading();
                         },
                         function(error) {
                             console.log('error', error);
@@ -122,6 +132,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 text: 'OK',
                 type: 'button-positive',
                 onTap: function(e) {
+
+                    utils.showLoading();
                     console.log($scope.data.newValue)
                     return APIClient.modifyUser(id, $scope.data.newValue, 'admin').then(
                         function(data) {
@@ -142,6 +154,8 @@ angular.module('users.module').controller('usersController', function($scope, ut
 
                                         }
                                     }
+
+                                    utils.stopLoading();
                                 }
                             )
                         },

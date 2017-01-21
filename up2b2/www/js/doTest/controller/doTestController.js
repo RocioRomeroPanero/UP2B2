@@ -7,8 +7,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
     var url = APIPaths.server + APIPaths.upload + APIPaths.getFile;
 
-
-
     /*
         TIMER
      */
@@ -88,6 +86,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
         if (typeOfTest == "training") {
             typeTest = "training";
+            utils.showLoading();
             APIClient.getTest(userId, false).then(function(result) {
                 if (result.status !== 200) {
                     utils.errorPopUp();
@@ -130,6 +129,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
 
                     }
+                    utils.stopLoading();
 
 
                 }
@@ -140,6 +140,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
         } else {
             typeTest = "realTest";
+            utils.showLoading()
             APIClient.getTest(userId, true).then(function(result) {
                 if (result.status !== 200) {
                     utils.errorPopUp();
@@ -181,6 +182,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
 
                     }
+                    utils.stopLoading();
 
 
                 }
@@ -266,6 +268,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     $scope.endTest = function() {
 
         audio.pause();
+        utils.showLoading();
         if ($scope.questions.length != 0) {
 
             if (answers[$scope.contador] == undefined) {
@@ -371,6 +374,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     $scope.trainingTest = false;
                     $scope.testEnded = true;
                     $scope.tiempoTotal = $scope.humanizeDurationTimer(tiempoTotal, 's');
+                    utils.stopLoading();
                 }
             }, function(err) {
                 // ups! un error
