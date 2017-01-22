@@ -37,18 +37,18 @@ angular.module('myProfile.module').controller('myProfileController', function($s
         $scope.data = {};
         $ionicPopup.show({
             title: 'Change password',
-            template: 'Current password:<input type="password" ng-model="data.pass">New password:</input><input type="password" ng-model="data.newPass"></input>',
+            template: '<input type="password" class="input-form-custom" placeholder="Current password"  ng-model="data.pass"></input><input class="input-form-custom" placeholder="New password"  type="password" ng-model="data.newPass"></input>',
             scope: $scope,
             buttons: [{
                     text: 'Change',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-ok',
                     onTap: function(e) {
                         if ($scope.data.newPass == undefined || $scope.data.pass.length == undefined) {
                             $ionicPopup.show({
                                 title: 'Please fill the form',
                                 buttons: [{
                                         text: 'OK',
-                                        type: 'button-positive'
+                                        type: 'button-positive button-popup-ok'
                                     }
 
                                 ]
@@ -66,7 +66,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                                         template: 'Password not changed!',
                                         buttons: [{
                                                 text: 'OK',
-                                                type: 'button-positive'
+                                                type: 'button-positive button-popup-ok'
                                             }
 
                                         ]
@@ -76,7 +76,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                                         title: 'Password changed',
                                         buttons: [{
                                                 text: 'OK',
-                                                type: 'button-positive'
+                                                type: 'button-positive button-popup-ok'
                                             }
 
                                         ]
@@ -90,7 +90,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                     }
                 }, {
                     text: 'Cancel',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-cancel',
                     onTap: function() {
                         return;
                     }

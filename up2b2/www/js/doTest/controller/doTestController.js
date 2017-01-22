@@ -17,7 +17,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     // actual timer method, counts down every second, stops on zero
     $scope.onTimeout = function() {
 
-        if ($scope.timer === 0 && typeTest=="realTest") {
+        if ($scope.timer === 0 && typeTest == "realTest") {
             $scope.pauseTimer();
             $timeout.cancel(mytimeout);
             // se acaba el test
@@ -79,7 +79,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     var typeTest = "";
     $scope.testEnded = false;
     var audio;
-
     $scope.test = function(typeOfTest) {
 
         // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
@@ -112,12 +111,12 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                             // es la imagen
-                            $scope.questions[0].image = 'http://localhost:3000/files/'+$scope.questions[0].files[m];
+                            $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
                             $scope.choose = false;
-                                $scope.trainingTest = true;
+                            $scope.trainingTest = true;
 
-                                $scope.startTimer(tiempoTotal);
-                            
+                            $scope.startTimer(tiempoTotal);
+
 
                         } else {
                             // es el audio
@@ -168,14 +167,14 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                         if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                             // es la imagen
-                            $scope.questions[0].image = 'http://localhost:3000/files/'+$scope.questions[0].files[m];
+                            $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
                             $scope.choose = false;
-                                $scope.realTest = true;
-                                $scope.startTimer(tiempoTotal);
-                            
+                            $scope.realTest = true;
+                            $scope.startTimer(tiempoTotal);
+
                         } else {
                             // es el audio
-                             $scope.questions[0].audio = $scope.questions[0].files[m];
+                            $scope.questions[0].audio = $scope.questions[0].files[m];
                             audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
                             audio.load();
                         }
@@ -225,8 +224,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                 if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                     // es la imagen
-                    $scope.questions[$scope.contador].image = 'http://localhost:3000/files/'+$scope.questions[$scope.contador].files[m];
-    
+                    $scope.questions[$scope.contador].image = 'http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m];
+
 
                 } else {
                     // es el audio
@@ -400,8 +399,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
         $scope.playing = true;
         audio.play();
     }
-    $scope.stopAudio = function() {
 
+    $scope.stopAudio = function() {
         audio.pause();
     }
 });

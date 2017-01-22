@@ -1,47 +1,61 @@
-<ion-view view-title="Add question">
+<ion-view>
+    <ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Add question
+        </ion-nav-title>
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" style="color:white" menu-toggle="left" ng-show="$root.showMenuIcon">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
         <div class="list">
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Question</span>
+                <span class="input-label"><b>Question</b></span>
                 <input type="text" ng-model="model.question" placeholder="Fill question">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Answer 1</span>
+                <span class="input-label"><b>Answer 1</b></span>
                 <input type="text" ng-model="model.answer1" placeholder="Fill answer 1">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Answer 2</span>
+                <span class="input-label"><b>Answer 2</b></span>
                 <input type="text" ng-model="model.answer2" placeholder="Fill answer 2">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Answer 3</span>
+                <span class="input-label"><b>Answer 3</b></span>
                 <input type="text" ng-model="model.answer3" placeholder="Fill answer 3">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Answer 4</span>
+                <span class="input-label"><b>Answer 4</b></span>
                 <input type="text" ng-model="model.answer4" placeholder="Fill answer 4">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Correct Answer</span>
+                <span class="input-label"><b>Correct Answer</b></span>
                 <input type="number" ng-model="model.correctAnswer" min="1" max="4" placeholder="Select from 1 to 4">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">Seconds to answer the question</span>
+                <span class="input-label"><b>Seconds to answer the question</b></span>
                 <input type="number" ng-model="model.timeToAnswer">
             </label>
-            Test type:
-            <input type="checkbox" id="training" ng-model="model.training" value="training">
-            <label for="cbox2">For training</label>
-            <input type="checkbox" id="realTest" ng-model="model.test" value="realTest">
-            <label for="cbox2">For real test</label>
+            <div class="row" style="padding-left:16px; padding-top:6px; padding-bottom:5px; font-size:16px;">
+                <b style="padding-top: 23px">Test type:</b>
+                    <ion-checkbox class="checkbox-addQuestion" id="training" value="training" ng-model="model.training">For training</ion-checkbox>
+                    <ion-checkbox class="checkbox-addQuestion" ng-model="model.test" value="realTest" id="realTest">For real test</ion-checkbox>
+            </div>
         </div>
         <div>
             <label class="item item-input item-stacked-label">
-                Select image and/or audio for the question:
+                <div class="row">
+                    <b>Select image and/or audio for the question:</b>
+                </div>
                 <input type="file" nv-file-select="" uploader="uploader" multiple />
                 <br/>
-                <table class="table">
-                    Files uploaded:
+                <table class="table" ng-if="uploader.queue.length != 0">
+                    <b>Files uploaded: </b>
+                    <span ng-if="uploader.queue.length == 0">None</span>
                     <thead>
                         <tr>
                             <th width="50%">Name</th>
@@ -50,30 +64,20 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in uploader.queue">
-                            <td><strong>{{ item.file.name }}</strong></td>
+                            <td>{{ item.file.name }}</td>
                             <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                            <td ng-show="uploader.isHTML5">
-                                <div class="progress" style="margin-bottom: 0;">
-                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
             </label>
             <div class="row">
                 <div class="col col-33">
-                    <button type="button" class="button button-block button-calm" ng-if="uploader.getNotUploadedItems().length" ng-click="uploader.uploadAll()">
+                    <button type="button" class="button button-block button-calm button-popup-ok" ng-if="uploader.getNotUploadedItems().length" ng-click="uploader.uploadAll()">
                         Upload question with files
                     </button>
                 </div>
                 <div class="col col-33">
-                    <button type="button" class="button button-block button-calm" ng-if="!uploader.getNotUploadedItems().length" ng-click="uploader.onCompleteAll()">
+                    <button type="button" class="button button-block button-calm button-popup-ok" ng-if="!uploader.getNotUploadedItems().length" ng-click="uploader.onCompleteAll()">
                         Upload question without files
                     </button>
                 </div>

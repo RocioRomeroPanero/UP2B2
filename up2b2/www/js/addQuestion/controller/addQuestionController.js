@@ -80,7 +80,7 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
                     title: 'Question added correctly',
                     buttons: [{
                             text: 'OK',
-                            type: 'button-calm',
+                            type: 'button-calm button-popup-ok',
                             onTap: function(e) {
                                 // volver a cargar la vista
                                 $ionicHistory.nextViewOptions({

@@ -1,16 +1,27 @@
-<ion-view view-title="Login">
+<ion-view>
+    <ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Up2B2!
+        </ion-nav-title>
+    </ion-nav-bar>
     <ion-content>
-        <div class="list list-inset">
-            <label class="item item-input item-text-wrap">
-                <input ng-model="model.email" id='email' type="text" placeholder="Email">
-            </label>
-            <label class="item item-input item-text-wrap">
-                <input id='password' ng-model="model.pass" type="password" placeholder="Password">
-            </label>
-            <a ng-click="newPass()">I forgot my password!</a>
-            <button ng-click="login()" class="button button-positive">
-                Connect!
-            </button>
+        <div class="list list-inset login">
+            <div class="login-box">
+                <label class="item item-input item-text-wrap login-Custom">
+                    <i class="icon ion-email placeholder-icon"></i>
+                    <input ng-model="model.email" id='email' type="text" placeholder="Email">
+                </label>
+                <label class="item item-input item-text-wrap login-Custom">
+                    <i class="icon ion-locked placeholder-icon"></i>
+                    <input id='password' ng-model="model.pass" type="password" placeholder="Password">
+                </label>
+            </div>
+            <div class="row">
+                <button class="button button-block button-calm button-custom-login button-custom-login-forgot" ng-click="newPass()">Ups! I forgot my password!</button>
+                <button ng-click="login()" class="button button-block button-positive button-custom-login button-custom-login-connect">
+                    Connect!
+                </button>
+            </div>
         </div>
     </ion-content>
 </ion-view>

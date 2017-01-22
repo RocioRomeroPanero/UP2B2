@@ -1,10 +1,21 @@
-<ion-view view-title="Questions">
+<ion-view>
+<ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Questions
+        </ion-nav-title>
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" style="color:white" menu-toggle="left" ng-show="$root.showMenuIcon">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
         <div class="list">
             <div ng-repeat="question in questions">
                 <div class="item item-divider item-icon-right item-text-wrap">
                     {{question.question}}
-                    <i ng-click="deleteQuestion(question._id, question.question)" style="color:red" class="icon ion-close-circled"></i>
+                    <i ng-click="deleteQuestion(question._id, question.question)"  class="icon ion-close-circled icon-remove-custom"></i>
                 </div>
                 <div class="item item-icon-right item-text-wrap">
                     Answer 1: {{question.answer1}}
@@ -49,10 +60,10 @@
                     <div ng-if="question.audio">
                         <div ng-if="question.audio">{{question.audio}}</div>
                         <div  class="row" >
-                            <button class="col col50 button button-block button-balanced" ng-click="playAudio($index)">
+                            <button class="col col50 button button-block button-balanced button-audio-play" ng-click="playAudio($index)">
                                 Play audio
                             </button>
-                            <button class="col col50 button button-block  button-calm" ng-click="stopAudio()">
+                            <button class="col col50 button button-block  button-calm button-audio-stop" ng-click="stopAudio()">
                                 Stop audio
                             </button>
                         </div>

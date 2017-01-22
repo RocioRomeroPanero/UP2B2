@@ -1,4 +1,15 @@
-<ion-view view-title="Test">
+<ion-view>
+<ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Test!
+        </ion-nav-title>
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" style="color:white" menu-toggle="left" ng-show="$root.showMenuIcon">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
         <div class="list" ng-show="choose">
             <div class="item item-divider item-text-wrap">
@@ -13,12 +24,12 @@
         </div>
         <div ng-if="trainingTest">
             <div class="list" ng-if="questions.length != 0">
-                <div class="item item-divider item-text-wrap" ng-repeat="question in questions" ng-show="contador == $index">
+                <div class="item item-text-wrap" ng-repeat="question in questions" ng-show="contador == $index">
                     <div ng-if="question.audio != undefined" class="row">
-                        <button class="button button-block button-balanced" ng-click="playAudio()">
+                        <button class="button button-block button-balanced button-audio-play" ng-click="playAudio()">
                             Play audio
                         </button>
-                        <button class="button button-block button-energized" ng-click="stopAudio()">
+                        <button class="button button-block button-energized button-audio-stop" ng-click="stopAudio()">
                             Stop audio
                         </button>
                     </div>
@@ -45,15 +56,15 @@
             </div>
             <div class="row" ng-if="questions.length != 0">
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
+                    <button class="button button-block button-positive button-popup-ok" ng-click="backQuestion()" ng-show="contador>0">
                         Previous question
                     </button>
                 </div>
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
+                    <button class="button button-block button-positive button-popup-ok" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
                         Next question
                     </button>
-                    <button class="button button-block button-balanced" ng-click="endTest()" ng-show="contador+1==numberQuestions">
+                    <button class="button button-block button-positive button-finish-test" ng-click="endTest()" ng-show="contador+1==numberQuestions">
                         Finish test
                     </button>
                 </div>
@@ -72,12 +83,12 @@
             }
             </style>
             <div class="list" ng-if="questions.length != 0">
-                <div ng-repeat="question in questions" class="item item-divider item-text-wrap" ng-if="contador == $index">
+                <div ng-repeat="question in questions" class="item item-text-wrap" ng-if="contador == $index">
                     <div ng-if="question.audio != undefined" class="row">
-                        <button ng-disabled="question.played == true" class="button button-block button-balanced " ng-click="playAudio()">
+                        <button ng-disabled="question.played == true" class="button button-block button-balanced button-audio-play" ng-click="playAudio()">
                             Play audio
                         </button>
-                        <button class="button button-block button-energized " ng-click="stopAudio()">
+                        <button class="button button-block button-energized button-audio-stop" ng-click="stopAudio()">
                             Stop audio
                         </button>
                     </div>
@@ -85,16 +96,16 @@
                     <div>
                         <img style="display: block;margin-left: auto;margin-right:auto; " ng-if="contador == $index" ng-src="{{question.image}}">
                     </div>
-                    <button class="button button-block " ng-class="{'button-positive': !active1, 'button-energized': active1}" ng-click="continueQuestion(1); active1=!active1; active2=false; active3=false; active4=false">
+                    <button class="button button-block " ng-class="{'button-positive': !active5, 'button-energized': active5}" ng-click="continueQuestion(1); active5=!active5; active6=false; active7=false; active8=false">
                         {{::question.answer1}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': !active2, 'button-energized': active2}" ng-click="continueQuestion(2); active2=!active2; active3=false; active1=false; active4=false">
+                    <button class="button button-block " ng-class="{'button-positive': !active6, 'button-energized': active6}" ng-click="continueQuestion(2); active6=!active6; active7=false; active5=false; active8=false">
                         {{::question.answer2}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': !active3, 'button-energized': active3}" ng-click="continueQuestion(3); active3=!active3; active1=false; active2=false; active4=false">
+                    <button class="button button-block " ng-class="{'button-positive': !active7, 'button-energized': active7}" ng-click="continueQuestion(3); active7=!active7; active5=false; active6=false; active8=false">
                         {{::question.answer3}}
                     </button>
-                    <button class="button button-block " ng-class="{'button-positive': !active4, 'button-energized': active4}" ng-click="continueQuestion(4); active4=!active4; active1=false; active2=false; active3=false">
+                    <button class="button button-block " ng-class="{'button-positive': !active8, 'button-energized': active8}" ng-click="continueQuestion(4); active8=!active8; active5=false; active6=false; active7=false">
                         {{::question.answer4}}
                     </button>
                 </div>
@@ -104,15 +115,15 @@
             </div>
             <div class="row" ng-if="questions.length != 0">
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="backQuestion()" ng-show="contador>0">
+                    <button class="button button-block button-positive button-popup-ok" ng-click="backQuestion()" ng-show="contador>0">
                         Previous question
                     </button>
                 </div>
                 <div class="col col50">
-                    <button class="button button-block button-positive" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
+                    <button class="button button-block button-positive button-popup-ok" ng-click="continueQuestion(undefined)" ng-show="!(contador+1==numberQuestions)">
                         Next question
                     </button>
-                    <button class="button button-block button-balanced" ng-click="endTest()" ng-show="contador+1==numberQuestions">
+                    <button class="button button-block button-positive button-finish-test" ng-click="endTest()" ng-show="contador+1==numberQuestions">
                         Finish test
                     </button>
                 </div>
@@ -125,7 +136,7 @@
         </div>
         <div ng-if="testEnded && questions.length != 0">
             <div class="card">
-                <div class="item item-text-wrap" style="background-color: #ffff99; text-align: center">
+                <div class="item item-text-wrap" style="text-align: center">
                     <b>Test done! You got {{::correctas}} right answers from {{::numeroPreguntas}} questions in {{::tiempoUtilizado}} of {{::tiempoTotal}} available. Your score in this test is {{::resultadoFinal}}.
                     </b>
                     <b ng-if="realTestEnd">This test wasn't a training test so it will affect your accounts score.</b>
@@ -145,7 +156,7 @@
                 </div>
             </div>
             <div ng-repeat="question in questionsEndTest">
-                <div class="item item-divider">Question {{::$index+1}}: {{::question.question}}
+                <div class="item">Question {{::$index+1}}: {{::question.question}}
                     <button class="button button-block" ng-class="{'button-positive': ((question.selected != 1) && (question.correctAnswer != 1)) || (question.selected == 0), 'button-balanced': (question.selected == 1) && (question.correctAnswer == 1) || (question.selected != question.correctAnswer && question.selected != 1 && question.correctAnswer == 1) && (question.selected != 0), 'button-assertive': (question.selected !== question.correctAnswer) && (question.correctAnswer != 1) && (question.selected == 1)}">
                         {{::question.answer1}}
                     </button>

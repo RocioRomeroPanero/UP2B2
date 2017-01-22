@@ -47,7 +47,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
             subTitle: 'Are you sure?',
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -74,7 +74,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 }
             }, {
                 text: 'NO',
-                type: 'button-positive'
+                type: 'button-positive button-popup-cancel'
             }]
         })
     };
@@ -89,7 +89,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
             scope: $scope,
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -118,7 +118,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 }
             }, {
                 text: 'Cancel',
-                type: 'button-positive'
+                type: 'button-positive button-popup-cancel'
             }]
         })
     }
@@ -126,11 +126,11 @@ angular.module('users.module').controller('usersController', function($scope, ut
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify " + name + "'s " + 'admin value',
-            template: '<ion-checkbox ng-model="data.newValue">Admin </ion-checkbox>',
+            template: '<ion-checkbox class="input-form-checkbox-custom" ng-model="data.newValue">Admin </ion-checkbox>',
             scope: $scope,
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -167,7 +167,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 }
             }, {
                 text: 'Cancel',
-                type: 'button-positive'
+                type: 'button-positive button-popup-cancel'
             }]
         })
     }

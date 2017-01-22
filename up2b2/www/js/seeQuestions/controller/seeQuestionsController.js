@@ -61,7 +61,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
             subTitle: 'Are you sure?',
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -88,7 +88,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 }
             }, {
                 text: 'NO',
-                type: 'button-positive'
+                type: 'button-positive button-popup-ok'
             }]
         })
     };
@@ -102,7 +102,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
             scope: $scope,
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -150,7 +150,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 }
             }, {
                 text: 'Cancel',
-                type: 'button-positive'
+                type: 'button-positive button-popup-cancel'
             }]
         })
     }
@@ -164,7 +164,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
             scope: $scope,
             buttons: [{
                 text: 'OK',
-                type: 'button-positive',
+                type: 'button-positive button-popup-ok',
                 onTap: function(e) {
 
                     utils.showLoading();
@@ -188,7 +188,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 }
             }, {
                 text: 'Cancel',
-                type: 'button-positive'
+                type: 'button-positive button-popup-cancel'
             }]
         })
 

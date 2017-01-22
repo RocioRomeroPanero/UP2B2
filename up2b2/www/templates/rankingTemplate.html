@@ -1,16 +1,28 @@
-<ion-view view-title="Ranking">
+<ion-view>
+<ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Ranking
+        </ion-nav-title>
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" style="color:white" menu-toggle="left" ng-show="$root.showMenuIcon">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
-        <div class="row">
-            <div class="col col-90 item-text-wrap"><b>User</b></div>
-            <div class="col item-text-wrap"><b>Score</b></div>
+        <div class="row ranking-header">
+            <div class="col col-90 item-text-wrap" style="margin-left: 13px" ><b>USER</b></div>
+            <div class="col item-text-wrap" style="text-align: center" ><b>SCORE</b></div>
         </div>
         <div class="list" ng-if="rankingReady">
             <div class="item row item-text-wrap" ng-repeat='user in users'>
                 <div class="col col-90">
                     <i class="icon ion-ios-star" ng-if="$index == 0"> |</i>
                     <i class="icon ion-ios-star-half" ng-if="$index == 1"> |</i>
-                    <i class="icon ion-ios-star-outline" ng-if="$index == 2"> |</i> {{::user.email}}</div>
-                <div class="col">{{::user.score}}</div>
+                    <i class="icon ion-ios-star-outline" ng-if="$index == 2"> |</i> {{::user.email}}
+                </div>
+                <div style="text-align: center" class="col">{{::user.score}}</div>
             </div>
         </div>
     </ion-content>

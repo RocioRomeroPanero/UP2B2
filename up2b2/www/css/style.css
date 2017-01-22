@@ -1,1 +1,247 @@
 /* Empty. Add your own CSS if you like */
+
+.dark-primary-color {
+    background: #00796B;
+}
+
+.default-primary-color {
+    background: #009688;
+}
+
+.light-primary-color {
+    background: #B2DFDB;
+}
+
+.text-primary-color {
+    color: #FFFFFF;
+}
+
+.accent-color {
+    background: #7C4DFF;
+}
+
+.primary-text-color {
+    color: #212121;
+}
+
+.secondary-text-color {
+    color: #757575;
+}
+
+.divider-color {
+    border-color: #BDBDBD;
+}
+
+:root {
+    --primary-color: #00796B;
+    --secondary-color: #009688;
+    --light-primery-color: #B2DFDB;
+    --accent-color: #7C4DFF;
+    --divider-color: #BDBDBD;
+    --text-primary-color: #FFFFFF;
+    --primary-text-color: #212121;
+    --secondary-text-color: #757575;
+    --letras-blanco: #eeeeee;
+}
+
+input::-webkit-input-placeholder {
+    color: var(--primary-text-color);
+    padding-left: 7px;
+}
+
+input:-moz-placeholder {
+    color: var(--primary-text-color);
+    padding-left: 7px;
+}
+
+input:-ms-input-placeholder {
+    /* IE10+ */
+    color: var(--primary-text-color);
+    padding-left: 7px;
+}
+
+
+/* GLOBALES */
+
+.ion-ios-arrow-back {
+    color: white;
+}
+
+.back-text {
+    color: white;
+}
+
+input {
+    color: black!important;
+}
+
+.icon {
+    /*color:#3d5afe;*/
+    font-size: 25px;
+}
+
+.item-divider {
+    background-color: var(--secondary-color);
+    color: var(--letras-blanco)!important;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+}
+
+.item {
+    border-color: var(--divider-color)!important;
+}
+
+.ion-ios-compose-outline {
+    color: var(--accent-color)!important;
+}
+
+
+/* CABECERAS */
+
+.custom-header {
+    color: #ffffff!important;
+    background-color: var(--primary-color)!important;
+    border: none!important;
+}
+
+.menu-custom-header {
+    background-color: var(--secondary-color)!important;
+}
+
+.menu-custom {
+    border: none;
+}
+
+
+/* LOGIN */
+
+.login-Custom {
+    margin-bottom: 15px;
+    border: none;
+}
+
+.button-custom-login {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.login {
+    position: center;
+}
+
+.button-custom-login-forgot {
+    background-color: var(--secondary-color)!important;
+}
+
+.button-custom-login-connect {
+    background-color: var(--accent-color)!important;
+}
+
+
+/* POP UP */
+
+.popup {
+    border-radius: 10px!important;
+}
+
+.popup-title {
+    font-size: 20px!important;
+}
+
+.popup-sub-title {
+    font-size: 15px!important;
+}
+
+.button-popup-ok {
+    background-color: var(--accent-color)!important;
+}
+
+.popup-head {
+    border-bottom: 1px solid var(--divider-color)!important;
+}
+
+.button-popup-cancel {
+    background-color: var(--primary-color)!important;
+}
+
+.input-form-custom {
+    margin-top: 10px;
+}
+
+.input-form-checkbox-custom {
+    border: none;
+}
+
+.checkbox input:checked:before,
+.checkbox input:checked + .checkbox-icon:before {
+    background: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+}
+
+
+/* RANKING */
+
+.ranking-header {
+    background-color: var(--secondary-color) !important;
+    color: white;
+}
+
+
+/*USERS*/
+
+.button-delete-user {
+    background-color: #009688!important;
+    margin-top: 0px!important;
+    margin-bottom: 0px!important;
+    float: left;
+    max-height: 2px!important;
+}
+
+.users-name-custom {
+    margin-top: 8px;
+}
+
+.item-divider-custom {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+/*ADD QUESTION*/
+
+.checkbox-addQuestion {
+    border: none;
+}
+
+
+/* STATISTICS */
+
+.button-custom-statistics {
+    background-color: var(--secondary-color) !important;
+}
+
+.p-statistics {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.statistics-line-custom {
+    border-bottom: 1px solid var(--divider-color);
+}
+
+
+/*DO TEST*/
+
+.button-finish-test {
+    background-color: var(--primary-color) !important;
+}
+
+.button-audio-play {
+    background-color: var(--secondary-color) !important;
+    margin-right: 10px;
+}
+
+.button-audio-stop {
+    background-color:var(--secondary-color) !important;
+}

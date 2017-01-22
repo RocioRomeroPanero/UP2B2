@@ -5,23 +5,23 @@ angular.module('login.module').controller('loginController', function(utils, $io
     $scope.model = {};
 
     $scope.$root.showMenuIcon = false;
-
+    $ionicSideMenuDelegate.canDragContent(false);
     $scope.newPass = function() {
         $scope.data = {};
         $ionicPopup.show({
             title: 'Insert email',
             subTitle: 'Enter your email here and we will email you with a new password',
-            template: '<input type="text" ng-model="data.email"</input>',
+            template: '<input type="text" placeholder="Email" ng-model="data.email"</input>',
             scope: $scope,
             buttons: [{
                     text: 'OK!',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-ok',
                     onTap: function(e) {
                         return forgotPass($scope.data.email);
                     }
                 }, {
                     text: 'Cancel',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-cancel',
                     onTap: function() {
                         return;
                     }
@@ -43,7 +43,7 @@ angular.module('login.module').controller('loginController', function(utils, $io
                         template: 'Email sent, please check your email for the new password!',
                         buttons: [{
                                 text: 'OK!',
-                                type: 'button-balanced'
+                                type: 'button-balanced button-popup-ok'
                             }
 
                         ]
@@ -56,7 +56,7 @@ angular.module('login.module').controller('loginController', function(utils, $io
                         template: 'It seems like this email does not exist in the app!',
                         buttons: [{
                                 text: 'OK',
-                                type: 'button-calm'
+                                type: 'button-calm button-popup-ok'
                             }
 
                         ]
@@ -86,6 +86,7 @@ angular.module('login.module').controller('loginController', function(utils, $io
                     $ionicHistory.nextViewOptions({
                         disableBack: true
                     });
+                    $ionicSideMenuDelegate.canDragContent(true);
                     if (data.data.data[0].admin == true) {
                         $ionicHistory.nextViewOptions({
                             disableBack: true
@@ -111,7 +112,7 @@ angular.module('login.module').controller('loginController', function(utils, $io
                         template: 'Please check your credentials!',
                         buttons: [{
                                 text: 'OK!',
-                                type: 'button-positive'
+                                type: 'button-positive button-popup-ok'
                             }
 
                         ]

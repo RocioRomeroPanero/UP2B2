@@ -18,16 +18,16 @@ angular.module('administration.module').controller('administrationController', f
         $ionicPopup.show({
             title: 'New user',
             subTitle: 'Please complete this form ',
-            template: '<form>Email: <input required type="email" ng-model="data.email"></input> ' +
-                'Full name: <input required type="text" ng-model="data.fullName"></input>' +
-                'Degree: <input required type="text" ng-model="data.degree"></input>' +
-                'DNI: <input  required type="text" ng-model="data.dni"></input>' +
+            template: '<form><input class="input-form-custom" required type="email" placeholder="Email" ng-model="data.email"></input> ' +
+                ' <input class="input-form-custom" required type="text" placeholder="Full name" ng-model="data.fullName"></input>' +
+                ' <input class="input-form-custom" required type="text" placeholder="Degree" ng-model="data.degree"></input>' +
+                ' <input  class="input-form-custom" required type="text" placeholder="DNI" ng-model="data.dni"></input>' +
                 '</form>' +
-                '</br>' + '<ion-checkbox ng-model="data.admin">Admin </ion-checkbox>',
+                '</br>' + '<ion-checkbox class="input-form-checkbox-custom" ng-model="data.admin">Admin </ion-checkbox>',
             scope: $scope,
             buttons: [{
                     text: 'OK!',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-ok',
                     onTap: function(e) {
                         utils.showLoading();
                         if ($scope.data.email == undefined || $scope.data.fullName == undefined ||
@@ -37,7 +37,7 @@ angular.module('administration.module').controller('administrationController', f
                                 title: 'Please fill all the options inside the form',
                                 buttons: [{
                                         text: 'OK',
-                                        type: 'button-positive',
+                                        type: 'button-positive button-popup-ok',
                                         onTap: function() {
                                             return;
                                         }
@@ -53,7 +53,7 @@ angular.module('administration.module').controller('administrationController', f
                                     title: 'Email not valid',
                                     buttons: [{
                                             text: 'OK',
-                                            type: 'button-positive'
+                                            type: 'button-positive button-popup-ok'
                                         }
 
                                     ]
@@ -76,7 +76,7 @@ angular.module('administration.module').controller('administrationController', f
                                                 title: 'User created',
                                                 buttons: [{
                                                         text: 'OK',
-                                                        type: 'button-balanced'
+                                                        type: 'button-balanced button-popup-ok'
                                                     }
 
                                                 ]
@@ -89,7 +89,7 @@ angular.module('administration.module').controller('administrationController', f
                                                 template: 'This user already exists or it has been an error in the database',
                                                 buttons: [{
                                                         text: 'OK',
-                                                        type: 'button-calm'
+                                                        type: 'button-calm button-popup-ok'
                                                     }
 
                                                 ]
@@ -105,7 +105,7 @@ angular.module('administration.module').controller('administrationController', f
                     }
                 }, {
                     text: 'Cancel',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-cancel',
                     onTap: function() {
                         return;
                     }

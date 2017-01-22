@@ -11,24 +11,24 @@
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
     <ion-side-menu side="left">
-        <ion-header-bar class="bar-stable">
-            <h1 class="title">Menu</h1>
+        <ion-header-bar class="bar-stable menu-custom-header">
+            <h1 class="title" style="color:white">Menu</h1>
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item menu-close class="item-icon-left" href="#/app/myProfile">
+                <ion-item menu-close class="item-icon-left menu-custom" href="#/app/myProfile">
                     <i class="icon ion-pricetag"></i> My profile
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" href="#/app/administration" ng-if="administrator">
+                <ion-item menu-close class="item-icon-left menu-custom" href="#/app/administration" ng-if="administrator">
                     <i class="icon ion-clipboard"></i> Administration
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" href="#/app/ranking">
+                <ion-item menu-close class="item-icon-left menu-custom" href="#/app/ranking">
                     <i class="icon ion-podium"></i> Ranking
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" href="#/app/doTest">
+                <ion-item menu-close class="item-icon-left menu-custom" href="#/app/doTest">
                     <i class="icon ion-ios-list"></i> Test
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" ng-click="disconnect()">
+                <ion-item menu-close class="item-icon-left menu-custom" ng-click="disconnect()">
                     <i class="icon ion-android-walk"></i> Disconnect
                 </ion-item>
             </ion-list>

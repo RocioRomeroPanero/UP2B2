@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
             scope: $scope,
             buttons: [{
                     text: 'OK!',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-ok',
                     onTap: function(e) {
                         // -> sí: limpiar local storage, llevar al login
                         sessionService.clear();
@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
                     }
                 }, {
                     text: 'Cancel',
-                    type: 'button-positive',
+                    type: 'button-positive button-popup-cancel',
                     onTap: function() {
                         // -> no: no hacer nada
                         return;

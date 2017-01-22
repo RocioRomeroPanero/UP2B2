@@ -1,13 +1,24 @@
-<ion-view view-title="Statistics">
+<ion-view>
+    <ion-nav-bar class="bar-stable custom-header">
+        <ion-nav-title style="color:white">
+            Statistics
+        </ion-nav-title>
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" style="color:white" menu-toggle="left" ng-show="$root.showMenuIcon">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
         <div class="row">
             <div class="col col-50" style="text-align: center;">
-                <button class="button button-full button-positive" ng-click="byUser()">
+                <button class="button button-full button-positive button-custom-statistics" ng-click="byUser()">
                     By User
                 </button>
             </div>
             <div class="col" style="text-align: center; ">
-                <button class="button button-full button-positive" ng-click="byQuestion()">
+                <button class="button button-full button-positive button-custom-statistics" ng-click="byQuestion()">
                     By question
                 </button>
             </div>
@@ -22,7 +33,7 @@
                 </div>
                 <ion-item class="item-accordion item-text-wrap" ng-repeat="test in user.testDone" ng-show="isGroupShown(user)">
                     <b ng-if="test.training == true">Training test |</b>
-                    <b ng-if="test.training == false">Real test | Total score: {{::test.score}} | <b ng-bind="test.date | date:'dd/MM/yyyy'"></b> | </b> Nº correct: {{::test.numberCorrect}} | Nº wrong: {{::test.numberWrong}} | Time spent: {{::test.timeSpent}} seconds | Time bonus: <span ng-if="test.timeBonus == true">yes </span><span ng-if="test.timeBonus == false">no.</span>
+                    <b ng-if="test.training == false">Real test | </b> <b>Total score: {{::test.score}} | </b><b ng-bind="test.date | date:'dd/MM/yyyy'"> </b> | Nº correct: {{::test.numberCorrect}} | Nº wrong: {{::test.numberWrong}} | Time spent: {{::test.timeSpent}} seconds | Time bonus: <span ng-if="test.timeBonus == true">yes </span><span ng-if="test.timeBonus == false">no.</span>
                 </ion-item>
             </div>
         </div>
@@ -32,15 +43,28 @@
                     <i class="icon" ng-class="isGroupShownQuestion(question) ? 'ion-minus' : 'ion-plus'"></i> &nbsp; {{question.question}}
                 </ion-item>
                 <div class="item item-text-wrap" style=" text-align: center" ng-show="isGroupShownQuestion(question)">
-                    Number of users that answered correct: {{question.usersCorrect.length}} |
-                    Number of users that answered the question: {{question.usersDone.length}} |
-                    <p><b>Users that answered correct:</b></p>
-                    <div class="item item-text-wrap" ng-repeat="correct in question.usersCorrect">
-                        {{correct.email}} | <span ng-if="correct.training == true">As traininig</span><span ng-if="correct.training == false">As real test</span>
-                    </div>
-                    <p><b>Users that answered the question:</b></p>
-                    <div class="item item-text-wrap" ng-repeat="answered in question.usersDone">
-                        {{answered.email}} | <span ng-if="answered.training == true">As traininig</span><span ng-if="answered.training == false">As real test</span>
+                    <b class="statistics-line-custom"> Number of users that answered the question: {{question.usersDone.length}} | Number of users that answered correct: {{question.usersCorrect.length}} 
+                    </b>
+                    <br/>
+                    <div>
+                        <div class="p-statistics">
+                            <b>Users that answered correct:</b>
+                        </div>
+                        <div ng-if="question.usersCorrect.length == 0">
+                            There isn't any record
+                        </div>
+                        <div class="item-text-wrap " ng-repeat="correct in question.usersCorrect">
+                            {{correct.email}} | <span ng-if="correct.training == true">As traininig</span><span ng-if="correct.training == false">As real test</span>
+                        </div>
+                        <div class="p-statistics">
+                            <b >Users that answered the question:</b>
+                        </div>
+                        <div class=" item-text-wrap" ng-repeat="answered in question.usersDone">
+                            {{answered.email}} | <span ng-if="answered.training == true">As traininig</span><span ng-if="answered.training == false">As real test</span>
+                        </div>
+                        <div ng-if="question.usersDone.length == 0">
+                            There isn't any record
+                        </div>
                     </div>
                 </div>
             </div>

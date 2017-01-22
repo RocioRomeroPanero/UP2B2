@@ -27,12 +27,13 @@ angular.module('starter.utils', []).factory('utils', function($ionicLoading, ses
             }
         },
         errorPopUp: function() {
+            this.stopLoading();
             $ionicPopup.show({
                 title: 'Error',
                 subTitle: 'Ups! Seems to be an error, please log in again.',
                 buttons: [{
                         text: 'OK!',
-                        type: 'button-positive',
+                        type: 'button-positive button-popup-ok',
                         onTap: function(e) {
                             sessionService.clear();
                             $ionicHistory.nextViewOptions({
