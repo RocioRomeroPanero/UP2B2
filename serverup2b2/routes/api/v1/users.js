@@ -77,7 +77,7 @@ router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
 
     let user = {};
-    var email = req.body.email;
+    var email = req.body.email.toLowerCase();
     let filters = {};
     filters.email = email;
     //comprobar si existe ese nombre en la base de datos primero!
@@ -118,7 +118,7 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
                     return res.status(500).send({ result: 'internal error in database', err: err })
                 }
                 var htmlEmail = '<b>Hello ' + req.body.fullName + ',</b> <p> Welcome to Up2B2! Your account settings are: </p>';
-                htmlEmail += '<p>Email: ' + req.body.email + '</p>';
+                htmlEmail += '<p>Email: ' + req.body.email.toLowerCase() + '</p>';
                 htmlEmail += '<p>Password: ' + newPass + '</p>';
                 htmlEmail += '<p>Please change this password in "my profile" section</p>';
 
@@ -132,7 +132,7 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
 
                 var mailOptions = {
                     from: 'rocio.3.romero@gmail.com', // sender address
-                    to: req.body.email, // list of receivers
+                    to: req.body.email.toLowerCase(), // list of receivers
                     subject: 'Email Example', // Subject line
                     html: htmlEmail
                 };
@@ -162,7 +162,7 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
 router.post('/login', function(req, res) {
 
     // get user and check if exists in the database.
-    var email = req.body.email;
+    var email = req.body.email.toLowerCase();
     var pass = req.body.pass;
     var filters = {};
 

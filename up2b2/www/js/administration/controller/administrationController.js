@@ -59,6 +59,7 @@ angular.module('administration.module').controller('administrationController', f
                                     ]
                                 })
                             } else {
+                                $scope.data.email = $scope.data.email.toLowerCase();
                                 return APIClient.newUser($scope.data.email,
                                     $scope.data.pass,
                                     $scope.data.fullName,

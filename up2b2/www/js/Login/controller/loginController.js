@@ -17,7 +17,8 @@ angular.module('login.module').controller('loginController', function(utils, $io
                     text: 'OK!',
                     type: 'button-positive button-popup-ok',
                     onTap: function(e) {
-                        return forgotPass($scope.data.email);
+                        var email = $scope.data.email.toLowerCase()
+                        return forgotPass(email);
                     }
                 }, {
                     text: 'Cancel',
@@ -69,6 +70,8 @@ angular.module('login.module').controller('loginController', function(utils, $io
     $scope.login = function() {
         console.log('login', $scope.model);
         // get the form values
+
+        $scope.model.email = $scope.model.email.toLowerCase();
 
         APIClient.login($scope.model).then(
             function(data) {

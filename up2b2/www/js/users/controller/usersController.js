@@ -112,6 +112,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
                         })
 
                     } else {
+                        
                         return APIClient.modifyUser(id, $scope.data.newValue, type).then(
                             function(data) {
                                 if (data.status !== 200) {
