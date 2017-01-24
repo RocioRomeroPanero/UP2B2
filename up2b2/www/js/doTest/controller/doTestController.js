@@ -324,7 +324,8 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                 var infoToPush = {};
 
                 infoForEnd[i].selected = answers[i];
-
+                console.log('correctAnswers[i]', correctAnswers[i]);
+                console.log('answers[i]', answers[i])
                 if (correctAnswers[i] == answers[i]) {
                     infoToPush = {
                         id: $scope.questions[i]._id,
