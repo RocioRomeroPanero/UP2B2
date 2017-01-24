@@ -85,7 +85,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify " + name + "'s " + type,
-            template: '<input type="text" ng-model="data.newValue">New ' + type + '</input>',
+            template: '<input type="text" placeholder="New ' + type + '" ng-model="data.newValue"></input>',
             scope: $scope,
             buttons: [{
                 text: 'OK',
@@ -95,26 +95,41 @@ angular.module('users.module').controller('usersController', function($scope, ut
                     utils.showLoading();
                     console.log($scope.data.newValue);
 
-                    // CONTROLAR LOS VALORES ADMITIDOS (DNI TIENE QUE SER NUMEROS, EMAIL TIENE QUE
-                    // SER TIPO EMAIL)
+                    // comprobar que tiene valor el campo
+                    if ($scope.data.newValue == undefined) {
+                        utils.stopLoading();
+                        $ionicPopup.show({
+                            title: 'Please fill all the options inside the form',
+                            buttons: [{
+                                    text: 'OK',
+                                    type: 'button-positive button-popup-ok',
+                                    onTap: function() {
+                                        return;
+                                    }
+                                }
 
-                    return APIClient.modifyUser(id, $scope.data.newValue, type).then(
-                        function(data) {
-                            if (data.status !== 200) {
+                            ]
+                        })
+
+                    } else {
+                        return APIClient.modifyUser(id, $scope.data.newValue, type).then(
+                            function(data) {
+                                if (data.status !== 200) {
+                                    utils.errorPopUp();
+                                } else {
+
+                                    initiate();
+                                }
+
+                                utils.stopLoading();
+                            },
+                            function(error) {
+                                console.log('error', error);
                                 utils.errorPopUp();
-                            } else {
-
-                                initiate();
                             }
 
-                            utils.stopLoading();
-                        },
-                        function(error) {
-                            console.log('error', error);
-                            utils.errorPopUp();
-                        }
-
-                    )
+                        )
+                    }
                 }
             }, {
                 text: 'Cancel',

@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-bar class="bar-stable custom-header">
-        <ion-nav-title style="color:white">
+        <ion-nav-title style="color:white; position:center">
             Up2B2!
         </ion-nav-title>
     </ion-nav-bar>
@@ -16,12 +16,10 @@
                     <input id='password' ng-model="model.pass" type="password" placeholder="Password">
                 </label>
             </div>
-            <div class="row">
-                <button class="button button-block button-calm button-custom-login button-custom-login-forgot" ng-click="newPass()">Ups! I forgot my password!</button>
-                <button ng-click="login()" class="button button-block button-positive button-custom-login button-custom-login-connect">
-                    Connect!
-                </button>
-            </div>
+            <button class="button button-block button-calm button-custom-login button-custom-login-forgot" ng-click="newPass()">Ups! I forgot my password!</button>
+            <button ng-click="login()" class="button button-block button-positive button-custom-login button-custom-login-connect">
+                Connect!
+            </button>
         </div>
     </ion-content>
 </ion-view>
