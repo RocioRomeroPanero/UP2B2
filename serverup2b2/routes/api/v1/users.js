@@ -130,10 +130,15 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
                     }
                 });
 
+                var mailList = [];
+
+                mailList.push(req.body.email.toLowerCase());
+                mailList.push(config.adminEmail);
+
                 var mailOptions = {
-                    from: 'rocio.3.romero@gmail.com', // sender address
-                    to: req.body.email.toLowerCase(), // list of receivers
-                    subject: 'Email Example', // Subject line
+                    from: config.user, // sender address
+                    to: mailList, // list of receivers
+                    subject: 'Up2B2 registration', // Subject line
                     html: htmlEmail
                 };
 
@@ -147,10 +152,6 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
                     };
                 });
 
-
-                /*
-                 */
-                return;
             });
         }
         return;

@@ -28,11 +28,10 @@
                     {{humanizeDurationTimer(timer,'s')}}
                 </b>
             </div>
-            
             <div class="list" ng-if="questions.length != 0">
                 <div class="item item-text-wrap" ng-repeat="question in questions" ng-show="contador == $index">
                     <div ng-if="question.audio != undefined" class="row">
-                        <button class="button button-block button-balanced button-audio-play" ng-click="playAudio()">
+                        <button ng-disabled="question.played == true && realTest" class="button button-block button-balanced button-audio-play" ng-click="playAudio()">
                             Play audio
                         </button>
                         <button class="button button-block button-energized button-audio-stop" ng-click="stopAudio()">
