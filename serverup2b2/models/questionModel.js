@@ -2,12 +2,8 @@
 
 var conn = require('../lib/connectMongoose');
 var mongoose = require('mongoose');
-var thumbnailPluginLib = require('mongoose-thumbnail');
-var thumbnailPlugin = thumbnailPluginLib.thumbnailPlugin;
-var make_upload_to_model = thumbnailPluginLib.make_upload_to_model;
+
 var path = require('path');
-var uploads_base = path.join(__dirname, "uploads");
-var uploads = path.join(uploads_base, "u");
 
 let QuestionSchema = mongoose.Schema({
     creationDate: Date,

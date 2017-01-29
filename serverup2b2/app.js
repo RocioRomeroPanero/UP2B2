@@ -10,7 +10,6 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 var mailer = require('express-mailer');
-var multer = require('multer');
 ms = require('mediaserver');
 
 var bodyParser = require('body-parser');
@@ -19,7 +18,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 mailer.extend(app, {
-    from: 'no-reply@example.com',
+    from: config.adminEmail,
     host: 'smtp.gmail.com', // hostname
     secureConnection: true, // use SSL
     port: 465, // port for secure SMTP
@@ -72,19 +71,6 @@ app.use(express.static('public'));
 app.use('/', routes);
 app.use('/users', users);
 
-var storage = multer.diskStorage({ //multers disk storage settings
-    destination: function(req, file, cb) {
-        cb(null, './uploads/')
-    },
-    filename: function(req, file, cb) {
-        var datetimestamp = Date.now();
-        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
-    }
-});
-
-var upload = multer({ //multer settings
-    storage: storage
-}).single('file');
 
 // Routes for API/V1
 app.use('/api/v1/users', apiUsers); //registro de la ruta

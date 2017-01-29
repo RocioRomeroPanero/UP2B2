@@ -18,9 +18,6 @@ router.post('', middleware.ensureAuthenticated, function(req, res) {
         var username = fields.username;
         var tempPath = file.path;
 
-        /*
-            rocio
-        */
         var nombresSeparados = file.name.split('.');
         var nombreSinExtension = "";
         for (var i = 0; i < nombresSeparados.length - 1; i++) {
@@ -29,9 +26,6 @@ router.post('', middleware.ensureAuthenticated, function(req, res) {
         console.log('nombreSinExtension ', nombreSinExtension);
         nombreSinExtension += Date.now();
         var nombreConExtension = nombreSinExtension + '.' + nombresSeparados[nombresSeparados.length - 1];
-        /*
-            /rocio
-        */
         console.log('file.name', file.name)
         console.log('file splitted', file.name.split('.'))
         var targetPath = path.resolve('./public/files/' + nombreConExtension);
