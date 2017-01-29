@@ -1,7 +1,7 @@
 // middleware.js
 var jwt = require('jwt-simple');  
 var moment = require('moment');  
-var config = require('./config');
+var config = require('../../config.js');
 
 exports.ensureAuthenticated = function(req, res, next) {  
   console.log('estoy en ensureAuthenticated');

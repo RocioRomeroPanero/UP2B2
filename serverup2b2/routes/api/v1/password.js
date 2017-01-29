@@ -11,6 +11,7 @@ var User = mongoose.model('User'); // pido el modelo
 var generator = require('random-password-generator');
 var nodemailer = require('nodemailer');
 
+var middleware = require('../../../public/javascripts/middleware');
 // Send email for new password
 
 router.post('/', function(req, res) {
@@ -51,9 +52,9 @@ router.post('/', function(req, res) {
                     });
 
                     var mailOptions = {
-                        from: 'rocio.3.romero@gmail.com', // sender address
+                        from: config.adminEmail, // sender address
                         to: req.body.email, // list of receivers
-                        subject: 'Email Example', // Subject line
+                        subject: config.emailChangePasswordSubject, // Subject line
                         html: htmlEmail
                     };
 
@@ -78,7 +79,7 @@ router.post('/', function(req, res) {
 
 // change password
 
-router.put('/:id', function(req, res) {
+router.put('/:id', middleware.ensureAuthenticated,function(req, res) {
     let filters = {};
     filters._id = req.params.id;
     console.log(req.body);

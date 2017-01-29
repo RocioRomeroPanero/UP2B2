@@ -138,7 +138,7 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
                 var mailOptions = {
                     from: config.user, // sender address
                     to: mailList, // list of receivers
-                    subject: 'Up2B2 registration', // Subject line
+                    subject: config.emailRegistrationSubject, // Subject line
                     html: htmlEmail
                 };
 
