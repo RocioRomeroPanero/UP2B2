@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var config = require('./config');
-var routes = require('./routes/index');
-var users = require('./routes/users');
 var app = express();
 var mailer = require('express-mailer');
 ms = require('mediaserver');
@@ -68,8 +66,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
 
 
-app.use('/', routes);
-app.use('/users', users);
 
 
 // Routes for API/V1

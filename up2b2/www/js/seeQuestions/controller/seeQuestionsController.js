@@ -18,21 +18,25 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         $scope.questions = data.data.rows;
                         for (var i = 0; i < $scope.questions.length; i++) {
                             for (var m = 0; m < $scope.questions[i].files.length; m++) {
+                                console.log($scope.questions[i].files[m]);
+                                if ($scope.questions[i].files[m] != null) {
 
-                                var nombresSeparados = $scope.questions[i].files[m].split('.');
+                                    var nombresSeparados = $scope.questions[i].files[m].split('.');
 
-                                // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+                                    // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
-                                    // es la imagen
-                                    $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
+                                    if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                        // es la imagen
+                                        $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
 
-                                } else {
-                                    // es el audio
-                                    //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
-                                    //audio.load();
+                                    } else {
+                                        // es el audio
+                                        //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                        //audio.load();
 
-                                    $scope.questions[i].audio = $scope.questions[i].files[m];
+                                        $scope.questions[i].audio = $scope.questions[i].files[m];
+
+                                    }
 
                                 }
                             }
@@ -88,7 +92,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 }
             }, {
                 text: 'NO',
-                type: 'button-positive button-popup-ok'
+                type: 'button-positive button-popup-cancel'
             }]
         })
     };
@@ -98,7 +102,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify " + type,
-            template: '<input type="text" ng-model="data.newValue">New ' + type + '</input>',
+            template: '<input type="text" ng-model="data.newValue" placeholder="New ' + type + '"    ></input>',
             scope: $scope,
             buttons: [{
                 text: 'OK',
@@ -158,9 +162,9 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
     $scope.modifyTrainingTest = function(questionId) {
         $scope.data = {};
         $ionicPopup.show({
-            title: "Modify type of question",
-            template: '<div><input type="checkbox" id="training" ng-model="data.newTrainingValue" value="training">For training' +
-                '<input type="checkbox" id="realTest" ng-model="data.newTestValue" value="realTest">For real test</div>',
+            title: "Modify type of question", 
+            template: '<ion-checkbox class="input-form-checkbox-custom" id="training" ng-model="data.newTrainingValue">For training </ion-checkbox>'+
+                        '<ion-checkbox class="input-form-checkbox-custom" id="realTest" ng-model="data.newTestValue">For real test </ion-checkbox>',
             scope: $scope,
             buttons: [{
                 text: 'OK',

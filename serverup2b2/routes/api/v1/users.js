@@ -74,7 +74,7 @@ router.get('/:id', middleware.ensureAuthenticated, function(req, res) {
 
 // New user
 
-router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
+router.post('/newUser',function(req, res) {
 
     let user = {};
     var email = req.body.email.toLowerCase();
@@ -162,20 +162,16 @@ router.post('/newUser', middleware.ensureAuthenticated, function(req, res) {
 
 router.post('/login', function(req, res) {
 
-    // get user and check if exists in the database.
     var email = req.body.email.toLowerCase();
     var pass = req.body.pass;
     var filters = {};
-
     filters.email = email;
-    console.log('req.body', req.body);
 
     User.list(filters, 'email', function(err, rows) {
         if (err) {
             return res.status(500).send({ result: 'internal error in database', err: err })
         }
-        if (rows.length !== 0) { // user found
-            //check if password is correct
+        if (rows.length !== 0) { 
             let sha256 = crypto.createHash("sha256");
             sha256.update(pass, "utf8"); //utf8 here
             let passConHash = sha256.digest("base64");
@@ -193,14 +189,12 @@ router.post('/login', function(req, res) {
                     'admin': rows[0].admin,
                     'score': rows[0].score
                 }
-
                 return res.status(200).send({ result: 'sucess login', data: resultado })
             } else {
                 return res.status(401).send({ result: "user and pass doesn't match" })
             }
-        } else { // user not found
+        } else {
             return res.status(404).send({ result: 'user not found' })
-
         }
     })
 });
