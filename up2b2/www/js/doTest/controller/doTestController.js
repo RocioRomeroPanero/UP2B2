@@ -216,25 +216,29 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
             $scope.contador++;
             // cargar los archivos que tiene la pregunta
+
             for (var m = 0; m < $scope.questions[$scope.contador].files.length; m++) {
 
-                var nombresSeparados = $scope.questions[$scope.contador].files[m].split('.');
+                if ($scope.questions[$scope.contador].files[m] != null) {
 
-                // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+                    var nombresSeparados = $scope.questions[$scope.contador].files[m].split('.');
 
-                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
-                    // es la imagen
-                    $scope.questions[$scope.contador].image = 'http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m];
+                    // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+
+                    if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                        // es la imagen
+                        $scope.questions[$scope.contador].image = 'http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m];
 
 
-                } else {
-                    // es el audio
-                    $scope.questions[$scope.contador].audio = $scope.questions[$scope.contador].files[m];
-                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
-                    audio.load();
+                    } else {
+                        // es el audio
+                        $scope.questions[$scope.contador].audio = $scope.questions[$scope.contador].files[m];
+                        audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
+                        audio.load();
+                    }
+
+
                 }
-
-
             }
 
         }

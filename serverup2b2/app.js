@@ -31,7 +31,7 @@ var http = require('http');
 
 var server = http.createServer(app);
 
-server.listen(3000, 'localhost');
+server.listen(config.portServer, config.dirServer);
 server.on('listening', function() {
     console.log('Express server started on port %s at %s', server.address().port, server.address().address);
 });
@@ -55,7 +55,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
     next();
 });
 app.use(logger('dev'));
