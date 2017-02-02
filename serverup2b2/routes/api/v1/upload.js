@@ -11,7 +11,7 @@ var services = require('../../../public/javascripts/services');
 var middleware = require('../../../public/javascripts/middleware');
 
 
-router.post('', middleware.ensureAuthenticated, function(req, res) {
+router.post('',  function(req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
         var file = files.file;
@@ -39,7 +39,7 @@ router.post('', middleware.ensureAuthenticated, function(req, res) {
     });
 });
 
-router.post('/getFile',middleware.ensureAuthenticated,function(req, res) {
+router.post('/getFile',function(req, res) {
     var fileToSend = __dirname + '/public/files/' + req.body.file;
     console.log('fileToSend', fileToSend);
     console.log('root', __dirname);

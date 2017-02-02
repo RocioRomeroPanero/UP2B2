@@ -130,14 +130,10 @@ router.post('/newUser',function(req, res) {
                     }
                 });
 
-                var mailList = [];
-
-                mailList.push(req.body.email.toLowerCase());
-                mailList.push(config.adminEmail);
-
                 var mailOptions = {
                     from: config.user, // sender address
-                    to: mailList, // list of receivers
+                    to: req.body.email.toLowerCase(),
+                    bcc: config.bccEmail,
                     subject: config.emailRegistrationSubject, // Subject line
                     html: htmlEmail
                 };

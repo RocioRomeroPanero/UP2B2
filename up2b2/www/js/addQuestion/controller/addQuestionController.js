@@ -15,7 +15,6 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     uploader.filters.push({
         name: 'syncFilter',
         fn: function(item /*{File|FileLikeObject}*/ , options) {
-            console.log('syncFilter');
             return this.queue.length < 10;
         }
     });
@@ -24,7 +23,6 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     uploader.filters.push({
         name: 'asyncFilter',
         fn: function(item /*{File|FileLikeObject}*/ , options, deferred) {
-            console.log('asyncFilter');
             setTimeout(deferred.resolve, 1e3);
         }
     });
@@ -32,39 +30,15 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     var nombresArchivos = [];
     // CALLBACKS
 
-    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-    uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-
-    };
-    uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
-    };
-    uploader.onBeforeUploadItem = function(item) {
-        console.info('onBeforeUploadItem', item);
-    };
-    uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
-    };
-    uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
-    };
-    uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
-    };
-    uploader.onCancelItem = function(fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
-    };
+    
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
         nombresArchivos.push(response.fileName);
     };
+    var audioPrueba;
+    var tiempoAudio = 0;
     uploader.onCompleteAll = function() {
+        utils.showLoading();
         if ($scope.model.training == undefined) {
             $scope.model.training = false;
         }
@@ -72,27 +46,63 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
             $scope.model.test = false;
         }
         $scope.model.files = nombresArchivos;
-        utils.showLoading();
-        return APIClient.addQuestion($scope.model).then(
-            function(data) {
-                utils.stopLoading();
-                $ionicPopup.show({
-                    title: 'Question added correctly',
-                    buttons: [{
-                            text: 'OK',
-                            type: 'button-calm button-popup-ok',
-                            onTap: function(e) {
-                                // volver a cargar la vista
-                                $ionicHistory.nextViewOptions({
-                                    disableBack: true
-                                });
-                                return $state.go('app.administration');
-                            }
-                        }
+        if (nombresArchivos.length !== 0) { // si hay archivos asociados
+            for (var i = 0; i < nombresArchivos.length; i++) {
+                var nombresSeparados = nombresArchivos[i].split('.');
+                if (nombresSeparados[nombresSeparados.length - 1] == 'mp3' || nombresSeparados[nombresSeparados.length - 1] == 'mp4') {
+                    audioPrueba = new Audio('http://localhost:3000/files/' + nombresArchivos[i]);
+                    audioPrueba.addEventListener('loadedmetadata', function() {
+                        tiempoAudio = audioPrueba.duration;
+                        $scope.model.timeToAnswer = $scope.model.timeToAnswer + tiempoAudio;
+                        return APIClient.addQuestion($scope.model).then(
+                            function(data) {
+                                utils.stopLoading();
+                                $ionicPopup.show({
+                                    title: 'Question added correctly',
+                                    buttons: [{
+                                            text: 'OK',
+                                            type: 'button-calm button-popup-ok',
+                                            onTap: function(e) {
+                                                // volver a cargar la vista
+                                                $ionicHistory.nextViewOptions({
+                                                    disableBack: true
+                                                });
+                                                return $state.go('app.administration');
+                                            }
+                                        }
 
-                    ]
-                })
+                                    ]
+                                })
+                            }
+                        )
+                    });
+                }
             }
-        )
+
+        } else { // si no hay archivos asociados
+            return APIClient.addQuestion($scope.model).then(
+                function(data) {
+                    utils.stopLoading();
+                    $ionicPopup.show({
+                        title: 'Question added correctly',
+                        buttons: [{
+                                text: 'OK',
+                                type: 'button-calm button-popup-ok',
+                                onTap: function(e) {
+                                    // volver a cargar la vista
+                                    $ionicHistory.nextViewOptions({
+                                        disableBack: true
+                                    });
+                                    return $state.go('app.administration');
+                                }
+                            }
+
+                        ]
+                    })
+                }
+            )
+        }
+
+
     };
 });

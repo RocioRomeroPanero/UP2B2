@@ -79,57 +79,82 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     var typeTest = "";
     $scope.testEnded = false;
     var audio;
+
+    $ionicPopup.show({
+        title: 'Information',
+        template: 'Please be aware that by doing a test it will be necessary to download audios and it will consume data. We recommend to do tests with the wifi connected.',
+        buttons: [{
+                text: 'OK!',
+                type: 'button-positive button-popup-ok',
+                onTap: function(e) {
+                    return;
+                }
+            }
+
+        ]
+    });
+
+
     $scope.test = function(typeOfTest) {
-
-        // get 10 preguntas que sean del tipo que se ha seleccionado, y que el usuario no haya respondido correctamente
-
         if (typeOfTest == "training") {
             typeTest = "training";
             utils.showLoading();
             APIClient.getTest(userId, false).then(function(result) {
                 if (result.status !== 200 && result.status !== 404) {
+                    utils.stopLoading();
                     utils.errorPopUp();
                 } else {
-                    $scope.numberQuestions = result.data.rows.length;
-                    $scope.questions = result.data.rows;
-                    console.log(result);
-                    for (var i = 0; i < $scope.questions.length; i++) {
-                        // get correct answers from all questions
-                        correctAnswers[i] = $scope.questions[i].correctAnswer;
-                        $scope.questions[i].played = false;
-                        if ($scope.questions[i].timeToAnswer !== undefined) {
-                            tiempoTotal += $scope.questions[i].timeToAnswer;
+                    if (result.data.rows.length == 0) {
+                        utils.stopLoading();
+                        $ionicPopup.show({
+                            title: 'Information',
+                            template: "Sorry, currently there isn't any test available.",
+                            buttons: [{
+                                    text: 'OK!',
+                                    type: 'button-positive button-popup-ok',
+                                    onTap: function(e) {
+                                        return;
+                                    }
+                                }
+
+                            ]
+                        });
+                    } else {
+
+                        $scope.numberQuestions = result.data.rows.length;
+                        $scope.questions = result.data.rows;
+
+                        for (var i = 0; i < $scope.questions.length; i++) {
+                            // get correct answers from all questions
+                            correctAnswers[i] = $scope.questions[i].correctAnswer;
+                            $scope.questions[i].played = false;
+                            if ($scope.questions[i].timeToAnswer !== undefined) {
+                                tiempoTotal += $scope.questions[i].timeToAnswer;
+                            }
                         }
+                        if ($scope.questions[0].files.length !== 0) {
+                            for (var m = 0; m < $scope.questions[0].files.length; m++) {
+                                var nombresSeparados = $scope.questions[0].files[m].split('.');
 
-                    }
+                                // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                    for (var m = 0; m < $scope.questions[0].files.length; m++) {
-
-                        var nombresSeparados = $scope.questions[0].files[m].split('.');
-
-                        // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
-
-                        if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
-                            // es la imagen
-                            $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
-                            $scope.choose = false;
-                            $scope.trainingTest = true;
-
-                            $scope.startTimer(tiempoTotal);
-
-
-                        } else {
-                            // es el audio
-                            $scope.questions[0].audio = $scope.questions[0].files[m];
-                            audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
-                            audio.load();
+                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                    // es la imagen
+                                    $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
+                                } else {
+                                    // es el audio
+                                    $scope.questions[0].audio = $scope.questions[0].files[m];
+                                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                    audio.load();
+                                }
+                            }
 
                         }
-
-
+                        $scope.choose = false;
+                        $scope.trainingTest = true;
+                        $scope.startTimer(tiempoTotal);
+                        utils.stopLoading();
                     }
-                    utils.stopLoading();
-
 
                 }
             }, function(err) {
@@ -143,47 +168,68 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
             APIClient.getTest(userId, true).then(function(result) {
                 if (result.status !== 200 && result.status !== 404) {
                     utils.errorPopUp();
-                } else {
-
-                    $scope.numberQuestions = result.data.rows.length;
-                    $scope.questions = result.data.rows;
-                    // sumar los tiempos de todas las preguntas:
-                    console.log($scope.questions);
-                    for (var i = 0; i < $scope.questions.length; i++) {
-                        // get correct answers from all questions
-                        correctAnswers[i] = $scope.questions[i].correctAnswer;
-                        $scope.questions[i].played = false;
-                        if ($scope.questions[i].timeToAnswer !== undefined) {
-                            tiempoTotal += $scope.questions[i].timeToAnswer;
-                        }
-                        $scope.tiempoTotal = tiempoTotal;
-                    }
-
-                    for (var m = 0; m < $scope.questions[0].files.length; m++) {
-
-                        var nombresSeparados = $scope.questions[0].files[m].split('.');
-
-                        // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
-
-                        if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
-                            // es la imagen
-                            $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
-                            $scope.choose = false;
-                            $scope.realTest = true;
-                            $scope.startTimer(tiempoTotal);
-
-                        } else {
-                            // es el audio
-                            $scope.questions[0].audio = $scope.questions[0].files[m];
-                            audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
-                            audio.load();
-                        }
-
-
-                    }
                     utils.stopLoading();
+                } else {
+                    if (result.data.rows.length == 0) {
+                        utils.stopLoading();
+                        $ionicPopup.show({
+                            title: 'Information',
+                            template: "Sorry, currently there isn't any test available.",
+                            buttons: [{
+                                    text: 'OK!',
+                                    type: 'button-positive button-popup-ok',
+                                    onTap: function(e) {
+                                        return;
+                                    }
+                                }
+
+                            ]
+                        });
+                    } else {
+                        $scope.numberQuestions = result.data.rows.length;
+                        $scope.questions = result.data.rows;
+                        // sumar los tiempos de todas las preguntas:
+                        console.log($scope.questions);
+                        for (var i = 0; i < $scope.questions.length; i++) {
+                            // get correct answers from all questions
+                            correctAnswers[i] = $scope.questions[i].correctAnswer;
+                            $scope.questions[i].played = false;
+                            if ($scope.questions[i].timeToAnswer !== undefined) {
+                                tiempoTotal += $scope.questions[i].timeToAnswer;
+                            }
+                            $scope.tiempoTotal = tiempoTotal;
+                        }
+                        if ($scope.questions[0].files.length !== 0) {
+
+                            for (var m = 0; m < $scope.questions[0].files.length; m++) {
+
+                                var nombresSeparados = $scope.questions[0].files[m].split('.');
+
+                                // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
+
+                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                    // es la imagen
+                                    $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
 
 
+                                } else {
+                                    // es el audio
+                                    $scope.questions[0].audio = $scope.questions[0].files[m];
+                                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                    audio.load();
+                                }
+
+
+                            }
+
+                        }
+                        $scope.choose = false;
+                        $scope.realTest = true;
+                        $scope.startTimer(tiempoTotal);
+                        utils.stopLoading();
+
+
+                    }
                 }
             }, function(err) {
                 console.log('error', err);

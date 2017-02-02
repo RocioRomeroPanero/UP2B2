@@ -35,7 +35,7 @@
                 All tests done
                 <i class="icon ion-ios-filing"></i>
             </div>
-            <div ng-repeat="testDone in model.testDone" ng-if="model.testDone.length > 0" class="item item-text-wrap">
+            <div ng-repeat="testDone in model.testDone | orderBy:'-'" ng-if="model.testDone.length > 0" class="item item-text-wrap">
                 <b ng-if="testDone.training == true">Training test |</b>
                 <b ng-if="testDone.training == false">Real test | </b><b><span ng-bind="testDone.date | date:'dd/MM/yyyy'"></span> | </b>Number questions correct: {{::testDone.numberCorrect}} | Number questions wrong: {{::testDone.numberWrong}} | Time spent: {{::testDone.timeSpent}} seconds | Total score: {{::testDone.score}}
             </div>
