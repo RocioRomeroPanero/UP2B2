@@ -27,13 +27,9 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
                                     if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                         // es la imagen
-                                        $scope.questions[i].image = 'http://localhost:3000/files/' + $scope.questions[i].files[m];
+                                        $scope.questions[i].image = APIPaths.serverFiles + $scope.questions[i].files[m];
 
                                     } else {
-                                        // es el audio
-                                        //audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
-                                        //audio.load();
-
                                         $scope.questions[i].audio = $scope.questions[i].files[m];
 
                                     }
@@ -214,7 +210,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
             } else {
                 // es el audio
-                audio2 = new Audio('http://localhost:3000/files/' + $scope.questions[index].files[m]);
+                audio2 = new Audio(APIPaths.serverFiles + $scope.questions[index].files[m]);
                 console.log('paso por aqui');
                 audio2.play();
 

@@ -10,5 +10,4 @@ angular.module('starter.session', []).factory('sessionService', function($http, 
             localStorage.clear();
         }
     }
-
 });

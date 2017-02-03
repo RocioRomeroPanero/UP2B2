@@ -1,11 +1,7 @@
 'use strict';
 
 angular.module('ranking.module').controller('rankingController', function($scope, APIClient, utils) {
-
-    // cargar el ranking
-
     $scope.$root.showMenuIcon = true;
-
     var initiate = function() {
         utils.showLoading();
         APIClient.getRanking().then(
@@ -20,7 +16,5 @@ angular.module('ranking.module').controller('rankingController', function($scope
             }
         )
     }
-
     initiate();
-
 });

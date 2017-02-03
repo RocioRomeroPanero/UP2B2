@@ -52,7 +52,7 @@ router.post('/', function(req, res) {
                     });
 
                     var mailOptions = {
-                        from: config.adminEmail, // sender address
+                        from: config.user, // sender address
                         to: req.body.email, // list of receivers
                         subject: config.emailChangePasswordSubject, // Subject line
                         html: htmlEmail

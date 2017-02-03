@@ -1,7 +1,6 @@
 angular.module('starter.services', []).factory('APIClient', function($http, APIPaths, sessionService) {
     return {
         login: function(user) {
-            //$http.post('/someUrl', data, config).then(successCallback, errorCallback);
             var url = APIPaths.server + APIPaths.users + APIPaths.login;
             return $http.post(url, user)
                 .then(function(response) {

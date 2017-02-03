@@ -140,11 +140,11 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                                 if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                     // es la imagen
-                                    $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
+                                    $scope.questions[0].image = APIPaths.serverFiles + $scope.questions[0].files[m];
                                 } else {
                                     // es el audio
                                     $scope.questions[0].audio = $scope.questions[0].files[m];
-                                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                    audio = new Audio(APIPaths.serverFiles + $scope.questions[0].files[m]);
                                     audio.load();
                                 }
                             }
@@ -209,13 +209,13 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                                 if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                     // es la imagen
-                                    $scope.questions[0].image = 'http://localhost:3000/files/' + $scope.questions[0].files[m];
+                                    $scope.questions[0].image = APIPaths.serverFiles + $scope.questions[0].files[m];
 
 
                                 } else {
                                     // es el audio
                                     $scope.questions[0].audio = $scope.questions[0].files[m];
-                                    audio = new Audio('http://localhost:3000/files/' + $scope.questions[0].files[m]);
+                                    audio = new Audio(APIPaths.serverFiles + $scope.questions[0].files[m]);
                                     audio.load();
                                 }
 
@@ -273,13 +273,13 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                     if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                         // es la imagen
-                        $scope.questions[$scope.contador].image = 'http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m];
+                        $scope.questions[$scope.contador].image = APIPaths.serverFiles + $scope.questions[$scope.contador].files[m];
 
 
                     } else {
                         // es el audio
                         $scope.questions[$scope.contador].audio = $scope.questions[$scope.contador].files[m];
-                        audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
+                        audio = new Audio(APIPaths.serverFiles + $scope.questions[$scope.contador].files[m]);
                         audio.load();
                     }
 
@@ -306,7 +306,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
             } else {
                 // es el audio
-                audio = new Audio('http://localhost:3000/files/' + $scope.questions[$scope.contador].files[m]);
+                audio = new Audio(APIPaths.serverFiles + $scope.questions[$scope.contador].files[m]);
                 audio.load();
             }
 

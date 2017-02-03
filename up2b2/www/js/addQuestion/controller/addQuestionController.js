@@ -50,7 +50,7 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
             for (var i = 0; i < nombresArchivos.length; i++) {
                 var nombresSeparados = nombresArchivos[i].split('.');
                 if (nombresSeparados[nombresSeparados.length - 1] == 'mp3' || nombresSeparados[nombresSeparados.length - 1] == 'mp4') {
-                    audioPrueba = new Audio('http://localhost:3000/files/' + nombresArchivos[i]);
+                    audioPrueba = new Audio(APIPaths.serverFiles + nombresArchivos[i]);
                     audioPrueba.addEventListener('loadedmetadata', function() {
                         tiempoAudio = audioPrueba.duration;
                         $scope.model.timeToAnswer = $scope.model.timeToAnswer + tiempoAudio;
