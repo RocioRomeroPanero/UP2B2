@@ -10,12 +10,10 @@ angular.module('myProfile.module').controller('myProfileController', function($s
     var initialize = function() {
         utils.showLoading();
         APIClient.getUser(sessionService.get('id')).then(function(result) {
-            console.log('result', result);
             if (result.status !== 200) {
                 utils.errorPopUp();
             } else {
                 $scope.model = result.data.rows[0];
-                console.log($scope.model);
                 $scope.email = sessionService.get('email');
                 $scope.fullName = sessionService.get('fullName');
                 $scope.degree = sessionService.get('degree');
@@ -57,7 +55,7 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                         } else {
                             utils.showLoading();
                             return APIClient.changePassword(sessionService.get('id'), $scope.data.pass, $scope.data.newPass).then(function(data) {
-                                console.log('data', data);
+
                                 utils.stopLoading();
                                 if (data.status == 401) {
                                     // contraseña actual no coincide
@@ -83,7 +81,8 @@ angular.module('myProfile.module').controller('myProfileController', function($s
                                     })
                                 }
                             }, function(error) {
-                                console.log('error', error);
+
+                                utils.errorPopUp();
                             });
                         }
 

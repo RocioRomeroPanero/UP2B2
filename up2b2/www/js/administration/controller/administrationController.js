@@ -67,9 +67,7 @@ angular.module('administration.module').controller('administrationController', f
                                     $scope.data.admin,
                                     $scope.data.dni).then(
                                     function(data) {
-                                        console.log(data);
                                         utils.stopLoading();
-                                        console.log('scope', $scope.data);
                                         if (data.status === 200) {
                                             //success
 

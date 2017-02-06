@@ -17,14 +17,12 @@ angular.module('statistics.module').controller('statisticsController', function(
             if (response.status !== 200 && response.status !== 404) {
                 utils.errorPopUp();
             } else {
-                console.log(response);
                 $scope.users = response.data.rows;
                 $scope.byUserView = true;
                 $scope.byQuestionView = false;
                 utils.stopLoading();
             }
         }, function(err) {
-            console.log('err');
             utils.errorPopUp();
         })
     }
@@ -50,14 +48,12 @@ angular.module('statistics.module').controller('statisticsController', function(
     };
 
     $scope.byQuestion = function() {
-        console.log('byQuestion');
         //traerse todas las preguntas
         utils.showLoading();
         APIClient.getQuestions().then(function(result) {
             if (result.status !== 200 && response.status !== 404) {
                 utils.errorPopUp();
             } else {
-                console.log('result getQuestions', result)
                 $scope.questions = result.data.rows;
 
                 $scope.byUserView = false;
@@ -65,7 +61,6 @@ angular.module('statistics.module').controller('statisticsController', function(
                 utils.stopLoading();
             }
         }, function(err) {
-            console.log('err getQuestions', err)
             utils.errorPopUp();
         });
 
@@ -82,7 +77,6 @@ angular.module('statistics.module').controller('statisticsController', function(
         } else {
             utils.showLoading();
             for (var i = 0; i < $scope.users[index].testDone.length; i++) {
-                console.log($scope.users[index].testDone[i]);
                 totalCorrectAnswers += $scope.users[index].testDone[i].numberCorrect;
                 totalWrongAnswers += $scope.users[index].testDone[i].numberWrong;
                 result = result + $scope.users[index].testDone[i].timeSpent;

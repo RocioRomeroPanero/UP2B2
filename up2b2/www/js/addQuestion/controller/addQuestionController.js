@@ -32,7 +32,6 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
 
     
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
         nombresArchivos.push(response.fileName);
     };
     var audioPrueba;

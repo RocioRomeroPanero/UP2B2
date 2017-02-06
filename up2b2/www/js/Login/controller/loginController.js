@@ -68,14 +68,12 @@ angular.module('login.module').controller('loginController', function(utils, $io
     }
 
     $scope.login = function() {
-        console.log('login', $scope.model);
         // get the form values
 
         $scope.model.email = $scope.model.email.toLowerCase();
 
         APIClient.login($scope.model).then(
             function(data) {
-                console.log(data);
                 if (data.status === 200) {
                     //success
                     sessionService.store('email', $scope.model.email);

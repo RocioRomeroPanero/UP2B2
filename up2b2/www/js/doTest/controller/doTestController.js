@@ -158,7 +158,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                 }
             }, function(err) {
-                console.log('error', err);
                 utils.errorPopUp();
             });
 
@@ -189,7 +188,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                         $scope.numberQuestions = result.data.rows.length;
                         $scope.questions = result.data.rows;
                         // sumar los tiempos de todas las preguntas:
-                        console.log($scope.questions);
                         for (var i = 0; i < $scope.questions.length; i++) {
                             // get correct answers from all questions
                             correctAnswers[i] = $scope.questions[i].correctAnswer;
@@ -232,7 +230,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     }
                 }
             }, function(err) {
-                console.log('error', err);
                 utils.errorPopUp();
             });
         }
@@ -248,7 +245,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
         // CARGAR LOS ARCHIVOS ASOCIADOS
 
-        console.log('$scope.contador al pasar de pregunta1', $scope.contador)
         audio.pause();
 
         if (answer !== undefined) {
@@ -288,9 +284,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
             }
 
         }
-        console.log('answers', answers);
-
-        console.log('$scope.contador al pasar de pregunta2', $scope.contador)
+        
     }
     $scope.backQuestion = function() {
         $scope.contador--;
@@ -374,8 +368,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                 var infoToPush = {};
 
                 infoForEnd[i].selected = answers[i];
-                console.log('correctAnswers[i]', correctAnswers[i]);
-                console.log('answers[i]', answers[i])
+               
                 if (correctAnswers[i] == answers[i]) {
                     infoToPush = {
                         id: $scope.questions[i]._id,
@@ -384,13 +377,11 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     }
 
                     puntuacion += 2;
-                    console.log('resp correcta' + i)
                     enviarServer.usersDone.push(infoToPush);
                     enviarServer.testDone.numberCorrect += 1
 
                     // guardar la info de las respuestas correctas (usersCorrect)
                 } else {
-                    console.log('resp. fallida' + i);
                     infoToPush = {
                         id: $scope.questions[i]._id,
                         correct: false,
@@ -400,13 +391,11 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     puntuacion -= 2;
                     enviarServer.testDone.numberWrong += 1
                 }
-                console.log('enviarServer', enviarServer);
             }
 
             enviarServer.score = puntuacion;
             enviarServer.testDone.score = puntuacion;
 
-            console.log('endTest', enviarServer);
             APIClient.resolveTest(enviarServer).then(function(result) {
                 // ahora se mostrará en la pantalla los resultados y estadísticas del test hecho,
                 // junto con lo que se contestó bien y mal
@@ -414,7 +403,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
                     utils.errorPopUp();
                 } else {
 
-                    console.log('infoForEnd', infoForEnd);
                     $scope.questionsEndTest = infoForEnd;
                     $scope.resultadoFinal = enviarServer.score;
                     $scope.correctas = enviarServer.testDone.numberCorrect;
@@ -429,7 +417,6 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
             }, function(err) {
                 // ups! un error
                 utils.errorPopUp();
-                console.log(err);
             });
         }
     }
@@ -454,4 +441,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
     $scope.stopAudio = function() {
         audio.pause();
     }
+    $scope.$on('$ionicView.beforeLeave', function() {
+        audio.pause();
+    });
 });

@@ -56,8 +56,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                             if (data.status !== 200) {
                                 utils.errorPopUp();
                             } else {
-
-                                console.log('data', data);
                                 //user deleted
                                 utils.removeByAttr($scope.users, '_id', id);
                             }
@@ -67,7 +65,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                         },
                         function(error) {
                             utils.errorPopUp();
-                            console.log('error', error);
                         }
 
                     )
@@ -80,8 +77,7 @@ angular.module('users.module').controller('usersController', function($scope, ut
     };
 
     $scope.modify = function(id, type, name) {
-        console.log('id', id);
-        console.log('type', type);
+
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify " + name + "'s " + type,
@@ -93,7 +89,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 onTap: function(e) {
 
                     utils.showLoading();
-                    console.log($scope.data.newValue);
 
                     // comprobar que tiene valor el campo
                     if ($scope.data.newValue == undefined) {
@@ -125,7 +120,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                                 utils.stopLoading();
                             },
                             function(error) {
-                                console.log('error', error);
                                 utils.errorPopUp();
                             }
 
@@ -150,7 +144,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                 onTap: function(e) {
 
                     utils.showLoading();
-                    console.log($scope.data.newValue)
                     return APIClient.modifyUser(id, $scope.data.newValue, 'admin').then(
                         function(data) {
                             APIClient.getUsers().then(
@@ -159,7 +152,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                                         utils.errorPopUp();
                                     } else {
 
-                                        console.log(data);
                                         $scope.users = data.data.rows;
                                         for (var i = 0; i < $scope.users.length; i++) {
                                             if ($scope.users[i].admin == true) {
@@ -176,7 +168,6 @@ angular.module('users.module').controller('usersController', function($scope, ut
                             )
                         },
                         function(error) {
-                            console.log('error', error);
                             utils.errorPopUp();
                         }
                     )

@@ -2,7 +2,6 @@
 
 angular.module('seeQuestions.module').controller('seeQuestionsController', function(utils, /*$cordovaFileTransfer,*/ /*utils, */ $scope, APIClient, $ionicPopup, sessionService, APIPaths) {
     $scope.model = {};
-    console.log('sdfsd');
 
     var audio2 = new Audio();
 
@@ -18,7 +17,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         $scope.questions = data.data.rows;
                         for (var i = 0; i < $scope.questions.length; i++) {
                             for (var m = 0; m < $scope.questions[i].files.length; m++) {
-                                console.log($scope.questions[i].files[m]);
                                 if ($scope.questions[i].files[m] != null) {
 
                                     var nombresSeparados = $scope.questions[i].files[m].split('.');
@@ -45,7 +43,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                 }
             },
             function(err) {
-                console.log(err);
                 utils.errorPopUp();
 
             }
@@ -71,7 +68,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                                 utils.errorPopUp();
                             } else {
 
-                                console.log('data', data);
                                 //question deleted
                                 utils.removeByAttr($scope.questions, '_id', id);
                             }
@@ -80,7 +76,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
                         },
                         function(error) {
-                            console.log('error', error);
                             utils.errorPopUp();
                         }
 
@@ -93,8 +88,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
         })
     };
     $scope.modify = function(id, type, name) {
-        console.log('id', id);
-        console.log('type', type);
+
         $scope.data = {};
         $ionicPopup.show({
             title: "Modify " + type,
@@ -107,7 +101,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
                     utils.showLoading();
                     var toChange = {};
-                    console.log($scope.data.newValue);
                     if (type == 'question') {
                         toChange = {
                             question: $scope.data.newValue
@@ -143,7 +136,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                             initiate();
                         },
                         function(error) {
-                            console.log('error', error);
                             utils.errorPopUp();
                         }
                     )
@@ -174,14 +166,12 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
                         test: $scope.data.newTestValue || false
                     }
 
-                    console.log(toChange);
 
                     return APIClient.modifyQuestion(questionId, toChange).then(
                         function(data) {
                             initiate();
                         },
                         function(error) {
-                            console.log('error', error);
                             utils.errorPopUp();
                         }
                     )
@@ -194,7 +184,6 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
     }
     $scope.playAudio = function(index) {
-        console.log('index', index)
             // asocio el audio al botón que se ha seleccionado
 
         audio2.pause();
@@ -211,7 +200,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
             } else {
                 // es el audio
                 audio2 = new Audio(APIPaths.serverFiles + $scope.questions[index].files[m]);
-                console.log('paso por aqui');
+
                 audio2.play();
 
             }
@@ -220,6 +209,9 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
         }
 
     }
+    $scope.$on('$ionicView.beforeLeave', function() {
+        audio2.pause();
+    });
     $scope.stopAudio = function() {
         audio2.pause();
     }

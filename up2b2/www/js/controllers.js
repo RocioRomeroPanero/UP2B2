@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, sessionService, $ionicPopup, $ionicHistory, $state, utils) {
+.controller('AppCtrl', function($rootScope, $scope, $ionicModal, $timeout, sessionService, $ionicPopup, $ionicHistory, $state, utils) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -23,7 +23,14 @@ angular.module('starter.controllers', [])
         }
 
     });
+    
+    var audio = new Audio();
 
+    $rootScope.$ionicGoBack = function() {
+        // implement custom behaviour here
+        audio.pause();
+        $ionicHistory.goBack();
+    };
     $scope.disconnect = function() {
         // pop-up está seguro?
         $ionicPopup.show({
