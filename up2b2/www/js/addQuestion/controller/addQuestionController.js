@@ -30,7 +30,12 @@ angular.module('addQuestion.module').controller('addQuestionController', functio
     var nombresArchivos = [];
     // CALLBACKS
 
-    
+    uploader.onProgressItem = function(){
+        utils.showLoading();
+    }
+    uploader.onSuccessItem = function(){
+        utils.stopLoading();
+    }
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         nombresArchivos.push(response.fileName);
     };

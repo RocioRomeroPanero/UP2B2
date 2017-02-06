@@ -138,7 +138,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                                 // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                     // es la imagen
                                     $scope.questions[0].image = APIPaths.serverFiles + $scope.questions[0].files[m];
                                 } else {
@@ -205,7 +205,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                                 // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                                if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                     // es la imagen
                                     $scope.questions[0].image = APIPaths.serverFiles + $scope.questions[0].files[m];
 
@@ -267,7 +267,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
                     // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                    if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                    if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                         // es la imagen
                         $scope.questions[$scope.contador].image = APIPaths.serverFiles + $scope.questions[$scope.contador].files[m];
 
@@ -295,7 +295,7 @@ angular.module('doTest.module').controller('doTestController', function(APIPaths
 
             // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+            if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                 // ya está cargada
 
             } else {

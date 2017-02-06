@@ -23,7 +23,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
                                     // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-                                    if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+                                    if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                                         // es la imagen
                                         $scope.questions[i].image = APIPaths.serverFiles + $scope.questions[i].files[m];
 
@@ -193,7 +193,7 @@ angular.module('seeQuestions.module').controller('seeQuestionsController', funct
 
             // si es de tipo imagen la trataré como imagen, sino como audio (mirar su extensión)
 
-            if (nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
+            if (nombresSeparados[nombresSeparados.length - 1] == "gif"  || nombresSeparados[nombresSeparados.length - 1] == "jpg" || nombresSeparados[nombresSeparados.length - 1] == "png" || nombresSeparados[nombresSeparados.length - 1] == "jpeg") {
                 // es la imagen
                 //$scope.questions[index].image = 'http://localhost:3000/files/' + $scope.questions[index].files[m];
 
